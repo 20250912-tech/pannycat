@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>패니 · 바디스캔 진행</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-level="try">
+  <main class="onboarding breath breath--session scan scan--session" id="scan" data-node-id="1:2702">
+    <!-- 데스크톱 미리보기용 상태바 (실제 모바일 기기에서는 숨김) -->
+    <div class="status-bar" aria-hidden="true">
+      <span class="status-bar__time">9:41</span>
+      <span class="status-bar__levels">
+        <img src="assets/cellular.svg" width="19.2" height="12.2264" alt="" />
+        <img src="assets/wifi.svg" width="17.1417" height="12.3283" alt="" />
+        <img src="assets/battery.svg" width="27.328" height="13" alt="" />
+      </span>
+    </div>
+
+    <!-- 우측 상단: 소리 / 자막 (1:2735) -->
+    <div class="breath-tools" data-node-id="1:2735">
+      <button type="button" class="scan-tool" id="sound-btn" aria-pressed="true" aria-label="음성 안내">
+        <img class="scan-tool__on" src="assets/bodyscan/btn-sound-on.svg" width="36" height="36" alt="" />
+        <img class="scan-tool__off" src="assets/bodyscan/btn-sound-off.svg" width="36" height="36" alt="" />
+      </button>
+      <button type="button" class="scan-tool" id="caption-btn" aria-pressed="true" aria-label="자막">
+        <img class="scan-tool__on" src="assets/bodyscan/btn-caption-on.svg" width="36" height="36" alt="" />
+        <img class="scan-tool__off" src="assets/bodyscan/btn-caption-off.svg" width="36" height="36" alt="" />
+      </button>
+    </div>
+
+    <!-- 자막 (1:2713) -->
+    <div class="scan-caption" id="caption" aria-live="polite" data-node-id="1:2713">
+      <p class="scan-caption__text" id="caption-text">편안한 자세로 앉거나 누워<br />천천히 숨을 쉬어 보세요</p>
+    </div>
+
+    <!-- 원 + 구름 위 패니 (1:2704) -->
+    <div class="scan-stage" aria-hidden="true" data-node-id="1:2704">
+      <span class="scan-stage__glow"></span>
+      <span class="scan-stage__core"></span>
+      <img class="scan-stage__cat" src="assets/bodyscan/cat-cloud.png" width="117.27" height="138.51" alt="" />
+    </div>
+
+    <!-- 진행 바 2분 (59:5510): 흰 트랙 위로 보라색 채움 + 원형 핸들 -->
+    <div class="scan-bar" data-node-id="59:5510">
+      <div class="scan-bar__track" role="progressbar" aria-label="바디스캔 진행" aria-valuemin="0" aria-valuemax="120" aria-valuenow="0" id="bar">
+        <span class="scan-bar__line" aria-hidden="true"></span>
+        <span class="scan-bar__fill" aria-hidden="true"></span>
+        <img class="scan-bar__thumb" id="bar-thumb" src="assets/bodyscan/bar-thumb.svg" width="34" height="34" alt="" />
+      </div>
+      <p class="scan-bar__time"><span id="time-now">0:00</span><span>2:00</span></p>
+    </div>
+
+    <div class="spacer"></div>
+
+    <!-- 하단 컨트롤 (1:2715) — 호흡 진행 컨트롤 재사용 -->
+    <div class="breath-controls" data-node-id="1:2715">
+      <button type="button" class="breath-ctrl" id="restart-btn">
+        <span class="breath-ctrl__circle"><img class="breath-ctrl__restart" src="assets/breathing/ic-restart.svg" width="47" height="47" alt="" /></span>
+        다시하기
+      </button>
+      <button type="button" class="breath-ctrl breath-ctrl--main" id="pause-btn" aria-pressed="false">
+        <span class="breath-ctrl__circle">
+          <img class="breath-ctrl__pause" src="assets/breathing/ic-pause.svg" width="38" height="38" alt="" />
+          <span class="breath-ctrl__play" aria-hidden="true"></span>
+        </span>
+        <span id="pause-label">일시정지</span>
+      </button>
+      <button type="button" class="breath-ctrl" id="stop-btn" aria-haspopup="dialog" aria-controls="stop-dialog">
+        <span class="breath-ctrl__circle"><img src="assets/breathing/ic-stop.svg" width="38" height="38" alt="" /></span>
+        그만하기
+      </button>
+    </div>
+
+    <!-- 그만하기 확인 (Figma 21:6003) — 호흡 그만하기 모달 재사용 -->
+    <div class="overlay" id="stop-overlay" hidden>
+      <div class="stop-dialog" id="stop-dialog" role="dialog" aria-modal="true" aria-labelledby="stop-title" aria-describedby="stop-desc" tabindex="-1" data-node-id="21:6003">
+        <img class="stop-dialog__cat" src="assets/breathing/panny-sad.svg" width="114.329" height="87.8337" alt="" />
+        <p class="stop-dialog__desc" id="stop-desc">아직 활동이 완료되지 않았어요.</p>
+        <h2 class="stop-dialog__title" id="stop-title">활동을 중단하고 홈으로 돌아갈까요?</h2>
+        <div class="stop-dialog__btns">
+          <button type="button" class="stop-dialog__btn stop-dialog__btn--outline" data-close>계속하기</button>
+          <a class="stop-dialog__btn" href="home.html">홈으로 돌아가기</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="breathing-common.js"></script>
+  <script src="activity-record.js"></script>
+  <script src="level.js"></script>
+  <script src="bodyscan.js"></script>
+</body>
+</html>

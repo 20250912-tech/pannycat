@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>패니 · 도움이 된 방법</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="onboarding onboarding--step onboarding--trigger" data-node-id="1:2477">
+    <!-- 데스크톱 미리보기용 상태바 (실제 모바일 기기에서는 숨김) -->
+    <div class="status-bar" aria-hidden="true">
+      <span class="status-bar__time">9:41</span>
+      <span class="status-bar__levels">
+        <img src="assets/cellular.svg" width="19.2" height="12.2264" alt="" />
+        <img src="assets/wifi.svg" width="17.1417" height="12.3283" alt="" />
+        <img src="assets/battery.svg" width="27.328" height="13" alt="" />
+      </span>
+    </div>
+
+    <div class="progress" role="progressbar" aria-label="온보딩 진행도" aria-valuemin="1" aria-valuemax="6" aria-valuenow="3">
+      <span class="progress__fill" style="--progress: 3 / 6"></span>
+    </div>
+
+    <h1 class="step__title">불안할 때 도움이 되었던 방법이 있나요?</h1>
+    <p class="step__subtitle" id="coping-hint">직접 해봤던 방법 중에서 골라주세요.</p>
+
+    <div class="spacer spacer--before-chips"></div>
+
+    <div class="chips" role="group" aria-labelledby="coping-hint">
+      <button type="button" class="chip" aria-pressed="false" data-value="breathing">천천히 호흡하기</button>
+      <button type="button" class="chip" aria-pressed="false" data-value="grounding">주변을 보거나 사물의 감촉에 집중하기</button>
+      <button type="button" class="chip" aria-pressed="false" data-value="comforting-words">위로가 되는 문장 읽기·쓰기</button>
+      <button type="button" class="chip" aria-pressed="false" data-value="relaxation">명상하거나 몸에 긴장 풀기</button>
+      <button type="button" class="chip" aria-pressed="false" data-value="talking">누군가와 대화하기</button>
+      <button type="button" class="chip" aria-pressed="false" data-value="journaling">마음을 글로 기록하기</button>
+      <button type="button" class="chip" id="custom-open" aria-expanded="false" aria-controls="custom-form">직접 작성하기</button>
+      <form class="chip-input" id="custom-form" hidden>
+        <label class="visually-hidden" for="custom-text">도움이 되었던 방법 직접 작성</label>
+        <input id="custom-text" type="text" maxlength="24" autocomplete="off" enterkeyhint="done" placeholder="직접 입력해 주세요" />
+        <button type="submit" class="chip-input__submit">추가</button>
+      </form>
+    </div>
+
+    <div class="spacer spacer--after-chips"></div>
+
+    <a class="skip-link" href="onboarding-ready.html">건너뛰기</a>
+
+    <div class="btn-row">
+      <a class="btn-secondary" href="onboarding-trigger.html">이전으로</a>
+      <a class="btn-primary" href="onboarding-anxiety.html">다음으로</a>
+    </div>
+  </main>
+
+  <script src="onboarding-chips.js"></script>
+</body>
+</html>

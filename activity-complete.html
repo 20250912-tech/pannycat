@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>패니 · 활동 완료</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="onboarding done" data-node-id="1:3241">
+    <!-- 데스크톱 미리보기용 상태바 (실제 모바일 기기에서는 숨김) -->
+    <div class="status-bar" aria-hidden="true">
+      <span class="status-bar__time">9:41</span>
+      <span class="status-bar__levels">
+        <img src="assets/cellular.svg" width="19.2" height="12.2264" alt="" />
+        <img src="assets/wifi.svg" width="17.1417" height="12.3283" alt="" />
+        <img src="assets/battery.svg" width="27.328" height="13" alt="" />
+      </span>
+    </div>
+
+    <h1 class="done__title">활동이 완료되었어요!</h1>
+    <p class="done__subtitle">지금 느끼는 마음을 편하게 표현해 보세요.</p>
+
+    <!-- 고양이 변화: 온보딩4와 동일한 패니 (1.1236배 확대) -->
+    <div class="done__panny-wrap">
+      <div class="anxiety__panny done__panny" id="anxiety-panny" data-level="1" role="img" aria-label="식은땀을 흘리며 불안해하는 검은 고양이 패니">
+        <img class="anxiety__cat" data-for="1" src="assets/panny-level1.svg" width="224.055" height="172.13" alt="" />
+        <img class="anxiety__cat" data-for="2" src="assets/panny-level2.svg" width="224.055" height="172.13" alt="" />
+        <img class="anxiety__cat" data-for="3" src="assets/panny-level3.svg" width="224.055" height="172.13" alt="" />
+        <img class="anxiety__cat anxiety__cat-face" data-for="3" src="assets/panny-level3-face.svg" width="138.016" height="24.2741" alt="" />
+        <img class="anxiety__cat" data-for="4" src="assets/panny-level4.svg" width="224.055" height="172.13" alt="" />
+        <img class="anxiety__cat anxiety__cat--wide" data-for="5" src="assets/panny-level5.svg" width="225.961" height="172.13" alt="" />
+      </div>
+    </div>
+
+    <div class="done__mood" aria-live="polite">
+      <p class="done__label" id="anxiety-label">매우 불안해요</p>
+      <p class="done__desc" id="anxiety-desc">괜찮아요. 지금의 마음을 알아차리는 것부터 시작해요.</p>
+    </div>
+
+    <section class="level-card done__card" aria-labelledby="level-title">
+      <div class="level-card__head">
+        <h2 class="level-card__title" id="level-title">불안 정도</h2>
+        <p class="level-card__value"><span id="level-value">5</span><span class="level-card__max"> / 5</span></p>
+      </div>
+      <div class="level-slider" id="level-slider" tabindex="0" role="slider"
+           aria-labelledby="level-title" aria-valuemin="1" aria-valuemax="5" aria-valuenow="5" aria-valuetext="5, 매우 불안해요">
+        <span class="level-slider__fill" aria-hidden="true"></span>
+        <span class="level-slider__thumb"><img src="assets/slider-thumb.svg" width="38.2" height="38.2" alt="" /></span>
+      </div>
+      <div class="level-card__scale" aria-hidden="true">
+        <span>5<br />매우 불안해요</span>
+        <span>1<br />매우 편안해요</span>
+      </div>
+    </section>
+
+    <div class="spacer"></div>
+
+    <a class="skip-link" href="home.html">지금은 건너뛰기</a>
+    <button type="button" class="btn-primary done__btn" id="save-btn">마음기록 저장하기</button>
+  </main>
+
+  <script src="anxiety-slider.js"></script>
+  <script src="activity-record.js"></script>
+  <script>
+    (function () {
+      var DESC = [
+        '괜찮아요. 지금의 마음을 알아차리는 것부터 시작해요.',
+        '조금씩 나아지고 있어요. 천천히 숨을 골라 봐요.',
+        '마음이 한결 가라앉았어요. 잘하고 있어요.',
+        '편안해졌네요. 이 느낌을 기억해 두세요.',
+        '정말 잘했어요! 지금의 편안함을 충분히 느껴 보세요.'
+      ];
+      var desc = document.getElementById('anxiety-desc');
+      var shownLevel = 5;
+
+      // Figma: 왼쪽 5(매우 불안) → 오른쪽 1(매우 편안)
+      AnxietySlider.init({
+        slider: document.getElementById('level-slider'),
+        panny: document.getElementById('anxiety-panny'),
+        valueEl: document.getElementById('level-value'),
+        labelEl: document.getElementById('anxiety-label'),
+        display: function (pos) { return 6 - pos; },
+        onChange: function (pos, shown) {
+          desc.textContent = DESC[pos - 1];
+          shownLevel = shown;
+        }
+      });
+
+      document.getElementById('save-btn').addEventListener('click', function () {
+        ActivityRecord.save({ anxiety: shownLevel, mood: AnxietySlider.LABELS[6 - shownLevel - 1] });
+        location.href = 'activity-saved.html';
+      });
+    })();
+  </script>
+</body>
+</html>

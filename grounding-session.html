@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>패니 · 5-4-3-2-1 오감에 집중하기</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-level="try">
+  <!-- 1단계 1:3207 · 2단계 40:9073 · 3단계 40:9093 · 4단계 40:9115 · 5단계 1:2535 -->
+  <main class="onboarding breath ground ground--session" id="ground" data-step="1">
+    <!-- 데스크톱 미리보기용 상태바 (실제 모바일 기기에서는 숨김) -->
+    <div class="status-bar" aria-hidden="true">
+      <span class="status-bar__time">9:41</span>
+      <span class="status-bar__levels">
+        <img src="assets/cellular.svg" width="19.2" height="12.2264" alt="" />
+        <img src="assets/wifi.svg" width="17.1417" height="12.3283" alt="" />
+        <img src="assets/battery.svg" width="27.328" height="13" alt="" />
+      </span>
+    </div>
+
+    <header class="appbar">
+      <a class="appbar__back" id="back-btn" href="grounding.html" aria-label="이전으로">
+        <img src="assets/grounding/back.svg" width="24" height="24" alt="" />
+      </a>
+      <h1 class="appbar__title ground__appbar-title">5-4-3-2-1 오감에 집중하기</h1>
+      <span class="appbar__side" aria-hidden="true"></span>
+    </header>
+
+    <!-- 진행도 -->
+    <div class="ground-progress">
+      <p class="ground-progress__count"><span class="ground-progress__now" id="step-now">1</span> / <span class="ground-progress__total">5</span></p>
+      <div class="ground-progress__bar" role="progressbar" aria-label="그라운딩 진행도" aria-valuemin="1" aria-valuemax="5" aria-valuenow="1" id="progress">
+        <span class="ground-progress__fill" id="progress-fill"></span>
+      </div>
+    </div>
+
+    <section class="ground-step" aria-live="polite" aria-atomic="true">
+      <p class="ground-step__num" aria-hidden="true" id="step-num">1</p>
+      <h2 class="ground-step__sense" id="step-sense">시각</h2>
+      <p class="ground-step__desc" id="step-desc">주변에서 보이는 물건 5가지를 찾아<br />모양, 색깔, 크기 등을 관찰해 보세요.</p>
+    </section>
+
+    <!-- 패니 + 단계별 장식 -->
+    <div class="ground-stage" aria-hidden="true">
+      <div class="ground-cat ground-stage__cat">
+        <img class="ground-cat__body" data-show="1 5" src="assets/grounding/panny.svg" width="227.568" height="174.829" alt="" />
+        <img class="ground-cat__body" data-show="2 3" src="assets/grounding/panny-sleepy.svg" width="227.568" height="174.829" alt="" />
+        <img class="ground-cat__body" data-show="4" src="assets/grounding/panny-smell.svg" width="227.568" height="174.829" alt="" />
+        <img class="ground-cat__face ground-cat__face--dots" data-show="1" src="assets/grounding/face-dots.svg" width="140.18" height="24.6547" alt="" />
+        <img class="ground-cat__face" data-show="5" src="assets/breathing/panny-face.svg" width="140.18" height="29.5286" alt="" />
+      </div>
+
+      <!-- 3단계: 소리 -->
+      <span class="ground-deco ground-deco--sound" data-show="3">
+        <img src="assets/grounding/sound.svg" width="39.9386" height="36.4946" alt="" />
+      </span>
+
+      <!-- 4단계: 향기 -->
+      <span class="ground-deco ground-deco--flower-a" data-show="4">
+        <img src="assets/grounding/flower-a.svg" width="17.999" height="18" alt="" />
+      </span>
+      <span class="ground-deco ground-deco--scent" data-show="4">
+        <img src="assets/grounding/scent-line.svg" width="33.4116" height="26.3917" alt="" />
+      </span>
+      <span class="ground-deco ground-deco--flower-b" data-show="4">
+        <img src="assets/grounding/flower-b.svg" width="28.001" height="28.001" alt="" />
+      </span>
+
+      <!-- 5단계: 생각 말풍선 (57:5381) -->
+      <img class="ground-deco ground-deco--thought" data-show="5" src="assets/grounding/thought-fish.svg" width="63.1242" height="60.5033" alt="" />
+
+      <!-- 2단계: 고양이 발 (예시 카드 위에 겹침) -->
+      <img class="ground-deco ground-deco--paws" data-show="2" src="assets/grounding/paws.png" width="184" height="39" alt="" />
+    </div>
+
+    <!-- 예시 카드 -->
+    <section class="ground-example" aria-labelledby="example-title">
+      <h3 class="ground-example__title" id="example-title">예시</h3>
+      <ul class="ground-example__list" id="step-examples">
+        <li>책, 의자, 창문, 컵, 가방 등</li>
+        <li>각각의 색과 모양을 자세히 살펴보세요.</li>
+      </ul>
+    </section>
+
+    <div class="btn-row ground__actions">
+      <button type="button" class="btn-secondary" id="skip-btn">건너뛰기</button>
+      <button type="button" class="btn-primary" id="found-btn">찾았어요</button>
+    </div>
+  </main>
+
+  <script src="activity-record.js"></script>
+  <script src="level.js"></script>
+  <script src="grounding.js"></script>
+</body>
+</html>

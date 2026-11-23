@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>패니 · 그라운딩</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-back-origin="apply">
+  <main class="onboarding breath ground ground--intro" data-node-id="1:3184">
+    <!-- 데스크톱 미리보기용 상태바 (실제 모바일 기기에서는 숨김) -->
+    <div class="status-bar" aria-hidden="true">
+      <span class="status-bar__time">9:41</span>
+      <span class="status-bar__levels">
+        <img src="assets/cellular.svg" width="19.2" height="12.2264" alt="" />
+        <img src="assets/wifi.svg" width="17.1417" height="12.3283" alt="" />
+        <img src="assets/battery.svg" width="27.328" height="13" alt="" />
+      </span>
+    </div>
+
+    <!-- 상단 앱바 (1:3186) -->
+    <header class="appbar" data-node-id="1:3186">
+      <a class="appbar__back" href="activity.html" aria-label="뒤로 가기">
+        <img src="assets/grounding/back.svg" width="24" height="24" alt="" />
+      </a>
+      <h1 class="appbar__title ground__appbar-title">그라운딩</h1>
+      <button class="appbar__side ground__info" type="button" id="info-btn" aria-haspopup="dialog" aria-controls="ground-info" aria-label="그라운딩 안내 보기">
+        <img src="assets/grounding/info.svg" width="24" height="24" alt="" />
+      </button>
+    </header>
+
+    <p class="ground-intro__title" data-node-id="1:3187">주변의 감각에 집중해<br />지금 이 순간으로 돌아와요</p>
+
+    <div class="ground-cat ground-intro__cat" aria-hidden="true" data-node-id="1:3189">
+      <img class="ground-cat__body" src="assets/grounding/panny.svg" width="227.568" height="174.829" alt="" />
+      <img class="ground-cat__face" src="assets/breathing/panny-face.svg" width="140.18" height="29.5286" alt="" />
+    </div>
+
+    <!-- 이렇게 진행돼요 (1:3190) -->
+    <section class="ground-howto" aria-labelledby="howto-title" data-node-id="1:3190">
+      <h2 class="ground-howto__title" id="howto-title">이렇게 진행돼요</h2>
+      <ol class="ground-howto__list">
+        <li><span class="ground-howto__num" aria-hidden="true">1</span><span>화면의 안내에 따라 다섯 가지 감각에<br />차례로 집중해요.</span></li>
+        <li><span class="ground-howto__num" aria-hidden="true">2</span><span>각 단계에서 주변의 것을 찾아보세요.</span></li>
+        <li><span class="ground-howto__num" aria-hidden="true">3</span><span>찾기 어려운 단계는 건너뛰어도 괜찮아요.</span></li>
+      </ol>
+    </section>
+
+    <a class="btn-primary ground__start" href="grounding-session.html" data-node-id="1:3206">시작하기</a>
+
+    <!-- 그라운딩 안내 팝업 (1:3165) — 레벨업 기준 팝업(.levelup) 스타일 재사용 -->
+    <div class="overlay" id="info-overlay" hidden>
+      <div class="levelup ground-info" id="ground-info" role="dialog" aria-modal="true" aria-labelledby="ground-info-title" tabindex="-1" data-node-id="1:3165">
+        <div class="levelup__head">
+          <h2 class="levelup__title" id="ground-info-title">그라운딩이란?</h2>
+          <button class="levelup__close" type="button" aria-label="닫기" data-close data-node-id="1:3183">
+            <img src="assets/home/close.svg" width="21.9937" height="21.9937" alt="" />
+          </button>
+        </div>
+        <div class="levelup__body ground-info__body">
+          <p>그라운딩(Grounding)은 불안한 생각이나<br />불편한 신체 감각에 집중된 주의를 현재의 주변<br />환경과 감각으로 돌리는 마음 관리 방법이에요.</p>
+          <p>Pawse에서는 5-4-3-2-1 오감 기법을 활용해<br />지금 이 순간에 집중하는 연습을 할 수 있어요.</p>
+
+          <h3 class="ground-info__heading">왜 도움이 될 수 있나요?</h3>
+          <p>①&nbsp;&nbsp;불안한 생각에서 주의를 전환해요.<br />불안이 심해지면 걱정스러운 생각이나 불편한<br />신체 감각에 계속 주의를 기울이게 될 수 있어요.<br />그라운딩은 주변에서 보고, 듣고, 느끼는 감각으로<br />주의를 전환해 이러한 생각에서 잠시 벗어나는 데<br />도움이 될 수 있어요.</p>
+          <p>② 현재의 환경에 집중하도록 도와요<br />눈에 보이는 물건이나 손에 닿는 감촉처럼 구체적인<br />감각을 하나씩 알아차리며, 지금 자신이 있는 환경에 집중하는 연습을 할 수 있어요.</p>
+
+          <h3 class="ground-info__heading">기억해 주세요</h3>
+          <p>모든 감각을 반드시 찾아야 하는 것은 아니에요.<br />감각을 찾기 어렵거나 불편하다면 해당 단계를<br />건너뛰어도 괜찮아요.</p>
+          <p>이 활동은 일상적인 마음 관리를 돕기 위한 것으로,<br />공황장애에 대한 전문적인 치료를 대신하지 않아요.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="breathing-common.js"></script>
+  <script>
+    // 안내 팝업: 즉시 열림, 배경 클릭으로는 닫히지 않음, X·ESC로 닫기
+    (function () {
+      var btn = document.getElementById('info-btn');
+      var popup = Breath.overlay(document.getElementById('info-overlay'), { trigger: btn });
+      btn.addEventListener('click', function () { popup.open(); });
+    })();
+  </script>
+  <script src="back-origin.js"></script>
+</body>
+</html>

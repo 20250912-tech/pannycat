@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>패니 · 마음일기 기록하기</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Figma 24:7236 "감정 상태" — .onboarding.breath 프레임 · .appbar · .saved__toast 재사용 -->
+  <main class="onboarding breath diary diary-write" data-node-id="24:7236">
+    <!-- 데스크톱 미리보기용 상태바 (실제 모바일 기기에서는 숨김) -->
+    <div class="status-bar" aria-hidden="true">
+      <span class="status-bar__time">9:41</span>
+      <span class="status-bar__levels">
+        <img src="assets/cellular.svg" width="19.2" height="12.2264" alt="" />
+        <img src="assets/wifi.svg" width="17.1417" height="12.3283" alt="" />
+        <img src="assets/battery.svg" width="27.328" height="13" alt="" />
+      </span>
+    </div>
+
+    <header class="appbar" data-node-id="24:7238">
+      <a class="appbar__back" href="diary.html" id="back" aria-label="뒤로 가기">
+        <img src="assets/diary/back.svg" width="24" height="24" alt="" />
+      </a>
+      <h1 class="appbar__title diary__title">마음일기</h1>
+      <span class="appbar__side" aria-hidden="true"></span>
+    </header>
+
+    <form class="diary-write__form" id="diary-form" novalidate>
+      <!-- 포스트잇 (24:7250) — 구석 접힌 색상은 선택한 감정(--emo) -->
+      <div class="postit-wrap diary-write__note" id="note" data-node-id="24:7250">
+        <div class="postit">
+          <p class="postit__head">
+            <time class="postit__date" id="note-date"></time>
+            <span class="postit__time" id="note-time"></span>
+          </p>
+          <label class="visually-hidden" for="diary-text">오늘의 마음 일기</label>
+          <textarea class="postit__input" id="diary-text" maxlength="500"
+            placeholder="오늘의 마음 일기를&#10;간단하게 기록해 보세요!"></textarea>
+          <svg class="postit__fold" viewBox="0 0 66 65" aria-hidden="true"><path d="M0 64.8373V26.0366C0.000249053 11.6571 11.6571 0.000259417 26.0366 0H66L0 64.8373Z" /></svg>
+        </div>
+      </div>
+
+      <!-- 감정 상태 (24:7272) -->
+      <fieldset class="emo-card" data-node-id="24:7272">
+        <legend class="emo-card__title">감정 상태</legend>
+        <div class="emo-card__list" id="emo-list"></div>
+      </fieldset>
+
+      <!-- 취소 · 저장 (24:7243) -->
+      <div class="diary-write__actions" data-node-id="24:7243">
+        <a class="round-btn round-btn--close" href="diary.html" id="cancel" aria-label="취소">
+          <img src="assets/diary/ic-close.svg" width="18" height="18" alt="" />
+        </a>
+        <button type="submit" class="round-btn round-btn--check" aria-label="저장하기">
+          <img src="assets/diary/ic-check.svg" width="18" height="12.33" alt="" />
+        </button>
+      </div>
+    </form>
+
+    <p class="saved__toast" id="toast" role="status" aria-live="polite" hidden></p>
+  </main>
+
+  <!-- 감정 발바닥 아이콘 (40 × 40, 색상은 currentColor) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="paw-lg" viewBox="0 0 40 40">
+      <path d="M20.0068 18.5815C22.4708 18.4793 27.5134 20.6993 28.001 27.5679C28.0817 28.7052 27.2527 30.2555 25.9043 30.7612C22.9422 31.5897 22.1391 30.2194 20.0068 30.2192C17.8744 30.2192 17.0713 31.5895 14.1094 30.7612C12.7608 30.2556 11.932 28.7052 12.0127 27.5679C12.5003 20.699 17.543 18.4791 20.0068 18.5815Z" />
+      <ellipse cx="3.17489" cy="3.72863" rx="3.17489" ry="3.72863" transform="matrix(0.958807 -0.284059 0.315102 0.949058 5.11768 16.9282)" />
+      <ellipse cx="15.5553" cy="13.3966" rx="3.54849" ry="4.42394" />
+      <ellipse cx="24.4442" cy="13.3966" rx="3.54849" ry="4.42394" />
+      <ellipse cx="3.17489" cy="3.72863" rx="3.17489" ry="3.72863" transform="matrix(-0.958807 -0.284059 -0.315102 0.949058 34.8818 16.9282)" />
+    </symbol>
+  </svg>
+
+  <script src="diary-store.js"></script>
+  <script>
+    (function () {
+      var $ = function (id) { return document.getElementById(id); };
+      var params = new URLSearchParams(location.search);
+      // ?id= 가 있으면 기존 일기 수정 모드
+      var editing = params.get('id') ? DiaryStore.get(params.get('id')) : null;
+      var selected = editing ? editing.emo
+        : (DiaryStore.emotion(params.get('emo')) ? params.get('emo') : 'calm');
+      if (editing) {
+        $('diary-text').value = editing.text;
+        document.title = '패니 · 마음일기 수정하기';
+      }
+
+      // 감정 선택 라디오
+      var listEl = $('emo-list');
+      DiaryStore.EMOTIONS.forEach(function (e) {
+        var label = document.createElement('label');
+        label.className = 'emo-option';
+        label.style.setProperty('--emo', e.color);
+        label.innerHTML =
+          '<input class="visually-hidden" type="radio" name="emo" value="' + e.key + '" />' +
+          '<span class="emo-option__icon"><svg viewBox="0 0 40 40" aria-hidden="true"><use href="#paw-lg" /></svg></span>' +
+          '<span class="emo-option__label">' + e.label + '</span>';
+        var input = label.querySelector('input');
+        input.checked = e.key === selected;
+        input.addEventListener('change', function () { select(e.key); });
+        listEl.appendChild(label);
+      });
+
+      function select(key) {
+        selected = key;
+        $('note').style.setProperty('--emo', DiaryStore.emotion(key).color);
+      }
+      select(selected);
+
+      // 작성 날짜(요일) · 시간 자동 표시 (분 단위로 갱신) — 수정 중이면 원래 작성 시각 고정
+      function tick() {
+        var now = editing ? editing.at : Date.now();
+        $('note-date').textContent = DiaryStore.formatDate(now);
+        $('note-date').dateTime = new Date(now).toISOString();
+        $('note-time').textContent = DiaryStore.formatTime(now);
+      }
+      tick();
+      if (!editing) setInterval(tick, 15000);
+
+      // 이전 페이지가 있으면 뒤로 가기
+      ['back', 'cancel'].forEach(function (id) {
+        $(id).addEventListener('click', function (ev) {
+          if (document.referrer && history.length > 1) { ev.preventDefault(); history.back(); }
+        });
+      });
+
+      var toastTimer;
+      function toast(msg) {
+        var t = $('toast');
+        t.textContent = msg;
+        t.hidden = false;
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(function () { t.hidden = true; }, 2000);
+      }
+
+      $('diary-form').addEventListener('submit', function (ev) {
+        ev.preventDefault();
+        var text = $('diary-text').value.trim();
+        if (!text) { toast('마음 일기를 입력해 주세요.'); $('diary-text').focus(); return; }
+        var saved = editing ? DiaryStore.update(editing.id, selected, text) : DiaryStore.add(selected, text);
+        if (!saved) { toast('일기를 저장하지 못했어요.'); return; }
+        // 저장한(수정했다면 바뀐) 감정 상태의 일기 페이지로 이동
+        location.replace('diary-list.html?emo=' + selected);
+      });
+    })();
+  </script>
+</body>
+</html>

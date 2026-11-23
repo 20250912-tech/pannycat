@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>패니 · 준비 완료</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="onboarding onboarding--step onboarding--ready" data-node-id="1:2396">
+    <!-- 데스크톱 미리보기용 상태바 (실제 모바일 기기에서는 숨김) -->
+    <div class="status-bar" aria-hidden="true">
+      <span class="status-bar__time">9:41</span>
+      <span class="status-bar__levels">
+        <img src="assets/cellular.svg" width="19.2" height="12.2264" alt="" />
+        <img src="assets/wifi.svg" width="17.1417" height="12.3283" alt="" />
+        <img src="assets/battery.svg" width="27.328" height="13" alt="" />
+      </span>
+    </div>
+
+    <div class="progress" role="progressbar" aria-label="온보딩 진행도" aria-valuemin="1" aria-valuemax="6" aria-valuenow="6">
+      <span class="progress__fill" style="--progress: 6 / 6"></span>
+    </div>
+
+    <h1 class="step__title">당신을 위한 마음관리, 준비됐어요!</h1>
+    <p class="step__subtitle">알려준 마음과 선호에 맞춰 패니가 첫 활동을 골랐어요.</p>
+
+    <div class="panny" role="img" aria-label="눈웃음 짓는 검은 고양이 패니">
+      <img class="panny__body" src="assets/panny-body.svg" width="134.71" height="93.4791" alt="" />
+      <img class="panny__head" src="assets/panny-happy-head.svg" width="246.07" height="189.043" alt="" />
+      <img class="panny__face" src="assets/panny-happy-face.svg" width="151.577" height="31.9294" alt="" />
+    </div>
+
+    <div class="spacer"></div>
+
+    <section class="activity-card" aria-labelledby="activity-title">
+      <img class="activity-card__bg" src="assets/card-breathing.svg" width="363" height="198" alt="" />
+      <div class="activity-card__body">
+        <h2 class="activity-card__title" id="activity-title">3분 호흡하기</h2>
+        <p class="activity-card__desc">호흡의 흐름을 천천히 따라가며<br />긴장을 풀고 마음을 안정시켜 보세요</p>
+        <a class="activity-card__btn" href="breathing.html" onclick="BackOrigin.set('home.html')">추천활동 시작하기</a>
+      </div>
+    </section>
+
+    <a class="btn-primary btn-primary--ready" href="home.html">먼저 홈 둘러보기</a>
+  </main>
+  <script src="back-origin.js"></script>
+</body>
+</html>

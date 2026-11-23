@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>패니 · 긴급 호흡 완료</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="page-sos">
+  <!-- Figma 1:1946 "긴급화면_호흡완료" — 항목 선택 시 긴급화면_종료(1:1965)로 이동 -->
+  <main class="sos sos--purple sos-check" data-node-id="1:1946">
+    <!-- 데스크톱 미리보기용 상태바 (실제 모바일 기기에서는 숨김) -->
+    <div class="status-bar status-bar--light" aria-hidden="true">
+      <span class="status-bar__time">9:41</span>
+      <span class="status-bar__levels">
+        <img src="assets/cellular.svg" width="19.2" height="12.2264" alt="" />
+        <img src="assets/wifi.svg" width="17.1417" height="12.3283" alt="" />
+        <img src="assets/battery.svg" width="27.328" height="13" alt="" />
+      </span>
+    </div>
+
+    <header class="sos-check__head" data-node-id="1:1948">
+      <p class="sos-check__sub">긴급 호흡이 완료되었어요.</p>
+      <h1 class="sos-check__title" id="sos-check-title">지금 상태는 어떤가요?</h1>
+    </header>
+
+    <div class="sos-check__options" role="group" aria-labelledby="sos-check-title">
+      <button type="button" class="sos-option" data-calm="3" data-label="완전히 진정 되었어요" data-node-id="1:1953">
+        <span class="sos-option__emoji" aria-hidden="true">🙂</span>완전히 진정 되었어요.
+      </button>
+      <button type="button" class="sos-option" data-calm="2" data-label="조금 진정되었어요" data-node-id="1:1957">
+        <span class="sos-option__emoji" aria-hidden="true">😔</span>조금 진정되었어요.
+      </button>
+      <button type="button" class="sos-option" data-calm="1" data-label="아직 진정되지 않았어요" data-node-id="1:1961">
+        <span class="sos-option__emoji" aria-hidden="true">😰</span>아직 진정되지 않았어요.
+      </button>
+    </div>
+
+    <a class="sos-check__skip" href="home.html" data-node-id="1:1951">지금은 건너뛰기</a>
+  </main>
+
+  <script src="activity-record.js"></script>
+  <script>
+    // 고른 상태를 마음기록에 함께 저장한 뒤 이동
+    // - 아직 진정되지 않았어요(calm 1) → 긴급 호흡을 처음부터 다시
+    // - 그 외 → 종료 화면
+    (function () {
+      document.querySelectorAll('.sos-option').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var calm = Number(btn.dataset.calm);
+          ActivityRecord.save({ emergency: true, calm: calm, mood: btn.dataset.label });
+          location.href = calm === 1 ? 'sos-breathing.html' : 'sos-done.html';
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

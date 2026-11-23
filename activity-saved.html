@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>패니 · 마음기록 저장</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="onboarding saved" data-node-id="1:3373">
+    <!-- 데스크톱 미리보기용 상태바 (실제 모바일 기기에서는 숨김) -->
+    <div class="status-bar" aria-hidden="true">
+      <span class="status-bar__time">9:41</span>
+      <span class="status-bar__levels">
+        <img src="assets/cellular.svg" width="19.2" height="12.2264" alt="" />
+        <img src="assets/wifi.svg" width="17.1417" height="12.3283" alt="" />
+        <img src="assets/battery.svg" width="27.328" height="13" alt="" />
+      </span>
+    </div>
+
+    <h1 class="visually-hidden">마음기록이 저장되었어요</h1>
+
+    <!-- 오늘의 호흡 구름 (1:3376) -->
+    <div class="saved__cloud" data-node-id="1:3376">
+      <img class="saved__cloud-bg" src="assets/complete/cloud.svg" width="179.895" height="141.574" alt="" />
+      <p class="saved__cloud-text">
+        <span class="saved__cloud-label" id="today-label">오늘의 호흡</span>
+        <span class="saved__cloud-count"><span id="today-count">1</span>회</span>
+      </p>
+    </div>
+
+    <!-- 웃는 패니 (1:3374) -->
+    <div class="saved__panny" data-node-id="1:3374" role="img" aria-label="눈을 감고 미소 짓는 검은 고양이 패니">
+      <img class="saved__panny-body" src="assets/complete/panny.svg" width="156.453" height="120.195" alt="" />
+      <img class="saved__panny-face" src="assets/complete/panny-face.svg" width="96.374" height="20.3009" alt="" />
+    </div>
+
+    <section class="saved__card" id="saved-card" data-node-id="1:3391" aria-labelledby="saved-title">
+      <h2 class="saved__title" id="saved-title">수고했어요, 수정님!</h2>
+      <p class="saved__msg">오늘도 나를 위한 시간을 가졌어요,<br />정말 멋져요!</p>
+      <!-- 호흡: 패턴·시간·횟수 / 그라운딩(Figma 55:5319): 건너뛴 횟수·완료한 횟수 / 바디스캔(Figma 58:5445): 총 시간 -->
+      <dl class="saved__stats" id="stats">
+        <div class="saved__stat"><dt>사용한 패턴</dt><dd class="saved__stat-pattern" id="stat-pattern">4-2-4-2</dd></div>
+        <div class="saved__stat"><dt>총 시간</dt><dd id="stat-time">1분</dd></div>
+        <div class="saved__stat"><dt>완료한 횟수</dt><dd id="stat-rounds">5회</dd></div>
+      </dl>
+    </section>
+
+    <div class="spacer"></div>
+
+    <div class="saved__actions" data-node-id="1:3382">
+      <button type="button" class="saved__action" id="save-image-btn">
+        <span class="saved__action-icon"><img src="assets/complete/save.svg" width="25.8125" height="25.8125" alt="" /></span>
+        이미지 저장하기
+      </button>
+      <button type="button" class="saved__action" id="share-btn">
+        <span class="saved__action-icon"><img src="assets/complete/share.svg" width="25.8125" height="25.8125" alt="" /></span>
+        공유하기
+      </button>
+    </div>
+
+    <a class="btn-primary saved__btn" href="home.html">홈으로 돌아가기</a>
+
+    <p class="saved__toast" id="toast" role="status" aria-live="polite" hidden></p>
+  </main>
+
+  <script src="activity-record.js"></script>
+  <script>
+    (function () {
+      var $ = function (id) { return document.getElementById(id); };
+      var rec = ActivityRecord.latest();
+      var isGrounding = rec.type === 'grounding';
+      var isBodyscan = rec.type === 'bodyscan';
+      var label = isGrounding ? '오늘의 그라운딩' : isBodyscan ? '오늘의 바디스캔' : '오늘의 호흡';
+      var count = ActivityRecord.countToday(isGrounding ? 'grounding' : isBodyscan ? 'bodyscan' : 'breathing');
+      var stats, summary;
+
+      if (isBodyscan) {
+        var scanTime = ActivityRecord.formatDuration(rec.seconds || 120);
+        stats = [['총 시간', scanTime]];      // Figma 58:5445: 총 시간 한 칸 (289 폭)
+        summary = label + ' ' + count + '회 · ' + scanTime;
+      } else if (isGrounding) {
+        stats = [['건너뛴 횟수', (rec.skipped || 0) + '회'], ['완료한 횟수', (rec.found || 0) + '회']];
+        summary = label + ' ' + count + '회 · ' + rec.found + '단계 완료 · ' + rec.skipped + '단계 건너뜀';
+      } else {
+        var pattern = rec.pattern || '4-2-4-2';
+        var time = ActivityRecord.formatDuration(rec.seconds || 0);
+        stats = [['사용한 패턴', pattern], ['총 시간', time], ['완료한 횟수', rec.rounds + '회']];
+        summary = label + ' ' + count + '회 · 패턴 ' + pattern + ' · ' + time + ' · ' + rec.rounds + '회 완료';
+      }
+
+      $('today-label').textContent = label;
+      $('today-count').textContent = count;
+      $('stats').classList.toggle('saved__stats--two', stats.length === 2);
+      $('stats').classList.toggle('saved__stats--one', stats.length === 1);
+      $('stats').innerHTML = stats.map(function (s, i) {
+        var cls = !isGrounding && !isBodyscan && i === 0 ? ' class="saved__stat-pattern"' : '';
+        return '<div class="saved__stat"><dt>' + s[0] + '</dt><dd' + cls + '>' + s[1] + '</dd></div>';
+      }).join('');
+
+      var toastTimer;
+      function toast(msg) {
+        var t = $('toast');
+        t.textContent = msg;
+        t.hidden = false;
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(function () { t.hidden = true; }, 2000);
+      }
+
+      function loadImg(src) {
+        return new Promise(function (ok, fail) {
+          var img = new Image();
+          img.onload = function () { ok(img); };
+          img.onerror = fail;
+          img.src = src;
+        });
+      }
+
+      // 기록 카드를 PNG로 그려서 내려받기
+      function drawCard() {
+        var W = 393, H = 520, S = 2;
+        var c = document.createElement('canvas');
+        c.width = W * S; c.height = H * S;
+        var g = c.getContext('2d');
+        g.scale(S, S);
+        var bg = g.createLinearGradient(0, 0, 0, H);
+        bg.addColorStop(0, '#ffffff');
+        bg.addColorStop(1, '#cfc7f1');
+        g.fillStyle = bg; g.fillRect(0, 0, W, H);
+        return Promise.all([loadImg('assets/complete/cloud.svg'), loadImg('assets/complete/panny.svg'), loadImg('assets/complete/panny-face.svg')])
+          .then(function (imgs) {
+            g.drawImage(imgs[0], 107, 24, 179.895, 141.574);
+            g.textAlign = 'center';
+            g.fillStyle = '#9b87f5';
+            g.font = '600 18px Pretendard, sans-serif'; g.fillText(label, W / 2, 88);
+            g.font = '700 24px Pretendard, sans-serif'; g.fillText(count + '회', W / 2, 118);
+            g.drawImage(imgs[1], 118.3, 172, 156.453, 120.195);
+            g.drawImage(imgs[2], 148.5, 223, 96.374, 20.3009);
+            g.fillStyle = '#fff';
+            g.beginPath();
+            if (g.roundRect) g.roundRect(27, 277, 339, 195, 15); else g.rect(27, 277, 339, 195);
+            g.fill();
+            g.fillStyle = '#29253e'; g.font = '700 20px Pretendard, sans-serif';
+            g.fillText($('saved-title').textContent, W / 2, 318);
+            g.fillStyle = '#37335a'; g.font = '500 14px Pretendard, sans-serif';
+            g.fillText('오늘도 나를 위한 시간을 가졌어요,', W / 2, 348);
+            g.fillText('정말 멋져요!', W / 2, 366);
+            var bw = stats.length === 1 ? 289 : stats.length === 2 ? 135 : 89, gap = 19;
+            var x0 = (W - (bw * stats.length + gap * (stats.length - 1))) / 2;
+            stats.forEach(function (s, i) {
+              var x = x0 + i * (bw + gap);
+              g.fillStyle = 'rgba(155,135,245,0.23)';
+              g.beginPath();
+              if (g.roundRect) g.roundRect(x, 384, bw, 72, 10); else g.rect(x, 384, bw, 72);
+              g.fill();
+              g.fillStyle = '#37335a';
+              g.font = '400 12px Pretendard, sans-serif'; g.fillText(s[0], x + bw / 2, 412);
+              g.font = '600 16px Pretendard, sans-serif'; g.fillText(s[1], x + bw / 2, 438);
+            });
+            return c;
+          });
+      }
+
+      $('save-image-btn').addEventListener('click', function () {
+        drawCard().then(function (c) {
+          var a = document.createElement('a');
+          a.download = '패니-마음기록.png';
+          a.href = c.toDataURL('image/png');
+          a.click();
+          toast('이미지를 저장했어요.');
+        }).catch(function () { toast('이미지를 만들지 못했어요.'); });
+      });
+
+      $('share-btn').addEventListener('click', function () {
+        var data = { title: '패니 마음기록', text: summary };
+        if (navigator.share) {
+          navigator.share(data).catch(function () { /* 사용자가 취소 */ });
+        } else if (navigator.clipboard) {
+          navigator.clipboard.writeText(summary).then(function () { toast('기록을 복사했어요.'); }, function () { toast('공유할 수 없어요.'); });
+        } else {
+          toast('공유할 수 없어요.');
+        }
+      });
+    })();
+  </script>
+  <script src="level.js"></script>
+</body>
+</html>

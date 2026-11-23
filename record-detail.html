@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>패니 · 기록 자세히보기</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="page-home">
+  <!-- Figma 1:3587 "기록 더보기1"(접힘) · 1:5828 "기록 더보기2"(펼침) — 홈 레이아웃 재사용, 탭바 없음 -->
+  <div class="home record record-detail" data-node-id="1:3587">
+    <main class="home__scroll record__scroll">
+      <!-- 데스크톱 미리보기용 상태바 (실제 모바일 기기에서는 숨김) -->
+      <div class="status-bar" aria-hidden="true">
+        <span class="status-bar__time">9:41</span>
+        <span class="status-bar__levels">
+          <img src="assets/cellular.svg" width="19.2" height="12.2264" alt="" />
+          <img src="assets/wifi.svg" width="17.1417" height="12.3283" alt="" />
+          <img src="assets/battery.svg" width="27.328" height="13" alt="" />
+        </span>
+      </div>
+
+      <header class="rd-head" data-node-id="1:3596">
+        <a class="rd-head__back" id="back-btn" href="record.html" aria-label="캘린더로 돌아가기">‹</a>
+        <h1 class="rd-head__title" id="rd-title"></h1>
+        <button class="rd-head__edit" id="edit-btn" type="button" aria-pressed="false">편집</button>
+      </header>
+
+      <!-- 주간 날짜 띠 (일~토) -->
+      <div class="rd-week" id="rd-week" role="tablist" aria-label="날짜 선택" data-node-id="1:3602"></div>
+
+      <!-- 하루 요약 -->
+      <section class="rd-summary" aria-labelledby="sum-title" data-node-id="1:3632">
+        <h2 class="rd-summary__title" id="sum-title">하루 요약</h2>
+        <dl class="rd-summary__stats">
+          <div class="rd-stat"><dt>활동</dt><dd id="sum-count"></dd></div>
+          <div class="rd-stat"><dt>마지막 불안도</dt><dd id="sum-anx"></dd></div>
+          <div class="rd-stat"><dt>대표 감정</dt><dd id="sum-emo"></dd></div>
+        </dl>
+      </section>
+
+      <!-- 타임라인 -->
+      <section class="rd-timeline" aria-labelledby="tl-title">
+        <h2 class="rd-timeline__title" id="tl-title">타임라인</h2>
+        <ol class="rd-timeline__list" id="tl-list"></ol>
+        <a class="rd-add" id="rd-add" href="activity.html" hidden data-node-id="1:3697">
+          <span class="record-card__plus"><img src="assets/record/plus.svg" width="8.19" height="8.48" alt="" /></span>
+          활동 기록 추가
+        </a>
+      </section>
+    </main>
+  </div>
+
+  <script src="diary-store.js"></script>
+  <script src="record-store.js"></script>
+  <script src="record-detail.js"></script>
+</body>
+</html>

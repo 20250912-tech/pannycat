@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>패니 · 보호자 추가하기</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Figma 1:4955 "보호자 추가하기" — 프로필 수정(사진·입력칸·사진 선택 시트·저장 버튼) 재사용 -->
+  <main class="onboarding breath profile-edit guardian-add" data-node-id="1:4955">
+    <!-- 데스크톱 미리보기용 상태바 (실제 모바일 기기에서는 숨김) -->
+    <div class="status-bar" aria-hidden="true">
+      <span class="status-bar__time">9:41</span>
+      <span class="status-bar__levels">
+        <img src="assets/cellular.svg" width="19.2" height="12.2264" alt="" />
+        <img src="assets/wifi.svg" width="17.1417" height="12.3283" alt="" />
+        <img src="assets/battery.svg" width="27.328" height="13" alt="" />
+      </span>
+    </div>
+
+    <header class="appbar" data-node-id="1:4968">
+      <a class="appbar__back" href="guardian.html" aria-label="뒤로 가기">
+        <img src="assets/profile/back.svg" width="24" height="24" alt="" />
+      </a>
+      <h1 class="appbar__title profile-edit__title">보호자 연락처</h1>
+      <span class="appbar__side" aria-hidden="true"></span>
+    </header>
+
+    <form class="profile-edit__form" id="guardian-form" novalidate>
+      <!-- 보호자 사진 156 + 카메라 버튼 43 -->
+      <div class="profile-photo">
+        <img class="profile-photo__img" id="photo-img" src="assets/profile/avatar.svg" width="156" height="156" alt="보호자 사진" data-node-id="1:4957" />
+        <button class="profile-photo__camera" id="camera-btn" type="button" aria-haspopup="dialog" aria-controls="photo-sheet" aria-label="보호자 사진 변경" data-node-id="1:4963">
+          <img src="assets/profile/camera.svg" width="68" height="68" alt="" />
+        </button>
+        <input class="profile-photo__file" id="photo-file" type="file" accept="image/*" hidden />
+      </div>
+
+      <!-- 이름 / 연락처 — 닉네임 입력칸(24:7752)과 동일 -->
+      <label class="profile-field__label" for="g-name" data-node-id="1:4960">이름</label>
+      <input class="profile-field__input" id="g-name" name="name" type="text"
+             maxlength="12" autocomplete="off" placeholder="보호자 이름을 입력해 주세요." data-node-id="1:4958" />
+
+      <label class="profile-field__label guardian-add__label" for="g-phone" data-node-id="1:4961">연락처</label>
+      <input class="profile-field__input" id="g-phone" name="phone" type="tel" inputmode="numeric"
+             maxlength="13" autocomplete="off" placeholder="010-0000-0000" data-node-id="1:4959" />
+
+      <!-- 나와의 관계 (Selection card4) — 하나만 선택 -->
+      <p class="profile-field__label guardian-add__label" id="g-relation-label" data-node-id="1:4962">나와의 관계</p>
+      <div class="guardian-relations" role="radiogroup" aria-labelledby="g-relation-label">
+        <button type="button" class="chip guardian-chip" role="radio" aria-checked="true" data-value="parent">부모님</button>
+        <button type="button" class="chip guardian-chip" role="radio" aria-checked="false" data-value="family">가족</button>
+        <button type="button" class="chip guardian-chip" role="radio" aria-checked="false" data-value="friend">친구</button>
+        <button type="button" class="chip guardian-chip" role="radio" aria-checked="false" data-value="other">기타</button>
+      </div>
+
+      <button class="btn-primary profile-edit__save" id="save-btn" type="submit" data-node-id="1:4979">등록하기</button>
+    </form>
+
+    <!-- 사진 선택하기 (Figma 33:8593) — 프로필 수정 시트와 동일 -->
+    <div class="overlay overlay--sheet" id="photo-overlay" hidden>
+      <div class="photo-sheet" id="photo-sheet" role="dialog" aria-modal="true" aria-label="사진 선택하기" tabindex="-1" data-node-id="33:8593">
+        <div class="photo-sheet__group">
+          <button class="photo-sheet__btn" type="button" data-action="album">앨범에서 선택</button>
+          <button class="photo-sheet__btn" type="button" data-action="delete">프로필 사진 삭제</button>
+        </div>
+        <button class="photo-sheet__btn photo-sheet__btn--close" type="button" data-close>닫기</button>
+      </div>
+    </div>
+  </main>
+
+  <script src="breathing-common.js"></script>
+  <script src="profile.js"></script>
+  <script src="guardians.js"></script>
+  <script src="guardian-add.js"></script>
+</body>
+</html>

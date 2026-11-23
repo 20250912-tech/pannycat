@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>패니 · 마이페이지</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="page-home">
+  <!-- Figma 1:1989 "마이페이지" — 홈 레이아웃(.home / .home__scroll / .status-bar / .tabbar) 재사용 -->
+  <div class="home mypage" data-node-id="1:1989">
+    <main class="home__scroll">
+      <!-- 데스크톱 미리보기용 상태바 (실제 모바일 기기에서는 숨김) -->
+      <div class="status-bar" aria-hidden="true">
+        <span class="status-bar__time">9:41</span>
+        <span class="status-bar__levels">
+          <img src="assets/cellular.svg" width="19.2" height="12.2264" alt="" />
+          <img src="assets/wifi.svg" width="17.1417" height="12.3283" alt="" />
+          <img src="assets/battery.svg" width="27.328" height="13" alt="" />
+        </span>
+      </div>
+
+      <h1 class="mypage__title" data-node-id="1:1990">설정</h1>
+
+      <section class="mypage-profile" aria-label="내 프로필">
+        <img class="mypage-profile__avatar" src="assets/mypage/avatar.svg" width="109" height="109" alt="" data-node-id="1:1998" />
+        <p class="mypage-profile__name" data-node-id="1:1999"><span id="mp-nickname">수정</span> (님)</p>
+      </section>
+
+      <!-- 개인 및 맞춤 설정 -->
+      <section class="mypage-group" aria-labelledby="mp-personal">
+        <h2 class="mypage-group__title" id="mp-personal" data-node-id="1:2025">개인 및 맞춤 설정</h2>
+        <ul class="mypage-list">
+          <li><a class="mypage-item" href="profile-edit.html" data-node-id="24:7583">
+            <span class="mypage-item__text"><strong class="mypage-item__name">프로필 수정</strong><span class="mypage-item__desc">프로필 설정하기</span></span>
+            <img class="mypage-item__chevron" src="assets/mypage/chevron.svg" width="8" height="14" alt="" />
+          </a></li>
+          <li><a class="mypage-item" href="response-reset.html" data-node-id="24:7668">
+            <span class="mypage-item__text"><strong class="mypage-item__name">응답 재설정</strong><span class="mypage-item__desc">초기 온보딩 답변 변경하기</span></span>
+            <img class="mypage-item__chevron" src="assets/mypage/chevron.svg" width="8" height="14" alt="" />
+          </a></li>
+          <li><a class="mypage-item" href="#" data-node-id="24:7675">
+            <span class="mypage-item__text"><strong class="mypage-item__name">나만의 패니</strong><span class="mypage-item__desc">패니 관리하기</span></span>
+            <img class="mypage-item__chevron" src="assets/mypage/chevron.svg" width="8" height="14" alt="" />
+          </a></li>
+        </ul>
+      </section>
+
+      <!-- 보호자 연락처 및 긴급 설정 -->
+      <section class="mypage-group" aria-labelledby="mp-guardian">
+        <h2 class="mypage-group__title" id="mp-guardian" data-node-id="1:2011">보호자 연락처 및 긴급 설정</h2>
+        <ul class="mypage-list">
+          <li><a class="mypage-item" href="guardian.html" data-node-id="24:7682">
+            <span class="mypage-item__text"><strong class="mypage-item__name">보호자 연락처</strong><span class="mypage-item__desc">등록된 연락처 수정하기</span></span>
+            <img class="mypage-item__chevron" src="assets/mypage/chevron.svg" width="8" height="14" alt="" />
+          </a></li>
+          <li><a class="mypage-item" href="emergency.html" data-node-id="24:7689">
+            <span class="mypage-item__text"><strong class="mypage-item__name">긴급 연락 설정</strong><span class="mypage-item__desc">긴급 도움 요청 방식 관리</span></span>
+            <img class="mypage-item__chevron" src="assets/mypage/chevron.svg" width="8" height="14" alt="" />
+          </a></li>
+        </ul>
+      </section>
+
+      <!-- 환경설정 -->
+      <section class="mypage-group" aria-labelledby="mp-prefs">
+        <h2 class="mypage-group__title" id="mp-prefs" data-node-id="1:2026">환경설정</h2>
+        <ul class="mypage-list">
+          <li><a class="mypage-item" href="#" data-node-id="24:7696">
+            <span class="mypage-item__text"><strong class="mypage-item__name">배경음</strong><span class="mypage-item__desc">고요한 밤</span></span>
+            <img class="mypage-item__chevron" src="assets/mypage/chevron.svg" width="8" height="14" alt="" />
+          </a></li>
+          <li><a class="mypage-item" href="notify.html" data-node-id="24:7703">
+            <span class="mypage-item__text"><strong class="mypage-item__name">알림 설정</strong><span class="mypage-item__desc">알림 설정</span></span>
+            <img class="mypage-item__chevron" src="assets/mypage/chevron.svg" width="8" height="14" alt="" />
+          </a></li>
+          <li><div class="mypage-item" data-node-id="24:7712">
+            <span class="mypage-item__text"><strong class="mypage-item__name" id="mp-keep-awake">화면 항상 표시</strong><span class="mypage-item__desc">활동 중 화면 유지 설정</span></span>
+            <button class="switch mypage-switch" type="button" role="switch" aria-checked="true" aria-labelledby="mp-keep-awake" data-node-id="24:7710">
+              <img class="switch__on" src="assets/mypage/switch-on.svg" width="43" height="21.8909" alt="" />
+              <img class="switch__off" src="assets/breathing/switch-off.svg" width="43" height="21.8909" alt="" />
+            </button>
+          </div></li>
+        </ul>
+      </section>
+    </main>
+
+    <!-- 하단 네비게이션 -->
+    <nav class="tabbar" aria-label="주요 메뉴" data-node-id="1:1992">
+      <a class="tabbar__item" href="home.html">
+        <img src="assets/activity/nav-home-off.svg" width="22.249" height="23.7322" alt="" />
+        <span>홈</span>
+      </a>
+      <a class="tabbar__item" href="activity.html">
+        <img src="assets/home/nav-activity-off.svg" width="25.2055" height="25.2055" alt="" />
+        <span>활동하기</span>
+      </a>
+      <a class="tabbar__item" href="counsel.html">
+        <img src="assets/home/nav-counsel-off.svg" width="25.2489" height="22.937" alt="" />
+        <span>상담</span>
+      </a>
+      <a class="tabbar__item tabbar__item--record" href="record.html">
+        <img src="assets/home/nav-record-off.svg" width="25.2055" height="25.2055" alt="" />
+        <span>기록</span>
+      </a>
+      <a class="tabbar__item is-active" href="mypage.html" aria-current="page">
+        <img src="assets/mypage/nav-my-on.svg" width="25.7733" height="23.4134" alt="" />
+        <span>마이페이지</span>
+      </a>
+    </nav>
+  </div>
+
+  <script src="profile.js"></script>
+  <script src="mypage.js"></script>
+</body>
+</html>

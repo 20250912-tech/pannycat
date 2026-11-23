@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>패니 · 프로필 수정</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Figma 1:4279 "프로필수정" — 호흡 화면의 .onboarding 프레임·.appbar·.btn-primary·.overlay 재사용 -->
+  <main class="onboarding breath profile-edit" data-node-id="1:4279">
+    <!-- 데스크톱 미리보기용 상태바 (실제 모바일 기기에서는 숨김) -->
+    <div class="status-bar" aria-hidden="true">
+      <span class="status-bar__time">9:41</span>
+      <span class="status-bar__levels">
+        <img src="assets/cellular.svg" width="19.2" height="12.2264" alt="" />
+        <img src="assets/wifi.svg" width="17.1417" height="12.3283" alt="" />
+        <img src="assets/battery.svg" width="27.328" height="13" alt="" />
+      </span>
+    </div>
+
+    <header class="appbar" data-node-id="1:4282">
+      <a class="appbar__back" href="mypage.html" aria-label="뒤로 가기">
+        <img src="assets/profile/back.svg" width="24" height="24" alt="" />
+      </a>
+      <h1 class="appbar__title profile-edit__title">설정</h1>
+      <span class="appbar__side" aria-hidden="true"></span>
+    </header>
+
+    <form class="profile-edit__form" id="profile-form" novalidate>
+      <!-- 프로필 사진 156 + 카메라 버튼 43 -->
+      <div class="profile-photo">
+        <img class="profile-photo__img" id="photo-img" src="assets/profile/avatar.svg" width="156" height="156" alt="프로필 사진" data-node-id="1:4281" />
+        <button class="profile-photo__camera" id="camera-btn" type="button" aria-haspopup="dialog" aria-controls="photo-sheet" aria-label="프로필 사진 변경" data-node-id="1:4290">
+          <img src="assets/profile/camera.svg" width="68" height="68" alt="" />
+        </button>
+        <input class="profile-photo__file" id="photo-file" type="file" accept="image/*" hidden />
+      </div>
+
+      <!-- 닉네임 (컴포넌트 24:7752 입력/OX) -->
+      <label class="profile-field__label" for="nickname" data-node-id="1:4289">닉네임</label>
+      <input class="profile-field__input" id="nickname" name="nickname" type="text"
+             maxlength="12" autocomplete="nickname" placeholder="닉네임은 2자 이상 적어주세요."
+             aria-describedby="nickname-hint" data-node-id="24:7753" />
+      <p class="visually-hidden" id="nickname-hint">닉네임은 2자 이상 적어주세요.</p>
+
+      <button class="btn-primary profile-edit__save" id="save-btn" type="submit" data-node-id="1:4295">저장하기</button>
+    </form>
+
+    <!-- 사진 선택하기 (Figma 24:7736) -->
+    <div class="overlay overlay--sheet" id="photo-overlay" hidden>
+      <div class="photo-sheet" id="photo-sheet" role="dialog" aria-modal="true" aria-label="사진 선택하기" tabindex="-1" data-node-id="24:7736">
+        <div class="photo-sheet__group">
+          <button class="photo-sheet__btn" type="button" data-action="album">앨범에서 선택</button>
+          <button class="photo-sheet__btn" type="button" data-action="delete">프로필 사진 삭제</button>
+        </div>
+        <button class="photo-sheet__btn photo-sheet__btn--close" type="button" data-close>닫기</button>
+      </div>
+    </div>
+  </main>
+
+  <script src="breathing-common.js"></script>
+  <script src="profile.js"></script>
+  <script src="profile-edit.js"></script>
+</body>
+</html>

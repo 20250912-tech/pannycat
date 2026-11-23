@@ -1,0 +1,54 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="114.329" height="87.8337" viewBox="0 0 114.329 87.8337" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="&#237;&#140;&#168;&#235;&#139;&#136;">
+<g id="Group 2087331719">
+<path id="Vector 20979" d="M25.0451 0.317827C20.1157 2.44645 20.0036 17.0761 20.5638 24.1248L45.9112 12.0813C41.0098 7.27319 29.9745 -1.81079 25.0451 0.317827Z" fill="url(#paint0_linear_0_73)"/>
+<path id="Vector 20980" d="M89.6542 0.317827C94.5836 2.44645 94.6957 17.0761 94.1355 24.1248L68.7881 12.0813C73.6895 7.27319 84.7247 -1.81079 89.6542 0.317827Z" fill="url(#paint1_linear_0_73)"/>
+<g id="Ellipse 6586" filter="url(#filter0_di_0_73)">
+<path d="M106.879 49.7806C106.879 72.6331 80.42 80.3835 57.1647 80.3835C33.9094 80.3835 7.45018 72.6331 7.45018 49.7806C7.45018 26.9281 29.7081 8.40245 57.1647 8.40245C84.6213 8.40245 106.879 26.9281 106.879 49.7806Z" fill="url(#paint2_radial_0_73)"/>
+</g>
+</g>
+<g id="Group 2087331716">
+<ellipse id="Ellipse 6572" cx="43.7208" cy="42.9225" rx="1.68049" ry="2.31068" fill="#8B898B"/>
+<path id="Vector 20974" d="M44.421 36.6856C43.531 37.8522 42.0403 39.7263 38.8193 39.7263" stroke-width="0.965813" stroke-linecap="round" stroke="#8B898B"/>
+</g>
+<g id="Group 2087331717">
+<ellipse id="Ellipse 6572_2" cx="70.6086" cy="42.9225" rx="1.68049" ry="2.31068" fill="#8B898B"/>
+<path id="Vector 20974_2" d="M69.9084 36.6856C70.7984 37.8522 72.2891 39.7263 75.5101 39.7263" stroke-width="0.965813" stroke-linecap="round" stroke="#8B898B"/>
+</g>
+<path id="Union" d="M59.1008 48.8289L57.8519 50.8425C57.6001 51.2484 57.0095 51.2485 56.7577 50.8426L54.3214 46.9168C54.0552 46.4879 54.3637 45.9334 54.8685 45.9334H59.7403C60.2451 45.9334 60.5536 46.4879 60.2874 46.9168L59.1008 48.8289Z" fill="#8B898B"/>
+<path id="Vector 20999" d="M34.0579 46.4936L23.1349 42.8525" stroke-width="0.965813" stroke-linecap="round" stroke="#8B898B"/>
+<path id="Vector 21000" d="M33.7779 50.4147L22.5746 51.6751" stroke-width="0.965813" stroke-linecap="round" stroke="#8B898B"/>
+<path id="Vector 21001" d="M80.5515 46.4936L91.4746 42.8525" stroke-width="0.965813" stroke-linecap="round" stroke="#8B898B"/>
+<path id="Vector 21002" d="M80.8316 50.4147L92.0349 51.6751" stroke-width="0.965813" stroke-linecap="round" stroke="#8B898B"/>
+</g>
+<defs>
+<filter id="filter0_di_0_73" x="0" y="0.952278" width="114.329" height="86.8814" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset/>
+<feGaussianBlur stdDeviation="3.72509"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.08 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_0_73"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_0_73" result="shape"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="1.12033"/>
+<feGaussianBlur stdDeviation="8.33243"/>
+<feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
+<feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.17 0"/>
+<feBlend mode="normal" in2="shape" result="effect2_innerShadow_0_73"/>
+</filter>
+<linearGradient id="paint0_linear_0_73" x1="24.3951" y1="1.33469e-07" x2="36.2986" y2="25.2074" gradientUnits="userSpaceOnUse">
+<stop/>
+<stop offset="1" stop-color="#393B3A"/>
+</linearGradient>
+<linearGradient id="paint1_linear_0_73" x1="90.3042" y1="1.33469e-07" x2="78.4007" y2="25.2074" gradientUnits="userSpaceOnUse">
+<stop/>
+<stop offset="1" stop-color="#393B3A"/>
+</linearGradient>
+<radialGradient id="paint2_radial_0_73" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(57.0246 49.9946) rotate(89.8664) scale(60.0777 263.254)">
+<stop/>
+<stop offset="1" stop-color="#393C40"/>
+</radialGradient>
+</defs>
+</svg>

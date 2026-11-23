@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>패니 · 바디스캔</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-back-origin="apply">
+  <main class="onboarding breath ground ground--intro scan scan--intro" data-node-id="1:2754">
+    <!-- 데스크톱 미리보기용 상태바 (실제 모바일 기기에서는 숨김) -->
+    <div class="status-bar" aria-hidden="true">
+      <span class="status-bar__time">9:41</span>
+      <span class="status-bar__levels">
+        <img src="assets/cellular.svg" width="19.2" height="12.2264" alt="" />
+        <img src="assets/wifi.svg" width="17.1417" height="12.3283" alt="" />
+        <img src="assets/battery.svg" width="27.328" height="13" alt="" />
+      </span>
+    </div>
+
+    <!-- 상단 앱바 (1:2759) -->
+    <header class="appbar" data-node-id="1:2759">
+      <a class="appbar__back" href="activity.html" aria-label="뒤로 가기">
+        <img src="assets/grounding/back.svg" width="24" height="24" alt="" />
+      </a>
+      <h1 class="appbar__title ground__appbar-title">바디스캔</h1>
+      <button class="appbar__side ground__info" type="button" id="info-btn" aria-haspopup="dialog" aria-controls="scan-info" aria-label="바디스캔 안내 보기">
+        <img src="assets/bodyscan/info.svg" width="24" height="24" alt="" />
+      </button>
+    </header>
+
+    <p class="scan-intro__title" data-node-id="1:2758">2분동안<br />몸의 각 부위를 차례로 살피며<br />온전히 나에게 집중해요.</p>
+
+    <div class="ground-cat scan-intro__cat" aria-hidden="true" data-node-id="1:2762">
+      <img class="ground-cat__body" src="assets/bodyscan/panny-smile.svg" width="227.568" height="174.829" alt="" />
+    </div>
+
+    <!-- 이렇게 진행돼요 (1:2763) -->
+    <section class="ground-howto scan-howto" aria-labelledby="howto-title" data-node-id="1:2763">
+      <h2 class="ground-howto__title" id="howto-title">이렇게 진행돼요</h2>
+      <ol class="ground-howto__list">
+        <li><span class="ground-howto__num" aria-hidden="true">1</span><span>편안한 자세를 취해요.</span></li>
+        <li><span class="ground-howto__num" aria-hidden="true">2</span><span>느껴지는 감각을 그대로 받아들여요.<br />아무런 감각이 없어도 괜찮아요.</span></li>
+        <li><span class="ground-howto__num" aria-hidden="true">3</span><span>몸 전체를 가볍게 살펴보고<br />준비가 되면 일상으로 돌아가요.</span></li>
+      </ol>
+    </section>
+
+    <a class="btn-primary ground__start" href="bodyscan-session.html" data-node-id="1:2760">시작하기</a>
+
+    <!-- 바디스캔 안내 팝업 (1:2736) — 레벨업 기준 팝업(.levelup) 스타일 재사용 -->
+    <div class="overlay" id="info-overlay" hidden>
+      <div class="levelup ground-info" id="scan-info" role="dialog" aria-modal="true" aria-labelledby="scan-info-title" tabindex="-1" data-node-id="1:2736">
+        <div class="levelup__head">
+          <h2 class="levelup__title" id="scan-info-title">바디스캔이란?</h2>
+          <button class="levelup__close" type="button" aria-label="닫기" data-close data-node-id="1:2753">
+            <img src="assets/home/close.svg" width="21.9937" height="21.9937" alt="" />
+          </button>
+        </div>
+        <div class="levelup__body ground-info__body">
+          <p>바디스캔은 몸의 각 부위를 차례로 집중해 느끼고,<br />판단없이 이완하며 스트레스와 불안을 줄여주는<br />마음챙김 기법입니다.</p>
+
+          <h3 class="ground-info__heading">왜 도움이 될 수 있나요?</h3>
+          <p>① 바디스캔은 발끝부터 머리까지 신체 각 부위의<br />감각을 천천히 살펴보며, 지금 몸에서 어떤 느낌이<br />나타나는지 알아차리는 연습이에요.</p>
+          <p>② 내 몸의 상태를 살펴보도록 도와요. 심장 박동이나 호흡, 근육의 긴장처럼 몸속에서 느껴지는 감각을<br />하나씩 살펴보며 현재 내 몸의 상태를 이해하는 연습을 할 수 있어요.</p>
+
+          <h3 class="ground-info__heading">기억해 주세요</h3>
+          <p>신체 감각에 집중하는 것이 불편하거나 불안이 커진다면 해당 단계를 건너뛰거나 활동을 중단해도 괜찮아요.</p>
+          <p>이 활동은 일상적인 마음 관리를 돕기 위한 것으로,<br />공황장애에 대한 전문적인 치료를 대신하지 않아요.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="breathing-common.js"></script>
+  <script>
+    // 안내 팝업: 즉시 열림, 배경 클릭으로는 닫히지 않음, X·ESC로 닫기
+    (function () {
+      var btn = document.getElementById('info-btn');
+      var popup = Breath.overlay(document.getElementById('info-overlay'), { trigger: btn });
+      btn.addEventListener('click', function () { popup.open(); });
+    })();
+  </script>
+  <script src="back-origin.js"></script>
+</body>
+</html>

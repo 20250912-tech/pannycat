@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>패니 · 보호자 연락처</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Figma 1:4980 "보호자 연락처" — 프로필 수정의 .onboarding.breath 프레임·.appbar·.btn-primary 재사용 -->
+  <main class="onboarding breath profile-edit guardian" data-node-id="1:4980">
+    <!-- 데스크톱 미리보기용 상태바 (실제 모바일 기기에서는 숨김) -->
+    <div class="status-bar" aria-hidden="true">
+      <span class="status-bar__time">9:41</span>
+      <span class="status-bar__levels">
+        <img src="assets/cellular.svg" width="19.2" height="12.2264" alt="" />
+        <img src="assets/wifi.svg" width="17.1417" height="12.3283" alt="" />
+        <img src="assets/battery.svg" width="27.328" height="13" alt="" />
+      </span>
+    </div>
+
+    <header class="appbar" data-node-id="1:4997">
+      <a class="appbar__back" href="mypage.html" aria-label="뒤로 가기">
+        <img src="assets/profile/back.svg" width="24" height="24" alt="" />
+      </a>
+      <h1 class="appbar__title profile-edit__title">보호자 연락처</h1>
+      <span class="appbar__side" aria-hidden="true"></span>
+    </header>
+
+    <section class="guardian__section" aria-labelledby="guardian-title">
+      <h2 class="profile-field__label guardian__label" id="guardian-title" data-node-id="1:4987">보호자 연락처 등록하기</h2>
+
+      <!-- 보호자 카드 + 보호자 추가하기 (33:8591) -->
+      <div class="guardian-card" data-node-id="33:8591">
+        <ul class="guardian-list" id="guardian-list"></ul>
+        <a class="guardian-add" href="guardian-add.html" data-node-id="33:8590">
+          <img src="assets/guardian/plus.svg" width="12" height="12" alt="" />
+          <span>보호자 추가하기</span>
+        </a>
+      </div>
+
+      <p class="guardian-notice" data-node-id="1:4981">
+        <img src="assets/guardian/info.svg" width="17" height="15" alt="" />
+        <span>보호자에게 긴급 연락이 갈 수 있음을 안내해 주세요.</span>
+      </p>
+    </section>
+
+    <a class="btn-primary profile-edit__save" href="mypage.html" data-node-id="1:5004">저장하기</a>
+  </main>
+
+  <template id="guardian-item">
+    <li><a class="guardian-item">
+      <span class="guardian-item__main">
+        <img class="guardian-item__avatar" src="assets/guardian/avatar-sm.svg" width="44" height="44" alt="" />
+        <span class="guardian-item__text">
+          <strong class="guardian-item__name"></strong>
+          <span class="guardian-item__phone"></span>
+        </span>
+      </span>
+      <img class="guardian-item__chevron" src="assets/mypage/chevron.svg" width="8" height="14" alt="" />
+    </a></li>
+  </template>
+
+  <script src="guardians.js"></script>
+  <script>
+    // 저장된 보호자 목록 그리기 (항목 클릭 → 수정)
+    (function () {
+      const list = document.getElementById('guardian-list');
+      const tpl = document.getElementById('guardian-item');
+      Guardians.load().forEach((g) => {
+        const li = tpl.content.cloneNode(true);
+        const a = li.querySelector('.guardian-item');
+        a.href = 'guardian-add.html?id=' + encodeURIComponent(g.id);
+        a.setAttribute('aria-label', g.name + ', ' + g.phone + ', ' + (Guardians.RELATIONS[g.relation] || '') + ' — 수정하기');
+        li.querySelector('.guardian-item__name').textContent = g.name;
+        li.querySelector('.guardian-item__phone').textContent = g.phone;
+        if (g.photo) {
+          const img = li.querySelector('.guardian-item__avatar');
+          img.src = g.photo;
+          img.classList.add('has-photo');
+        }
+        list.appendChild(li);
+      });
+    })();
+  </script>
+</body>
+</html>

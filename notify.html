@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>패니 · 알림 설정</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Figma 1:5030 "알림 설정하기" · 37:8750 "알람시간 설정"
+       긴급 연락 설정의 .onboarding.breath 프레임·.appbar·.profile-field__label·.switch·.btn-primary 재사용 -->
+  <main class="onboarding breath profile-edit notify" data-node-id="1:5030">
+    <!-- 데스크톱 미리보기용 상태바 (실제 모바일 기기에서는 숨김) -->
+    <div class="status-bar" aria-hidden="true">
+      <span class="status-bar__time">9:41</span>
+      <span class="status-bar__levels">
+        <img src="assets/cellular.svg" width="19.2" height="12.2264" alt="" />
+        <img src="assets/wifi.svg" width="17.1417" height="12.3283" alt="" />
+        <img src="assets/battery.svg" width="27.328" height="13" alt="" />
+      </span>
+    </div>
+
+    <header class="appbar" data-node-id="1:5032">
+      <a class="appbar__back" href="mypage.html" aria-label="뒤로 가기">
+        <img src="assets/profile/back.svg" width="24" height="24" alt="" />
+      </a>
+      <h1 class="appbar__title profile-edit__title">알림 설정</h1>
+      <span class="appbar__side" aria-hidden="true"></span>
+    </header>
+
+    <form class="profile-edit__form notify__form" id="notify-form" novalidate>
+      <p class="profile-field__label guardian__label" data-node-id="1:5074">정해둔 시간에 기록과 활동을 부드럽게 알려드려요.</p>
+
+      <!-- 카드 353, radius 10, padding 12/20, 간격 11 (top 181) -->
+      <section class="notify-card" data-node-id="1:5037">
+        <div class="notify-row" data-node-id="1:5039">
+          <span class="notify-card__label" id="nt-enabled-label" data-node-id="1:5042">활동 알림 받기</span>
+          <button class="switch" id="nt-enabled" type="button" role="switch" aria-checked="true" aria-labelledby="nt-enabled-label" data-node-id="1:5043">
+            <img class="switch__on" src="assets/breathing/switch-on.svg" width="33" height="16.8" alt="" />
+            <img class="switch__off" src="assets/breathing/switch-off.svg" width="33" height="16.8" alt="" />
+          </button>
+        </div>
+
+        <img class="notify-card__divider" src="assets/notify/divider.svg" width="314.4" height="0.4" alt="" data-node-id="1:5044" />
+
+        <div class="notify-time notify-card__opt" data-node-id="1:5045">
+          <span class="notify-card__label notify-time__label" id="nt-time-label" data-node-id="1:5049">알림시간</span>
+
+          <!-- 접힌 상태: 오후 9 : 00 (314×48) — 누르면 스크롤 선택기로 펼침 -->
+          <button class="notify-time__display" id="nt-time-btn" type="button"
+                  aria-expanded="false" aria-controls="nt-picker" aria-describedby="nt-time-label" data-node-id="1:5050">
+            <span class="notify-time__ampm" id="nt-disp-ampm">오후</span>
+            <span class="notify-time__clock" id="nt-disp-clock">9 : 00</span>
+          </button>
+
+          <!-- 펼친 상태: 오전/오후 · 시 · 분 스크롤 휠 (Figma 37:8750) -->
+          <div class="time-picker" id="nt-picker" role="group" aria-label="알림 시간 선택" hidden data-node-id="37:8750">
+            <div class="time-picker__col time-picker__col--ampm" data-col="ampm" role="listbox" tabindex="0" aria-label="오전/오후"></div>
+            <div class="time-picker__col time-picker__col--hour" data-col="hour" role="listbox" tabindex="0" aria-label="시"></div>
+            <span class="time-picker__sep" aria-hidden="true" data-node-id="37:8731">:</span>
+            <div class="time-picker__col time-picker__col--min" data-col="min" role="listbox" tabindex="0" aria-label="분"></div>
+          </div>
+        </div>
+
+        <img class="notify-card__divider" src="assets/notify/divider.svg" width="314.4" height="0.4" alt="" data-node-id="1:5054" />
+
+        <div class="notify-days notify-card__opt" data-node-id="1:5055">
+          <span class="notify-card__label" id="nt-days-label" data-node-id="1:5057">반복 요일</span>
+          <div class="notify-days__list" role="group" aria-labelledby="nt-days-label" data-node-id="1:5058">
+            <button class="day-chip" type="button" aria-pressed="false" data-day="1">월</button>
+            <button class="day-chip" type="button" aria-pressed="false" data-day="2">화</button>
+            <button class="day-chip" type="button" aria-pressed="false" data-day="3">수</button>
+            <button class="day-chip" type="button" aria-pressed="false" data-day="4">목</button>
+            <button class="day-chip" type="button" aria-pressed="false" data-day="5">금</button>
+            <button class="day-chip" type="button" aria-pressed="false" data-day="6">토</button>
+            <button class="day-chip" type="button" aria-pressed="false" data-day="0">일</button>
+          </div>
+        </div>
+      </section>
+
+      <button class="btn-primary profile-edit__save" id="save-btn" type="submit" data-node-id="1:578">저장하기</button>
+    </form>
+  </main>
+
+  <script src="notify.js"></script>
+</body>
+</html>

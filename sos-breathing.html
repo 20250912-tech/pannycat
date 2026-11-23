@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>패니 · 긴급 호흡</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="page-sos" data-level="try">
+  <!-- Figma 1:1794 "긴급화면_호흡" — 호흡 진행(1:2823)과 동일하게 동작, 어두운 테마 -->
+  <main class="onboarding breath breath--session breath--sos" data-complete="sos-check.html" data-node-id="1:1794">
+    <!-- 데스크톱 미리보기용 상태바 (실제 모바일 기기에서는 숨김) -->
+    <div class="status-bar status-bar--light" aria-hidden="true">
+      <span class="status-bar__time">9:41</span>
+      <span class="status-bar__levels">
+        <img src="assets/cellular.svg" width="19.2" height="12.2264" alt="" />
+        <img src="assets/wifi.svg" width="17.1417" height="12.3283" alt="" />
+        <img src="assets/battery.svg" width="27.328" height="13" alt="" />
+      </span>
+    </div>
+
+
+    <!-- 안내 문구 -->
+    <div class="breath-guide" aria-live="polite" data-node-id="1:2838">
+      <h1 class="breath-guide__title" id="guide-title">4초 숨 마시고</h1>
+      <p class="breath-guide__desc" id="guide-desc">코로 천천히 숨을 들이마셔요.</p>
+    </div>
+
+    <!-- 원 + 패니 -->
+    <div class="breath-stage" aria-hidden="true">
+      <img class="breath-stage__glow" src="assets/breathing/ring-outer.svg" width="360" height="360" alt="" />
+      <div class="breath-stage__ring">
+        <img class="breath-stage__track" src="assets/sos/ring-track.svg" width="280.903" height="280.903" alt="" />
+        <svg class="breath-stage__progress" width="280.903" height="280.903" viewBox="0 0 280.903 280.903">
+          <circle id="ring-progress" cx="140.451" cy="140.451" r="112.865" pathLength="100" />
+        </svg>
+      </div>
+      <div class="breath-stage__cat" id="cat">
+        <img src="assets/breathing/panny-small.svg" width="147.919" height="113.639" alt="" />
+      </div>
+    </div>
+
+    <p class="breath-round" data-node-id="1:2860"><span id="round-now">1</span> / <span id="round-total">5</span> 회차</p>
+
+    <!-- 단계 표시 -->
+    <div class="breath-steps" data-node-id="1:2846">
+      <div class="breath-steps__inner" id="steps" style="--dot-x: 18px">
+        <img class="breath-steps__line" src="assets/sos/steps-line.svg" width="263.5" height="20" alt="" />
+        <span class="breath-steps__first" aria-hidden="true"></span>
+        <img class="breath-steps__dot" src="assets/sos/step-dot.svg" width="33.8" height="33.8" alt="" />
+        <ol class="breath-steps__labels">
+          <li class="is-active">마시기</li>
+          <li>멈추기</li>
+          <li>내쉬기</li>
+          <li>멈추기</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="spacer"></div>
+
+    <!-- 하단 컨트롤 -->
+    <div class="breath-controls" data-node-id="1:2825">
+      <button type="button" class="breath-ctrl" id="restart-btn">
+        <span class="breath-ctrl__circle"><img class="breath-ctrl__restart" src="assets/breathing/ic-restart.svg" width="47" height="47" alt="" /></span>
+        다시하기
+      </button>
+      <button type="button" class="breath-ctrl breath-ctrl--main" id="pause-btn" aria-pressed="false">
+        <span class="breath-ctrl__circle">
+          <img class="breath-ctrl__pause" src="assets/breathing/ic-pause.svg" width="38" height="38" alt="" />
+          <span class="breath-ctrl__play" aria-hidden="true"></span>
+        </span>
+        <span id="pause-label">일시정지</span>
+      </button>
+      <button type="button" class="breath-ctrl" id="stop-btn" aria-haspopup="dialog" aria-controls="stop-dialog">
+        <span class="breath-ctrl__circle"><img src="assets/breathing/ic-stop.svg" width="38" height="38" alt="" /></span>
+        그만하기
+      </button>
+    </div>
+
+    <!-- 그만하기 확인 (Figma 40:8755) -->
+    <div class="overlay" id="stop-overlay" hidden>
+      <div class="stop-dialog" id="stop-dialog" role="dialog" aria-modal="true" aria-labelledby="stop-title" aria-describedby="stop-desc" tabindex="-1" data-node-id="40:8755">
+        <img class="stop-dialog__cat" src="assets/breathing/panny-sad.svg" width="114.329" height="87.8337" alt="" />
+        <p class="stop-dialog__desc" id="stop-desc">아직 활동이 완료되지 않았어요.</p>
+        <h2 class="stop-dialog__title" id="stop-title">활동을 중단하고 돌아갈까요?</h2>
+        <div class="stop-dialog__btns">
+          <button type="button" class="stop-dialog__btn stop-dialog__btn--outline" data-close>계속하기</button>
+          <a class="stop-dialog__btn" href="home.html">홈으로 돌아가기</a>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="breathing-common.js"></script>
+  <script src="activity-record.js"></script>
+  <script src="level.js"></script>
+  <script src="breathing-session.js"></script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>패니 · 긴급 활동 종료</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="page-sos">
+  <!-- Figma 1:1965 "긴급화면_종료" -->
+  <main class="sos sos--purple sos-done" data-node-id="1:1965">
+    <!-- 데스크톱 미리보기용 상태바 (실제 모바일 기기에서는 숨김) -->
+    <div class="status-bar status-bar--light" aria-hidden="true">
+      <span class="status-bar__time">9:41</span>
+      <span class="status-bar__levels">
+        <img src="assets/cellular.svg" width="19.2" height="12.2264" alt="" />
+        <img src="assets/wifi.svg" width="17.1417" height="12.3283" alt="" />
+        <img src="assets/battery.svg" width="27.328" height="13" alt="" />
+      </span>
+    </div>
+
+    <h1 class="visually-hidden">긴급 활동을 마쳤어요</h1>
+
+    <!-- 오늘의 호흡 구름 (1:1968) -->
+    <div class="sos-done__cloud" data-node-id="1:1968">
+      <img class="sos-done__cloud-bg" src="assets/sos/cloud.svg" width="179.895" height="141.574" alt="" />
+      <p class="sos-done__cloud-text">
+        <span class="sos-done__cloud-label">오늘의 호흡</span>
+        <span class="sos-done__cloud-count"><span id="today-count">1</span>회</span>
+      </p>
+    </div>
+
+    <!-- 쉬는 패니 (1:1966) -->
+    <div class="sos-done__panny" role="img" aria-label="눈을 감고 편안하게 쉬는 검은 고양이 패니" data-node-id="1:1966">
+      <img src="assets/sos/panny-rest.svg" width="437.644" height="401.814" alt="" />
+    </div>
+
+    <section class="sos-done__card" aria-labelledby="sos-done-title" data-node-id="1:1974">
+      <h2 class="sos-done__title" id="sos-done-title">수고했어요 <span id="nickname">수정</span>님!</h2>
+      <p class="sos-done__msg">오늘의 호흡과 긴급 활동 내역은<br />‘기록’에 저장되었어요.</p>
+      <dl class="sos-done__stats">
+        <div class="sos-done__stat"><dt>사용한 패턴</dt><dd class="sos-done__stat-pattern" id="stat-pattern">4-2-4-2</dd></div>
+        <div class="sos-done__stat"><dt>총 시간</dt><dd id="stat-time">1분</dd></div>
+        <div class="sos-done__stat"><dt>완료한 횟수</dt><dd id="stat-rounds">5회</dd></div>
+      </dl>
+    </section>
+
+    <a class="sos-done__btn" href="home.html" data-node-id="1:1973">홈으로 돌아가기</a>
+  </main>
+
+  <script src="profile.js"></script>
+  <script src="activity-record.js"></script>
+  <script>
+    (function () {
+      var $ = function (id) { return document.getElementById(id); };
+      var rec = ActivityRecord.latest();
+      $('nickname').textContent = Profile.load().nickname || '수정';
+      $('today-count').textContent = ActivityRecord.countToday('breathing');
+      $('stat-pattern').textContent = rec.pattern || '4-2-4-2';
+      $('stat-time').textContent = ActivityRecord.formatDuration(rec.seconds || 0);
+      $('stat-rounds').textContent = (rec.rounds || 5) + '회';
+    })();
+  </script>
+  <script src="level.js"></script>
+</body>
+</html>

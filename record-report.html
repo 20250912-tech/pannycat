@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>패니 · 리포트</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="page-home">
+  <!-- Figma 1:3702 "기록 리포트 1" — 홈 레이아웃·탭바 재사용
+       알림 설정 바텀시트 Figma 63:5561 — 알림 설정(notify.html)의 .notify-card·.time-picker·.day-chip·notify.js 그대로 재사용 -->
+  <div class="home record record-report" data-node-id="1:3702">
+    <main class="home__scroll record__scroll">
+      <!-- 데스크톱 미리보기용 상태바 (실제 모바일 기기에서는 숨김) -->
+      <div class="status-bar" aria-hidden="true">
+        <span class="status-bar__time">9:41</span>
+        <span class="status-bar__levels">
+          <img src="assets/cellular.svg" width="19.2" height="12.2264" alt="" />
+          <img src="assets/wifi.svg" width="17.1417" height="12.3283" alt="" />
+          <img src="assets/battery.svg" width="27.328" height="13" alt="" />
+        </span>
+      </div>
+
+      <nav class="record-seg" aria-label="기록 보기 방식" data-node-id="1:3847">
+        <a class="record-seg__item" href="record.html">캘린더</a>
+        <a class="record-seg__item is-active" href="record-report.html" aria-current="page">리포트</a>
+      </nav>
+
+      <!-- 주차 이동 -->
+      <header class="rp-week" data-node-id="1:3711">
+        <button class="rp-week__nav" type="button" id="wk-prev" aria-label="이전 주">‹</button>
+        <h1 class="rp-week__title" aria-live="polite"><span id="wk-title"></span><small id="wk-range"></small></h1>
+        <button class="rp-week__nav" type="button" id="wk-next" aria-label="다음 주">›</button>
+      </header>
+
+      <div class="rp-body">
+        <!-- 활동 빈도 (요일별) -->
+        <section class="rp-card" aria-labelledby="freq-title" data-node-id="1:3718">
+          <h2 class="rp-card__title" id="freq-title">활동 빈도 (요일별)</h2>
+          <div class="rp-bars" id="freq-bars" role="img"></div>
+          <ul class="rp-legend" id="freq-legend"></ul>
+        </section>
+
+        <!-- 요약 수치 -->
+        <dl class="rp-stats" data-node-id="1:3780">
+          <div class="rp-stat"><dt>활동 일수</dt><dd id="st-days"></dd></div>
+          <div class="rp-stat"><dt>총 활동</dt><dd id="st-total"></dd></div>
+          <div class="rp-stat"><dt>평균 불안</dt><dd id="st-avg"></dd></div>
+        </dl>
+
+        <!-- 불안 흐름 -->
+        <section class="rp-card" aria-labelledby="flow-title" data-node-id="1:3790">
+          <h2 class="rp-card__title" id="flow-title">불안 흐름 (하루 마지막 기록)</h2>
+          <div class="rp-line" id="flow-chart"></div>
+          <div class="rp-line__days" aria-hidden="true">
+            <span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span><span>일</span>
+          </div>
+          <p class="rp-card__text" id="flow-text"></p>
+        </section>
+
+        <!-- 마음 상태 -->
+        <section class="rp-card" aria-labelledby="emo-title" data-node-id="1:3814">
+          <h2 class="rp-card__title" id="emo-title">마음 상태</h2>
+          <div class="rp-emo" id="emo-bar" role="img"></div>
+          <ul class="rp-legend" id="emo-legend"></ul>
+        </section>
+
+        <!-- 이번 주 인사이트: 일주일치(7일) 기록이 있을 때만 -->
+        <section class="rp-insight" id="insight" aria-labelledby="insight-title" hidden data-node-id="1:3838">
+          <h2 class="rp-insight__title" id="insight-title">이번 주 인사이트</h2>
+          <p class="rp-insight__text" id="insight-text"></p>
+        </section>
+
+        <!-- 제안 -->
+        <section class="rp-suggest" aria-labelledby="suggest-title" data-node-id="1:3841">
+          <h2 class="rp-suggest__title" id="suggest-title">제안</h2>
+          <p class="rp-suggest__text" id="suggest-text"></p>
+          <button class="rp-suggest__btn" type="button" id="notify-open" aria-haspopup="dialog" aria-controls="notify-sheet">알림 설정하기</button>
+        </section>
+      </div>
+    </main>
+
+    <!-- 하단 네비게이션 -->
+    <nav class="tabbar" aria-label="주요 메뉴" data-node-id="1:3852">
+      <a class="tabbar__item" href="home.html">
+        <img src="assets/activity/nav-home-off.svg" width="22.249" height="23.7322" alt="" />
+        <span>홈</span>
+      </a>
+      <a class="tabbar__item" href="activity.html">
+        <img src="assets/home/nav-activity-off.svg" width="25.2055" height="25.2055" alt="" />
+        <span>활동하기</span>
+      </a>
+      <a class="tabbar__item" href="counsel.html">
+        <img src="assets/home/nav-counsel-off.svg" width="25.2489" height="22.937" alt="" />
+        <span>상담</span>
+      </a>
+      <a class="tabbar__item tabbar__item--record is-active" href="record.html" aria-current="page">
+        <img src="assets/record/nav-record-on.svg" width="25.2055" height="25.2055" alt="" />
+        <span>기록</span>
+      </a>
+      <a class="tabbar__item" href="mypage.html">
+        <img src="assets/home/nav-my.svg" width="26.0121" height="23.6303" alt="" />
+        <span>마이페이지</span>
+      </a>
+    </nav>
+
+    <!-- 알림 설정 바텀시트 (Figma 63:5561 · 393×448, 아래에서 올라옴) -->
+    <div class="overlay overlay--sheet" id="notify-overlay" hidden>
+      <div class="sheet notify-sheet" id="notify-sheet" role="dialog" aria-modal="true" aria-labelledby="ns-title" aria-describedby="ns-desc" tabindex="-1" data-node-id="63:5515">
+        <span class="sheet__handle" aria-hidden="true"></span>
+        <div class="notify-sheet__head">
+          <h2 class="notify-sheet__title" id="ns-title">알림 설정</h2>
+          <p class="notify-sheet__desc" id="ns-desc">정해둔 시간에 기록과 활동을 부드럽게 알려드려요.</p>
+        </div>
+
+        <form class="notify-sheet__form" id="notify-form" data-mode="sheet" novalidate>
+          <section class="notify-card" data-node-id="63:5522">
+            <div class="notify-row">
+              <span class="notify-card__label" id="nt-enabled-label">활동 알림 받기</span>
+              <button class="switch" id="nt-enabled" type="button" role="switch" aria-checked="true" aria-labelledby="nt-enabled-label">
+                <img class="switch__on" src="assets/breathing/switch-on.svg" width="33" height="16.8" alt="" />
+                <img class="switch__off" src="assets/breathing/switch-off.svg" width="33" height="16.8" alt="" />
+              </button>
+            </div>
+
+            <img class="notify-card__divider" src="assets/notify/divider.svg" width="314.4" height="0.4" alt="" />
+
+            <div class="notify-time notify-card__opt">
+              <span class="notify-card__label notify-time__label" id="nt-time-label">알림시간</span>
+              <button class="notify-time__display" id="nt-time-btn" type="button"
+                      aria-expanded="false" aria-controls="nt-picker" aria-describedby="nt-time-label">
+                <span class="notify-time__ampm" id="nt-disp-ampm">오후</span>
+                <span class="notify-time__clock" id="nt-disp-clock">9 : 00</span>
+              </button>
+              <div class="time-picker" id="nt-picker" role="group" aria-label="알림 시간 선택" hidden>
+                <div class="time-picker__col time-picker__col--ampm" data-col="ampm" role="listbox" tabindex="0" aria-label="오전/오후"></div>
+                <div class="time-picker__col time-picker__col--hour" data-col="hour" role="listbox" tabindex="0" aria-label="시"></div>
+                <span class="time-picker__sep" aria-hidden="true">:</span>
+                <div class="time-picker__col time-picker__col--min" data-col="min" role="listbox" tabindex="0" aria-label="분"></div>
+              </div>
+            </div>
+
+            <img class="notify-card__divider" src="assets/notify/divider.svg" width="314.4" height="0.4" alt="" />
+
+            <div class="notify-days notify-card__opt">
+              <span class="notify-card__label" id="nt-days-label">반복 요일</span>
+              <div class="notify-days__list" role="group" aria-labelledby="nt-days-label">
+                <button class="day-chip" type="button" aria-pressed="false" data-day="1">월</button>
+                <button class="day-chip" type="button" aria-pressed="false" data-day="2">화</button>
+                <button class="day-chip" type="button" aria-pressed="false" data-day="3">수</button>
+                <button class="day-chip" type="button" aria-pressed="false" data-day="4">목</button>
+                <button class="day-chip" type="button" aria-pressed="false" data-day="5">금</button>
+                <button class="day-chip" type="button" aria-pressed="false" data-day="6">토</button>
+                <button class="day-chip" type="button" aria-pressed="false" data-day="0">일</button>
+              </div>
+            </div>
+          </section>
+
+          <button class="btn-primary sheet__btn notify-sheet__save" type="submit" data-node-id="63:5558">저장하기</button>
+        </form>
+      </div>
+    </div>
+
+    <p class="saved__toast" id="toast" role="status" aria-live="polite" hidden></p>
+  </div>
+
+  <script src="diary-store.js"></script>
+  <script src="record-store.js"></script>
+  <script src="breathing-common.js"></script>
+  <script src="notify.js"></script>
+  <script src="record-report.js"></script>
+</body>
+</html>

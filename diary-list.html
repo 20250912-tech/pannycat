@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>패니 · 마음일기 파일</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Figma 1:1714 "마음일기 파일" — .onboarding.breath 프레임 · .appbar · .postit · .btn-primary 재사용 -->
+  <main class="onboarding breath diary diary-list" id="page" data-node-id="1:1714">
+    <!-- 데스크톱 미리보기용 상태바 (실제 모바일 기기에서는 숨김) -->
+    <div class="status-bar" aria-hidden="true">
+      <span class="status-bar__time">9:41</span>
+      <span class="status-bar__levels">
+        <img src="assets/cellular.svg" width="19.2" height="12.2264" alt="" />
+        <img src="assets/wifi.svg" width="17.1417" height="12.3283" alt="" />
+        <img src="assets/battery.svg" width="27.328" height="13" alt="" />
+      </span>
+    </div>
+
+    <header class="appbar">
+      <a class="appbar__back" href="diary.html" aria-label="마음일기로 돌아가기">
+        <img src="assets/diary/back.svg" width="24" height="24" alt="" />
+      </a>
+      <h1 class="appbar__title diary__title" id="title">마음일기</h1>
+      <span class="appbar__side" aria-hidden="true"></span>
+    </header>
+
+    <p class="diary-list__summary">
+      <svg class="paw" viewBox="0 0 23 19" width="23" height="19" aria-hidden="true"><use href="#paw" /></svg>
+      <strong id="summary-label"></strong>
+      <span id="summary-count"></span>
+    </p>
+
+    <div class="diary-list__scroll">
+      <ul class="diary-notes" id="notes"></ul>
+      <p class="diary-list__empty" id="empty" hidden></p>
+    </div>
+
+    <a class="btn-primary diary__btn" id="write-btn" href="diary-write.html">기록하기</a>
+  </main>
+
+  <template id="note-tpl">
+    <li>
+      <a class="postit-wrap diary-note">
+        <span class="postit">
+          <span class="postit__head">
+            <time class="postit__date"></time>
+            <span class="postit__time"></span>
+          </span>
+          <span class="postit__text"></span>
+          <svg class="postit__fold" viewBox="0 0 66 65" aria-hidden="true"><path d="M0 64.8373V26.0366C0.000249053 11.6571 11.6571 0.000259417 26.0366 0H66L0 64.8373Z" /></svg>
+        </span>
+      </a>
+    </li>
+  </template>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="paw" viewBox="0 0 23 19">
+      <path d="M12.0044 8.92285C13.8784 8.84491 17.7146 10.5332 18.0854 15.7578C18.1468 16.6228 17.5163 17.8018 16.4907 18.1865C14.2376 18.8167 13.6264 17.7744 12.0044 17.7744C10.3825 17.7745 9.77194 18.8166 7.51904 18.1865C6.4933 17.8019 5.86293 16.6229 5.92432 15.7578C6.29521 10.5334 10.1303 8.84504 12.0044 8.92285Z" />
+      <ellipse cx="2.41491" cy="2.83609" rx="2.41491" ry="2.83609" transform="matrix(0.958807 -0.284059 0.315102 0.949058 0.680664 7.66406)" />
+      <ellipse cx="8.61997" cy="4.97825" rx="2.69907" ry="3.36497" />
+      <ellipse cx="15.3805" cy="4.97825" rx="2.69907" ry="3.36497" />
+      <ellipse cx="2.41491" cy="2.83609" rx="2.41491" ry="2.83609" transform="matrix(-0.958807 -0.284059 -0.315102 0.949058 23.3198 7.66406)" />
+    </symbol>
+  </svg>
+
+  <script src="diary-store.js"></script>
+  <script>
+    (function () {
+      var $ = function (id) { return document.getElementById(id); };
+      var key = new URLSearchParams(location.search).get('emo');
+      var emo = DiaryStore.emotion(key) || DiaryStore.EMOTIONS[0];
+      var items = DiaryStore.byEmotion(emo.key);
+
+      document.title = '패니 · ' + emo.label + ' 일기';
+      $('page').style.setProperty('--emo', emo.color);
+      $('title').textContent = emo.label + ' 일기';
+      $('summary-label').textContent = emo.label;
+      $('summary-count').textContent = items.length + '개의 기록';
+      $('write-btn').href = 'diary-write.html?emo=' + emo.key;
+
+      if (!items.length) {
+        $('empty').hidden = false;
+        $('empty').textContent = '아직 기록된 ' + emo.label + ' 일기가 없어요.\n기록하기를 눌러 첫 일기를 남겨 보세요!';
+        return;
+      }
+
+      var tpl = $('note-tpl');
+      items.forEach(function (d) {
+        var li = tpl.content.firstElementChild.cloneNode(true);
+        var link = li.querySelector('a');
+        var time = li.querySelector('.postit__date');
+        time.textContent = DiaryStore.formatDate(d.at);
+        time.dateTime = new Date(d.at).toISOString();
+        li.querySelector('.postit__time').textContent = DiaryStore.formatTime(d.at);
+        li.querySelector('.postit__text').textContent = d.text;
+        // 탭하면 작성 페이지에서 이어서 수정
+        link.href = 'diary-write.html?id=' + encodeURIComponent(d.id);
+        link.setAttribute('aria-label', DiaryStore.formatDate(d.at) + ' 일기 수정하기');
+        $('notes').appendChild(li);
+      });
+    })();
+  </script>
+  <script src="level.js"></script>
+</body>
+</html>

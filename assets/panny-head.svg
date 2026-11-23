@@ -1,0 +1,48 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="246.07" height="189.043" viewBox="0 0 246.07 189.043" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="&#237;&#140;&#168;&#235;&#139;&#136;">
+<g id="Group 2087331705">
+<path id="Vector 20979" d="M53.9043 0.684056C43.2947 5.26546 43.0536 36.7526 44.2592 51.9235L98.8142 26.0024C88.2649 15.654 64.5139 -3.89735 53.9043 0.684056Z" fill="url(#paint0_linear_0_83)"/>
+<path id="Vector 20980" d="M192.962 0.684056C203.571 5.26546 203.812 36.7526 202.607 51.9235L148.052 26.0024C158.601 15.654 182.352 -3.89735 192.962 0.684056Z" fill="url(#paint1_linear_0_83)"/>
+<g id="Ellipse 6586" filter="url(#filter0_di_0_83)">
+<path d="M230.035 107.142C230.035 156.327 173.087 173.008 123.035 173.008C72.9827 173.008 16.0349 156.327 16.0349 107.142C16.0349 57.957 63.9405 18.0845 123.035 18.0845C182.129 18.0845 230.035 57.957 230.035 107.142Z" fill="url(#paint2_radial_0_83)"/>
+</g>
+</g>
+<path id="Vector 20985" d="M83.8518 81.3692C84.6556 83.0772 87.529 86.5534 92.5927 86.7946C97.6563 87.0357 100.932 83.2781 101.936 81.3692" stroke-width="2.07871" stroke-linecap="round" stroke="#8B898B"/>
+<path id="Vector 20986" d="M144.435 81.3692C145.239 83.0772 148.112 86.5534 153.176 86.7946C158.239 87.0357 161.515 83.2781 162.519 81.3692" stroke-width="2.07871" stroke-linecap="round" stroke="#8B898B"/>
+<path id="Union" d="M127.202 105.094L124.514 109.428C123.972 110.302 122.701 110.302 122.159 109.428L119.469 105.094L116.916 100.978C116.343 100.055 117.007 98.862 118.093 98.862H128.579C129.665 98.862 130.329 100.055 129.756 100.978L127.202 105.094Z" fill="#8B898B"/>
+<path id="Vector 20987" d="M73.3025 100.068L49.793 92.231" stroke-width="2.07871" stroke-linecap="round" stroke="#8B898B"/>
+<path id="Vector 20988" d="M72.6997 108.507L48.587 111.22" stroke-width="2.07871" stroke-linecap="round" stroke="#8B898B"/>
+<path id="Vector 20989" d="M173.37 100.068L196.88 92.231" stroke-width="2.07871" stroke-linecap="round" stroke="#8B898B"/>
+<path id="Vector 20990" d="M173.973 108.507L198.086 111.22" stroke-width="2.07871" stroke-linecap="round" stroke="#8B898B"/>
+</g>
+<defs>
+<filter id="filter0_di_0_83" x="0" y="2.04958" width="246.07" height="186.994" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset/>
+<feGaussianBlur stdDeviation="8.01746"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.08 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_0_83"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_0_83" result="shape"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="2.41127"/>
+<feGaussianBlur stdDeviation="17.9338"/>
+<feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
+<feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.17 0"/>
+<feBlend mode="normal" in2="shape" result="effect2_innerShadow_0_83"/>
+</filter>
+<linearGradient id="paint0_linear_0_83" x1="52.5053" y1="2.87263e-07" x2="78.1251" y2="54.2535" gradientUnits="userSpaceOnUse">
+<stop/>
+<stop offset="1" stop-color="#393B3A"/>
+</linearGradient>
+<linearGradient id="paint1_linear_0_83" x1="194.361" y1="2.87263e-07" x2="168.741" y2="54.2535" gradientUnits="userSpaceOnUse">
+<stop/>
+<stop offset="1" stop-color="#393B3A"/>
+</linearGradient>
+<radialGradient id="paint2_radial_0_83" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(122.733 107.603) rotate(89.8664) scale(129.305 566.599)">
+<stop/>
+<stop offset="1" stop-color="#393C40"/>
+</radialGradient>
+</defs>
+</svg>

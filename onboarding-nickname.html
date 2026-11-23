@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>패니 · 아이디 입력</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Figma 66:5653 "온보딩0" — .onboarding--step 프레임 · .profile-field__* (입력/OX 24:7752) 재사용 -->
+  <main class="onboarding onboarding--step onboarding--nickname" data-node-id="66:5653">
+    <!-- 데스크톱 미리보기용 상태바 (실제 모바일 기기에서는 숨김) -->
+    <div class="status-bar" aria-hidden="true">
+      <span class="status-bar__time">9:41</span>
+      <span class="status-bar__levels">
+        <img src="assets/cellular.svg" width="19.2" height="12.2264" alt="" />
+        <img src="assets/wifi.svg" width="17.1417" height="12.3283" alt="" />
+        <img src="assets/battery.svg" width="27.328" height="13" alt="" />
+      </span>
+    </div>
+
+    <!-- 진행 바 (66:5665) — 온보딩 1단계 전이라 비어 있음 -->
+    <div class="progress" role="progressbar" aria-label="온보딩 진행도" aria-valuemin="0" aria-valuemax="6" aria-valuenow="0">
+      <span class="progress__fill" style="--progress: 0"></span>
+    </div>
+
+    <h1 class="step__title" data-node-id="66:5658">아이디를 입력해 주세요.</h1>
+    <p class="step__subtitle" data-node-id="66:5659">후에 수정이 가능합니다.</p>
+
+    <form class="nickname-form" id="nickname-form" novalidate>
+      <label class="profile-field__label" for="nickname" data-node-id="66:5716">아이디</label>
+      <input class="profile-field__input" id="nickname" name="nickname" type="text"
+             maxlength="12" autocomplete="nickname" enterkeyhint="next"
+             placeholder="2자 이상 입력해 주세요." aria-describedby="nickname-hint"
+             data-node-id="66:5715" />
+      <p class="visually-hidden" id="nickname-hint">아이디는 2자 이상 적어주세요.</p>
+    </form>
+
+    <div class="spacer"></div>
+
+    <a class="skip-link" href="onboarding-help.html" data-node-id="66:5667">건너뛰기</a>
+
+    <div class="btn-row" data-node-id="66:5655">
+      <a class="btn-secondary" href="index.html">이전으로</a>
+      <button type="submit" form="nickname-form" class="btn-primary" id="next-btn">다음으로</button>
+    </div>
+  </main>
+
+  <script src="profile.js"></script>
+  <script>
+    (function () {
+      var MIN_LEN = 2;
+      var form = document.getElementById('nickname-form');
+      var input = document.getElementById('nickname');
+      var next = document.getElementById('next-btn');
+
+      // 이전에 저장한 닉네임이 있으면 채워 두기 (기본값 '수정'은 채우지 않음)
+      var hasSaved = false;
+      try { hasSaved = !!JSON.parse(localStorage.getItem('panny.profile') || '{}').nickname; } catch (e) {}
+      if (hasSaved) input.value = Profile.load().nickname;
+
+      function validate() {
+        var ok = input.value.trim().length >= MIN_LEN;
+        next.disabled = !ok;
+        input.setAttribute('aria-invalid', String(!ok && input.value.length > 0));
+        return ok;
+      }
+      input.addEventListener('input', validate);
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (!validate()) { input.focus(); return; }
+        var profile = Profile.load();
+        profile.nickname = input.value.trim();
+        Profile.save(profile);
+        location.href = 'onboarding-help.html';
+      });
+
+      validate();
+    })();
+  </script>
+</body>
+</html>

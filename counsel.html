@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>패니 · AI 상담하기</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="page-home">
+  <!-- Figma 1:2268 "AI 상담하기" — 홈 레이아웃(.home / .home__scroll / .status-bar) 재사용 -->
+  <div class="home chat" data-node-id="1:2268">
+    <main class="home__scroll chat__scroll">
+      <!-- 데스크톱 미리보기용 상태바 (실제 모바일 기기에서는 숨김) -->
+      <div class="status-bar" aria-hidden="true">
+        <span class="status-bar__time">9:41</span>
+        <span class="status-bar__levels">
+          <img src="assets/cellular.svg" width="19.2" height="12.2264" alt="" />
+          <img src="assets/wifi.svg" width="17.1417" height="12.3283" alt="" />
+          <img src="assets/battery.svg" width="27.328" height="13" alt="" />
+        </span>
+      </div>
+
+      <header class="chat__head">
+        <h1 class="visually-hidden">AI 상담하기</h1>
+        <a class="chat__close" href="home.html" aria-label="상담 닫기" data-node-id="1:2298">
+          <img src="assets/counsel/close.svg" width="12" height="12" alt="" />
+        </a>
+      </header>
+
+      <!-- 대화 로그 -->
+      <ol class="chat__log" id="chat-log" aria-live="polite" aria-label="패니와의 대화">
+        <li class="chat-group chat-group--bot">
+          <img class="chat-avatar" src="assets/counsel/panny-avatar.png" width="44" height="36" alt="패니" data-node-id="1:2282" />
+          <p class="chat-bubble chat-bubble--bot" data-node-id="1:2286">수정 님 안녕하세요!</p>
+          <p class="chat-bubble chat-bubble--bot" data-node-id="1:2288">오늘은 어떤 마음으로 찾아 오셨나요?</p>
+        </li>
+      </ol>
+    </main>
+
+    <!-- 하단: 빠른 답변 칩 + 입력창 -->
+    <footer class="chat__foot">
+      <ul class="chat-chips" aria-label="빠른 답변">
+        <li><button class="chat-chip" type="button" data-node-id="1:2284">💢 스트레스를 받아요</button></li>
+        <li><button class="chat-chip" type="button" data-node-id="1:2294">😥 불안하고 걱정돼요</button></li>
+        <li><button class="chat-chip" type="button" data-node-id="1:2292">💭 고민을 털어놓고 싶어요</button></li>
+        <li><button class="chat-chip" type="button" data-node-id="1:2296">❤️‍🩹 위로가 필요해요</button></li>
+      </ul>
+
+      <form class="chat-input" id="chat-form" autocomplete="off" data-node-id="1:2270">
+        <label class="visually-hidden" for="chat-text">메세지 입력</label>
+        <input class="chat-input__field" id="chat-text" type="text" placeholder="메세지를 입력하세요." enterkeyhint="send" />
+        <button class="chat-input__send" type="submit" aria-label="보내기">
+          <img src="assets/counsel/send.svg" width="34" height="34" alt="" />
+        </button>
+      </form>
+    </footer>
+  </div>
+
+  <script src="counsel.js"></script>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>패니 · 호흡 진행</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-level="try">
+  <main class="onboarding breath breath--session" data-node-id="1:2823">
+    <!-- 데스크톱 미리보기용 상태바 (실제 모바일 기기에서는 숨김) -->
+    <div class="status-bar" aria-hidden="true">
+      <span class="status-bar__time">9:41</span>
+      <span class="status-bar__levels">
+        <img src="assets/cellular.svg" width="19.2" height="12.2264" alt="" />
+        <img src="assets/wifi.svg" width="17.1417" height="12.3283" alt="" />
+        <img src="assets/battery.svg" width="27.328" height="13" alt="" />
+      </span>
+    </div>
+
+    <!-- 우측 상단: 소리 / 설정 -->
+    <div class="breath-tools" data-node-id="1:2862">
+      <button type="button" class="breath-tool breath-tool--mute" id="mute-btn" aria-pressed="false" aria-label="음성 안내 음소거">
+        <img src="assets/breathing/ic-mute.svg" width="18" height="18" alt="" />
+      </button>
+      <button type="button" class="breath-tool breath-tool--settings" id="settings-btn" aria-haspopup="dialog" aria-controls="settings-sheet" aria-label="호흡 설정">
+        <img src="assets/breathing/ic-settings.svg" width="21" height="21" alt="" />
+      </button>
+    </div>
+
+    <!-- 안내 문구 -->
+    <div class="breath-guide" aria-live="polite" data-node-id="1:2838">
+      <h1 class="breath-guide__title" id="guide-title">4초 숨 마시고</h1>
+      <p class="breath-guide__desc" id="guide-desc">코로 천천히 숨을 들이마셔요.</p>
+    </div>
+
+    <!-- 원 + 패니 -->
+    <div class="breath-stage" aria-hidden="true">
+      <img class="breath-stage__glow" src="assets/breathing/ring-outer.svg" width="360" height="360" alt="" />
+      <div class="breath-stage__ring">
+        <img class="breath-stage__track" src="assets/breathing/ring-track.svg" width="280.903" height="280.903" alt="" />
+        <svg class="breath-stage__progress" width="280.903" height="280.903" viewBox="0 0 280.903 280.903">
+          <circle id="ring-progress" cx="140.451" cy="140.451" r="112.865" pathLength="100" />
+        </svg>
+      </div>
+      <div class="breath-stage__cat" id="cat">
+        <img src="assets/breathing/panny-small.svg" width="147.919" height="113.639" alt="" />
+      </div>
+    </div>
+
+    <p class="breath-round" data-node-id="1:2860"><span id="round-now">1</span> / <span id="round-total">5</span> 회차</p>
+
+    <!-- 단계 표시 -->
+    <div class="breath-steps" data-node-id="1:2846">
+      <div class="breath-steps__inner" id="steps" style="--dot-x: 18px">
+        <img class="breath-steps__line" src="assets/breathing/steps-line.svg" width="263.5" height="20" alt="" />
+        <span class="breath-steps__first" aria-hidden="true"></span>
+        <img class="breath-steps__dot" src="assets/breathing/step-dot.svg" width="33.8" height="33.8" alt="" />
+        <ol class="breath-steps__labels">
+          <li class="is-active">마시기</li>
+          <li>멈추기</li>
+          <li>내쉬기</li>
+          <li>멈추기</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="spacer"></div>
+
+    <!-- 하단 컨트롤 -->
+    <div class="breath-controls" data-node-id="1:2825">
+      <button type="button" class="breath-ctrl" id="restart-btn">
+        <span class="breath-ctrl__circle"><img class="breath-ctrl__restart" src="assets/breathing/ic-restart.svg" width="47" height="47" alt="" /></span>
+        다시하기
+      </button>
+      <button type="button" class="breath-ctrl breath-ctrl--main" id="pause-btn" aria-pressed="false">
+        <span class="breath-ctrl__circle">
+          <img class="breath-ctrl__pause" src="assets/breathing/ic-pause.svg" width="38" height="38" alt="" />
+          <span class="breath-ctrl__play" aria-hidden="true"></span>
+        </span>
+        <span id="pause-label">일시정지</span>
+      </button>
+      <button type="button" class="breath-ctrl" id="stop-btn" aria-haspopup="dialog" aria-controls="stop-dialog">
+        <span class="breath-ctrl__circle"><img src="assets/breathing/ic-stop.svg" width="38" height="38" alt="" /></span>
+        그만하기
+      </button>
+    </div>
+
+    <!-- 그만하기 확인 (Figma 15:5871) -->
+    <div class="overlay" id="stop-overlay" hidden>
+      <div class="stop-dialog" id="stop-dialog" role="dialog" aria-modal="true" aria-labelledby="stop-title" aria-describedby="stop-desc" tabindex="-1" data-node-id="15:5871">
+        <img class="stop-dialog__cat" src="assets/breathing/panny-sad.svg" width="114.329" height="87.8337" alt="" />
+        <p class="stop-dialog__desc" id="stop-desc">아직 활동이 완료되지 않았어요.</p>
+        <h2 class="stop-dialog__title" id="stop-title">활동을 중단하고 홈으로 돌아갈까요?</h2>
+        <div class="stop-dialog__btns">
+          <button type="button" class="stop-dialog__btn stop-dialog__btn--outline" data-close>계속하기</button>
+          <a class="stop-dialog__btn" href="home.html">홈으로 돌아가기</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 호흡 설정 바텀시트 (Figma 15:5817) -->
+    <div class="overlay overlay--sheet" id="settings-overlay" hidden>
+      <div class="sheet sheet--settings" id="settings-sheet" role="dialog" aria-modal="true" aria-labelledby="settings-title" tabindex="-1" data-node-id="15:5817">
+        <span class="sheet__handle" aria-hidden="true"></span>
+        <div class="sheet__head">
+          <h2 class="sheet__title" id="settings-title">호흡 설정</h2>
+          <button class="sheet__close" type="button" aria-label="닫기" data-close>
+            <img src="assets/breathing/close.svg" width="24" height="24" alt="" />
+          </button>
+        </div>
+        <div class="sheet__groups">
+          <div class="set-group">
+            <a class="set-row" href="breathing.html">
+              <span class="set-row__icon set-row__icon--sq"><img src="assets/breathing/lungs.svg" width="17.9937" height="16" alt="" /></span>
+              <span class="set-row__text">
+                <span class="set-row__name">호흡 패턴</span>
+                <span class="set-row__desc" id="settings-pattern">4 - 2 - 4 - 2 • 5회</span>
+              </span>
+              <span class="set-row__value"><img src="assets/breathing/chevron-lg.svg" width="17" height="17" alt="" /></span>
+            </a>
+          </div>
+          <div class="set-group">
+            <button type="button" class="set-row">
+              <span class="set-row__icon"><img src="assets/breathing/music.svg" width="19" height="19" alt="" /></span>
+              <span class="set-row__text"><span class="set-row__name">배경음</span></span>
+              <span class="set-row__value">고요한 밤<img src="assets/breathing/chevron.svg" width="17" height="17" alt="" /></span>
+            </button>
+            <img class="set-group__divider" src="assets/breathing/divider.svg" width="314.4" height="0.4" alt="" />
+            <div class="set-row">
+              <span class="set-row__icon"><img src="assets/breathing/vibrate.svg" width="19" height="19" alt="" /></span>
+              <span class="set-row__text">
+                <span class="set-row__name" id="lbl-vibrate">호흡 진동</span>
+                <span class="set-row__desc">호흡 리듬에 맞춰 진동해요.</span>
+              </span>
+              <button type="button" class="switch" role="switch" aria-checked="true" aria-labelledby="lbl-vibrate" data-setting="vibrate">
+                <img class="switch__on" src="assets/breathing/switch-on.svg" width="33" height="16.8" alt="" />
+                <img class="switch__off" src="assets/breathing/switch-off.svg" width="33" height="16.8" alt="" />
+              </button>
+            </div>
+          </div>
+        </div>
+        <button type="button" class="btn-primary sheet__btn" data-apply>적용하고 계속하기</button>
+      </div>
+    </div>
+  </main>
+
+  <script src="breathing-common.js"></script>
+  <script src="activity-record.js"></script>
+  <script src="level.js"></script>
+  <script src="breathing-session.js"></script>
+</body>
+</html>

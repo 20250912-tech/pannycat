@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>패니 · 마음일기</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-back-origin="apply">
+  <!-- Figma 24:7374 "일기 모아보기" — .onboarding.breath 프레임 · .appbar · .btn-primary 재사용 -->
+  <main class="onboarding breath diary" data-node-id="24:7374">
+    <!-- 데스크톱 미리보기용 상태바 (실제 모바일 기기에서는 숨김) -->
+    <div class="status-bar" aria-hidden="true">
+      <span class="status-bar__time">9:41</span>
+      <span class="status-bar__levels">
+        <img src="assets/cellular.svg" width="19.2" height="12.2264" alt="" />
+        <img src="assets/wifi.svg" width="17.1417" height="12.3283" alt="" />
+        <img src="assets/battery.svg" width="27.328" height="13" alt="" />
+      </span>
+    </div>
+
+    <header class="appbar" data-node-id="24:7382">
+      <a class="appbar__back" href="activity.html" aria-label="뒤로 가기">
+        <img src="assets/diary/back.svg" width="24" height="24" alt="" />
+      </a>
+      <h1 class="appbar__title diary__title">마음일기</h1>
+      <span class="appbar__side" aria-hidden="true"></span>
+    </header>
+
+    <!-- 감정별 일기 파일 (24:7383 · 40:8786 · 40:8788 · 40:8787 · 40:8789) -->
+    <ul class="diary-folders" id="folders"></ul>
+
+    <a class="btn-primary diary__btn" href="diary-write.html" data-node-id="24:7381">기록하기</a>
+  </main>
+
+  <template id="folder-tpl">
+    <li>
+      <a class="diary-folder">
+        <span class="diary-folder__base"></span>
+        <span class="postit-wrap diary-folder__note"><span class="postit"><svg class="postit__fold" viewBox="0 0 66 65" aria-hidden="true"><path d="M0 64.8373V26.0366C0.000249053 11.6571 11.6571 0.000259417 26.0366 0H66L0 64.8373Z" /></svg></span></span>
+        <span class="diary-folder__front" aria-hidden="true"></span>
+        <svg class="diary-folder__edge" viewBox="0 0 157 82" aria-hidden="true"><path d="M142 0.5C150.008 0.5 156.5 6.99187 156.5 15V67C156.5 75.0081 150.008 81.5 142 81.5H15C6.99187 81.5 0.5 75.0081 0.5 67V16.5H49.9688C55.7101 16.5 60.9814 13.3266 63.668 8.25293L67.7715 0.5H142Z" /></svg>
+        <svg class="diary-folder__paw paw" viewBox="0 0 23 19" aria-hidden="true"><use href="#paw" /></svg>
+        <strong class="diary-folder__label"></strong>
+        <span class="diary-folder__count"></span>
+      </a>
+    </li>
+  </template>
+
+  <!-- 발바닥 아이콘 (색상은 currentColor) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="paw" viewBox="0 0 23 19">
+      <path d="M12.0044 8.92285C13.8784 8.84491 17.7146 10.5332 18.0854 15.7578C18.1468 16.6228 17.5163 17.8018 16.4907 18.1865C14.2376 18.8167 13.6264 17.7744 12.0044 17.7744C10.3825 17.7745 9.77194 18.8166 7.51904 18.1865C6.4933 17.8019 5.86293 16.6229 5.92432 15.7578C6.29521 10.5334 10.1303 8.84504 12.0044 8.92285Z" />
+      <ellipse cx="2.41491" cy="2.83609" rx="2.41491" ry="2.83609" transform="matrix(0.958807 -0.284059 0.315102 0.949058 0.680664 7.66406)" />
+      <ellipse cx="8.61997" cy="4.97825" rx="2.69907" ry="3.36497" />
+      <ellipse cx="15.3805" cy="4.97825" rx="2.69907" ry="3.36497" />
+      <ellipse cx="2.41491" cy="2.83609" rx="2.41491" ry="2.83609" transform="matrix(-0.958807 -0.284059 -0.315102 0.949058 23.3198 7.66406)" />
+    </symbol>
+  </svg>
+
+  <script src="diary-store.js"></script>
+  <script>
+    (function () {
+      var list = document.getElementById('folders');
+      var tpl = document.getElementById('folder-tpl');
+      DiaryStore.EMOTIONS.forEach(function (e) {
+        var li = tpl.content.firstElementChild.cloneNode(true);
+        var a = li.querySelector('a');
+        var n = DiaryStore.count(e.key);
+        a.href = 'diary-list.html?emo=' + e.key;
+        a.style.setProperty('--emo', e.color);
+        a.setAttribute('aria-label', e.label + ' 일기 ' + n + '개');
+        li.querySelector('.diary-folder__label').textContent = e.label;
+        li.querySelector('.diary-folder__count').textContent = n + '개의 기록';
+        list.appendChild(li);
+      });
+    })();
+  </script>
+  <script src="back-origin.js"></script>
+</body>
+</html>

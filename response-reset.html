@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>패니 · 응답 재설정</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Figma 1:4709 "응답 재설정" — .onboarding.breath 프레임·.appbar·.mypage-group/.mypage-item·.btn-primary·.overlay 재사용 -->
+  <main class="onboarding breath reset" data-node-id="1:4709">
+    <!-- 데스크톱 미리보기용 상태바 (실제 모바일 기기에서는 숨김) -->
+    <div class="status-bar" aria-hidden="true">
+      <span class="status-bar__time">9:41</span>
+      <span class="status-bar__levels">
+        <img src="assets/cellular.svg" width="19.2" height="12.2264" alt="" />
+        <img src="assets/wifi.svg" width="17.1417" height="12.3283" alt="" />
+        <img src="assets/battery.svg" width="27.328" height="13" alt="" />
+      </span>
+    </div>
+
+    <header class="appbar" data-node-id="1:4745">
+      <a class="appbar__back" href="mypage.html" aria-label="뒤로 가기">
+        <img src="assets/profile/back.svg" width="24" height="24" alt="" />
+      </a>
+      <h1 class="appbar__title profile-edit__title">응답 재설정</h1>
+      <span class="appbar__side" aria-hidden="true"></span>
+    </header>
+
+    <!-- 새롭게 답변하기 → 온보딩 처음으로 -->
+    <section class="mypage-group reset__group" aria-labelledby="rs-new" data-node-id="1:4738">
+      <h2 class="mypage-group__title" id="rs-new">새롭게 답변하기</h2>
+      <ul class="mypage-list">
+        <li><a class="mypage-item" href="index.html" data-node-id="1:4739">
+          <span class="mypage-item__text"><strong class="mypage-item__name">새롭게 답변하기</strong><span class="mypage-item__desc">처음부터 답변하기</span></span>
+          <img class="mypage-item__chevron" src="assets/mypage/chevron.svg" width="8" height="14" alt="" />
+        </a></li>
+      </ul>
+    </section>
+
+    <!-- 일부 수정하기 → 항목별 바텀시트 -->
+    <section class="mypage-group reset__group" aria-labelledby="rs-edit" data-node-id="1:4711">
+      <h2 class="mypage-group__title" id="rs-edit">일부 수정하기</h2>
+      <ul class="mypage-list" id="reset-list">
+        <li><button class="mypage-item reset__item" type="button" data-q="help" aria-haspopup="dialog" aria-controls="reset-sheet" data-node-id="1:4712">
+          <span class="mypage-item__text"><strong class="mypage-item__name">도움 방식</strong><span class="mypage-item__desc" data-desc></span></span>
+          <img class="mypage-item__chevron" src="assets/mypage/chevron.svg" width="8" height="14" alt="" />
+        </button></li>
+        <li><button class="mypage-item reset__item" type="button" data-q="trigger" aria-haspopup="dialog" aria-controls="reset-sheet" data-node-id="1:4717">
+          <span class="mypage-item__text"><strong class="mypage-item__name">불안을 느끼는 순간</strong><span class="mypage-item__desc" data-desc></span></span>
+          <img class="mypage-item__chevron" src="assets/mypage/chevron.svg" width="8" height="14" alt="" />
+        </button></li>
+        <li><button class="mypage-item reset__item" type="button" data-q="coping" aria-haspopup="dialog" aria-controls="reset-sheet" data-node-id="1:4722">
+          <span class="mypage-item__text"><strong class="mypage-item__name">불안 상황시 도움이 되는 방법</strong><span class="mypage-item__desc" data-desc></span></span>
+          <img class="mypage-item__chevron" src="assets/mypage/chevron.svg" width="8" height="14" alt="" />
+        </button></li>
+        <li><button class="mypage-item reset__item" type="button" data-q="anxiety" aria-haspopup="dialog" aria-controls="reset-sheet" data-node-id="1:4727">
+          <span class="mypage-item__text"><strong class="mypage-item__name">현재의 불안 정도</strong><span class="mypage-item__desc" data-desc></span></span>
+          <img class="mypage-item__chevron" src="assets/mypage/chevron.svg" width="8" height="14" alt="" />
+        </button></li>
+        <li><button class="mypage-item reset__item" type="button" data-q="feeling" aria-haspopup="dialog" aria-controls="reset-sheet" data-node-id="1:4732">
+          <span class="mypage-item__text"><strong class="mypage-item__name">현재의 느낌</strong><span class="mypage-item__desc" data-desc></span></span>
+          <img class="mypage-item__chevron" src="assets/mypage/chevron.svg" width="8" height="14" alt="" />
+        </button></li>
+      </ul>
+    </section>
+
+    <button class="btn-primary reset__save" id="reset-save" type="button" data-node-id="1:4750">저장하기</button>
+
+    <!-- 항목 수정 시트 (Figma 33:8408 · 32:7943 · 32:8195 · 33:8301 · 33:8364) — 보기는 reset.js에서 채움 -->
+    <div class="overlay overlay--sheet" id="reset-overlay" hidden>
+      <div class="photo-sheet reset-sheet" id="reset-sheet" role="dialog" aria-modal="true" aria-labelledby="reset-sheet-title" tabindex="-1">
+        <h2 class="visually-hidden" id="reset-sheet-title"></h2>
+        <p class="visually-hidden" id="reset-sheet-hint"></p>
+        <div class="reset-sheet__options" id="reset-options" role="group" aria-labelledby="reset-sheet-title" aria-describedby="reset-sheet-hint"></div>
+        <button class="btn-primary reset-sheet__save" id="reset-sheet-save" type="button">저장하기</button>
+      </div>
+    </div>
+  </main>
+
+  <script src="breathing-common.js"></script>
+  <script src="answers.js"></script>
+  <script src="reset.js"></script>
+</body>
+</html>
