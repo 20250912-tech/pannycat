@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>패니 · 문장 선택</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Figma 92:5524 "확언 선택1"(내 기록으로 추천받기) · 92:5473 "확언 선택2"(주제 선택하기)
+       ?mode=recommend | topic — .onboarding.breath 프레임·.appbar·.btn-primary·.saved__toast 재사용 -->
+  <main class="onboarding breath aff aff--pick" data-node-id="92:5524">
+    <!-- 데스크톱 미리보기용 상태바 (실제 모바일 기기에서는 숨김) -->
+    <div class="status-bar" aria-hidden="true">
+      <span class="status-bar__time">9:41</span>
+      <span class="status-bar__levels">
+        <img src="assets/cellular.svg" width="19.2" height="12.2264" alt="" />
+        <img src="assets/wifi.svg" width="17.1417" height="12.3283" alt="" />
+        <img src="assets/battery.svg" width="27.328" height="13" alt="" />
+      </span>
+    </div>
+
+    <header class="appbar aff__appbar" data-node-id="92:5530">
+      <a class="appbar__back" href="affirmation.html" id="back-link" aria-label="뒤로 가기">
+        <img src="assets/grounding/back.svg" width="24" height="24" alt="" />
+      </a>
+      <h1 class="appbar__title">문장 선택</h1>
+      <span class="appbar__side" aria-hidden="true"></span>
+    </header>
+
+    <!-- 인사이트: 최근 마음 기록(92:5527) / 선택한 주제(92:5476) -->
+    <div class="aff-pick__top">
+      <section class="aff-insight" aria-labelledby="insight-title" data-node-id="92:5527">
+        <h2 class="aff-insight__title" id="insight-title"></h2>
+        <p class="aff-insight__body" id="insight-body"></p>
+      </section>
+    </div>
+
+    <!-- 문장 카드 (92:5535) -->
+    <section class="aff-card" aria-roledescription="문장 카드" aria-labelledby="card-text" data-node-id="92:5535">
+      <img class="aff-card__panny" src="assets/affirmation/panny-peek.svg" width="114.986" height="88.338" alt="" aria-hidden="true" />
+      <div class="aff-card__box">
+        <img class="aff-card__paws" src="assets/grounding/paws.png" width="96.61" height="20.582" alt="" aria-hidden="true" />
+        <button class="aff-bookmark aff-card__bookmark" id="bookmark-btn" type="button" aria-pressed="false" aria-label="이 문장 저장하기" data-node-id="92:5549">
+          <img class="aff-bookmark__off" src="assets/affirmation/bookmark-off.svg" width="14" height="18" alt="" />
+          <img class="aff-bookmark__on" src="assets/affirmation/bookmark-on.svg" width="14" height="18" alt="" />
+        </button>
+        <p class="aff-card__text" id="card-text" aria-live="polite"></p>
+        <button class="aff-card__shuffle" id="shuffle-btn" type="button" data-node-id="92:5545">
+          <img src="assets/affirmation/shuffle.svg" width="20" height="20" alt="" />
+          문장 교체
+        </button>
+      </div>
+    </section>
+
+    <!-- 진행도 (92:5567) -->
+    <nav class="aff-steps" aria-label="문장 넘기기" data-node-id="92:5567">
+      <button class="aff-steps__btn" id="prev-btn" type="button" aria-label="이전 문장">
+        <img src="assets/affirmation/nav-prev.svg" width="42.8786" height="42.8786" alt="" />
+      </button>
+      <p class="aff-steps__now"><span id="step-now">1</span> / <span id="step-total">4</span></p>
+      <button class="aff-steps__btn aff-steps__btn--next" id="next-btn" type="button" aria-label="다음 문장">
+        <img src="assets/affirmation/nav-next.svg" width="42.8786" height="42.8786" alt="" />
+      </button>
+    </nav>
+
+    <!-- 진행할 문장 수 (92:5552) — 좌우 스크롤 -->
+    <section class="aff-count" aria-labelledby="count-title" data-node-id="92:5552">
+      <h2 class="aff-count__title" id="count-title">진행할 문장 수</h2>
+      <div class="aff-count__scroller" id="count-scroller" role="radiogroup" aria-labelledby="count-title"></div>
+    </section>
+
+    <button class="btn-primary aff__start" id="start-btn" type="button" data-node-id="92:5526">이 문장으로 시작하기</button>
+
+    <p class="saved__toast" id="toast" role="status" aria-live="polite" hidden></p>
+  </main>
+
+  <script src="affirmation-store.js"></script>
+  <script src="affirmation-select.js"></script>
+</body>
+</html>

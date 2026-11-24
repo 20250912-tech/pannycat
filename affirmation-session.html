@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>패니 · 확언</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Figma 92:5605 확언_읽기 · 92:5647 확언_탭 · 92:5577 확언_쓰기
+       .onboarding.breath 프레임 · .ground__appbar/.ground__close · .record-seg · .btn-row · .stop-dialog · .saved__toast 재사용 -->
+  <main class="onboarding breath aff aff--session" id="session" data-mode="read" data-node-id="92:5605">
+    <!-- 데스크톱 미리보기용 상태바 (실제 모바일 기기에서는 숨김) -->
+    <div class="status-bar" aria-hidden="true">
+      <span class="status-bar__time">9:41</span>
+      <span class="status-bar__levels">
+        <img src="assets/cellular.svg" width="19.2" height="12.2264" alt="" />
+        <img src="assets/wifi.svg" width="17.1417" height="12.3283" alt="" />
+        <img src="assets/battery.svg" width="27.328" height="13" alt="" />
+      </span>
+    </div>
+
+    <header class="appbar ground__appbar">
+      <h1 class="visually-hidden">확언 받아쓰기</h1>
+      <button type="button" class="ground__close" id="close-btn" aria-label="확언 그만하기" aria-haspopup="dialog" aria-controls="stop-dialog" data-node-id="92:5610">
+        <img src="assets/grounding/close.svg" width="36" height="36" alt="" />
+      </button>
+    </header>
+
+    <!-- 읽기 · 탭하기 · 쓰기 (92:5613) -->
+    <div class="record-seg aff-seg" role="tablist" aria-label="진행 방식" data-node-id="92:5613">
+      <button class="record-seg__item is-active" type="button" role="tab" aria-selected="true" aria-controls="panel-read" id="tab-read" data-mode="read">읽기</button>
+      <button class="record-seg__item" type="button" role="tab" aria-selected="false" aria-controls="panel-tap" id="tab-tap" data-mode="tap" tabindex="-1">탭하기</button>
+      <button class="record-seg__item" type="button" role="tab" aria-selected="false" aria-controls="panel-write" id="tab-write" data-mode="write" tabindex="-1">쓰기</button>
+    </div>
+
+    <p class="aff-session__guide" id="guide" aria-live="polite">나를 위한 문장을<br />천천히 읽어보세요.</p>
+
+    <!-- 읽기 (92:5605) -->
+    <section class="aff-read" id="panel-read" role="tabpanel" aria-labelledby="tab-read">
+      <div class="aff-read__stage">
+        <img class="aff-read__panny" src="assets/affirmation/panny-read.svg" width="135.683" height="104.239" alt="" aria-hidden="true" />
+        <img class="aff-read__paws" src="assets/grounding/paws.png" width="114" height="24.286" alt="" aria-hidden="true" />
+        <div class="aff-read__box" data-node-id="92:5632">
+          <p class="aff-progress-text aff-read__text" id="read-text"></p>
+          <button class="aff-read__listen" id="listen-btn" type="button" aria-pressed="false" data-node-id="92:5634">
+            <img src="assets/affirmation/speaker.svg" width="13" height="10" alt="" />
+            <span id="listen-label">패니 음성 듣기</span>
+          </button>
+        </div>
+      </div>
+      <button class="aff-mic" id="mic-btn" type="button" aria-pressed="false" aria-label="소리 내어 읽기 시작" data-node-id="92:5611">
+        <img class="aff-mic__icon aff-mic__icon--mic" src="assets/affirmation/mic.svg" width="24" height="24" alt="" />
+        <img class="aff-mic__icon aff-mic__icon--wave" src="assets/affirmation/wave.svg" width="31" height="28" alt="" data-node-id="92:5639" />
+      </button>
+    </section>
+
+    <!-- 탭하기 (92:5647) -->
+    <section class="aff-tap" id="panel-tap" role="tabpanel" aria-labelledby="tab-tap" hidden>
+      <div class="aff-tap__chips" id="tap-chips" data-node-id="92:5654"></div>
+    </section>
+
+    <!-- 쓰기 (92:5577) -->
+    <section class="aff-write" id="panel-write" role="tabpanel" aria-labelledby="tab-write" hidden>
+      <div class="aff-write__box" data-node-id="92:5594">
+        <p class="aff-progress-text aff-write__text" id="write-text"></p>
+      </div>
+      <p class="aff-steps__now aff-session__count aff-write__count"><span class="aff-session__now">1</span> / <span class="aff-session__total">4</span></p>
+      <!-- 따라 적기 입력칸 (95:5782 입력/OX) — x 34 · y 523, 325 × 60 -->
+      <form class="aff-write__form" id="write-form" autocomplete="off" data-node-id="95:5784">
+        <label class="visually-hidden" for="write-input">문장 따라 적기</label>
+        <input class="aff-write__input" id="write-input" type="text" spellcheck="false" enterkeyhint="done" placeholder="따라 적어보세요" data-node-id="95:5782" />
+      </form>
+    </section>
+
+    <p class="aff-steps__now aff-session__count aff-session__count--bottom"><span class="aff-session__now">1</span> / <span class="aff-session__total">4</span></p>
+
+    <div class="btn-row aff-session__actions" data-node-id="92:5620">
+      <button type="button" class="btn-secondary" id="prev-btn">이전으로</button>
+      <button type="button" class="btn-primary" id="next-btn">다음으로</button>
+    </div>
+
+    <p class="saved__toast" id="toast" role="status" aria-live="polite" hidden></p>
+
+    <!-- 그만하기 확인 (호흡·그라운딩과 동일) -->
+    <div class="overlay" id="stop-overlay" hidden>
+      <div class="stop-dialog" id="stop-dialog" role="dialog" aria-modal="true" aria-labelledby="stop-title" aria-describedby="stop-desc" tabindex="-1">
+        <img class="stop-dialog__cat" src="assets/breathing/panny-sad.svg" width="114.329" height="87.8337" alt="" />
+        <p class="stop-dialog__desc" id="stop-desc">아직 활동이 완료되지 않았어요.</p>
+        <h2 class="stop-dialog__title" id="stop-title">활동을 중단하고 홈으로 돌아갈까요?</h2>
+        <div class="stop-dialog__btns">
+          <button type="button" class="stop-dialog__btn stop-dialog__btn--outline" data-close>계속하기</button>
+          <a class="stop-dialog__btn" href="home.html">홈으로 돌아가기</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="breathing-common.js"></script>
+  <script src="activity-record.js"></script>
+  <script src="affirmation-store.js"></script>
+  <script src="affirmation-session.js"></script>
+</body>
+</html>

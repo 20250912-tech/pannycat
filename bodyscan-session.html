@@ -21,9 +21,10 @@
 
     <!-- 우측 상단: 소리 / 자막 (1:2735) -->
     <div class="breath-tools" data-node-id="1:2735">
-      <button type="button" class="scan-tool" id="sound-btn" aria-pressed="true" aria-label="음성 안내">
-        <img class="scan-tool__on" src="assets/bodyscan/btn-sound-on.svg" width="36" height="36" alt="" />
-        <img class="scan-tool__off" src="assets/bodyscan/btn-sound-off.svg" width="36" height="36" alt="" />
+      <!-- 소리 on/off (Figma 94:5767): 누르면 켜짐 ↔ 꺼짐 — 호흡 화면과 같은 버튼 -->
+      <button type="button" class="breath-tool breath-tool--sound" id="sound-btn" aria-pressed="true" aria-label="음성 안내" data-node-id="94:5767">
+        <img class="breath-tool__on" src="assets/breathing/ic-sound-on.svg" width="18" height="15" alt="" />
+        <img class="breath-tool__off" src="assets/breathing/ic-mute.svg" width="18" height="18" alt="" />
       </button>
       <button type="button" class="scan-tool" id="caption-btn" aria-pressed="true" aria-label="자막">
         <img class="scan-tool__on" src="assets/bodyscan/btn-caption-on.svg" width="36" height="36" alt="" />
@@ -40,7 +41,11 @@
     <div class="scan-stage" aria-hidden="true" data-node-id="1:2704">
       <span class="scan-stage__glow"></span>
       <span class="scan-stage__core"></span>
-      <img class="scan-stage__cat" src="assets/bodyscan/cat-cloud.png" width="117.27" height="138.51" alt="" />
+      <!-- 구름 위에 웅크린 패니 (Figma 95:5841 · 117 × 141.325) -->
+      <div class="scan-stage__cat" data-node-id="95:5841">
+        <img class="scan-stage__cloud" src="assets/bodyscan/cloud.svg" width="117" height="136.325" alt="" />
+        <img class="scan-stage__panny" src="assets/bodyscan/panny-curl.svg" width="93.083" height="127.579" alt="" />
+      </div>
     </div>
 
     <!-- 진행 바 2분 (59:5510): 흰 트랙 위로 보라색 채움 + 원형 핸들 -->

@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>패니 · 확언</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-back-origin="apply">
+  <!-- Figma 92:5425 "확언 진입" — .onboarding.breath 프레임·.appbar·.ground-cat·.btn-primary·.overlay/.levelup 재사용 -->
+  <main class="onboarding breath aff aff--intro" data-node-id="92:5425">
+    <!-- 데스크톱 미리보기용 상태바 (실제 모바일 기기에서는 숨김) -->
+    <div class="status-bar" aria-hidden="true">
+      <span class="status-bar__time">9:41</span>
+      <span class="status-bar__levels">
+        <img src="assets/cellular.svg" width="19.2" height="12.2264" alt="" />
+        <img src="assets/wifi.svg" width="17.1417" height="12.3283" alt="" />
+        <img src="assets/battery.svg" width="27.328" height="13" alt="" />
+      </span>
+    </div>
+
+    <header class="appbar" data-node-id="92:6137">
+      <a class="appbar__back" href="activity.html" aria-label="뒤로 가기">
+        <img src="assets/grounding/back.svg" width="24" height="24" alt="" />
+      </a>
+      <h1 class="appbar__title ground__appbar-title">확언</h1>
+      <button class="appbar__side ground__info" type="button" id="info-btn" aria-haspopup="dialog" aria-controls="aff-info" aria-label="확언 안내 보기">
+        <img src="assets/grounding/info.svg" width="24" height="24" alt="" />
+      </button>
+    </header>
+
+    <p class="aff-intro__title" data-node-id="92:5440">지금, 나에게 따뜻한 말을<br />건네보세요.</p>
+
+    <!-- 패니 + 생각 구름 (92:5435) -->
+    <div class="aff-intro__hero" aria-hidden="true" data-node-id="92:5435">
+      <div class="ground-cat aff-intro__cat">
+        <img class="ground-cat__body" src="assets/breathing/panny.svg" width="227.568" height="174.829" alt="" />
+        <img class="ground-cat__face" src="assets/breathing/panny-face.svg" width="140.18" height="29.5286" alt="" />
+      </div>
+      <img class="aff-intro__bubble aff-intro__bubble--l" src="assets/affirmation/thought-l.svg" width="79.8965" height="50.4648" alt="" />
+      <img class="aff-intro__bubble aff-intro__bubble--m" src="assets/affirmation/thought-m.svg" width="14.4795" height="13.6836" alt="" />
+      <img class="aff-intro__bubble aff-intro__bubble--s" src="assets/affirmation/thought-s.svg" width="8.77637" height="8.29395" alt="" />
+    </div>
+
+    <!-- 어떻게 시작할까요? (92:5441) -->
+    <section class="aff-mode" aria-labelledby="mode-title" data-node-id="92:5441">
+      <h2 class="aff-mode__title" id="mode-title">어떻게 시작할까요?</h2>
+      <div class="aff-mode__list" role="radiogroup" aria-labelledby="mode-title">
+        <button class="aff-option" type="button" role="radio" aria-checked="true" data-mode="recommend" data-node-id="92:5444">
+          <span class="aff-option__quote" aria-hidden="true">
+            <img class="aff-option__on" src="assets/affirmation/quote-on.svg" width="16.7893" height="11.3863" alt="" />
+            <img class="aff-option__off" src="assets/affirmation/quote-off.svg" width="16.7893" height="11.3863" alt="" />
+          </span>
+          <span class="aff-option__text">
+            <strong class="aff-option__name">내 기록으로 추천받기</strong>
+            <span class="aff-option__desc">최근 마음 기록을 바탕으로 AI가 맞춤 문장을 추천해요.</span>
+          </span>
+          <span class="aff-option__check" aria-hidden="true">
+            <img class="aff-option__on" src="assets/affirmation/check-on.svg" width="18.3333" height="18.3333" alt="" />
+            <img class="aff-option__off" src="assets/affirmation/check-off.svg" width="18.3333" height="18.3333" alt="" />
+          </span>
+        </button>
+        <button class="aff-option" type="button" role="radio" aria-checked="false" data-mode="topic" data-node-id="92:5445">
+          <span class="aff-option__quote" aria-hidden="true">
+            <img class="aff-option__on" src="assets/affirmation/quote-on.svg" width="16.7893" height="11.3863" alt="" />
+            <img class="aff-option__off" src="assets/affirmation/quote-off.svg" width="16.7893" height="11.3863" alt="" />
+          </span>
+          <span class="aff-option__text">
+            <strong class="aff-option__name">주제 선택하기</strong>
+            <span class="aff-option__desc">원하는 주제를 고르면 그에 맞는 문장을 보여줘요.</span>
+          </span>
+          <span class="aff-option__check" aria-hidden="true">
+            <img class="aff-option__on" src="assets/affirmation/check-on.svg" width="18.3333" height="18.3333" alt="" />
+            <img class="aff-option__off" src="assets/affirmation/check-off.svg" width="18.3333" height="18.3333" alt="" />
+          </span>
+        </button>
+      </div>
+    </section>
+
+    <a class="aff-saved-link" href="affirmation-saved.html" data-node-id="92:5427">
+      <span class="aff-saved-link__icon" aria-hidden="true"><img src="assets/affirmation/bookmark-sm.svg" width="10" height="10.0002" alt="" /></span>
+      저장한 문장 보기
+      <img src="assets/affirmation/chevron-sm.svg" width="17" height="17" alt="" />
+    </a>
+
+    <a class="btn-primary aff__start" id="start-btn" href="affirmation-select.html?mode=recommend" data-node-id="92:5433">시작하기</a>
+
+    <!-- 확언 안내 팝업 (92:5406) — 그라운딩 안내 팝업(.levelup.ground-info) 재사용 -->
+    <div class="overlay" id="info-overlay" hidden>
+      <div class="levelup ground-info" id="aff-info" role="dialog" aria-modal="true" aria-labelledby="aff-info-title" tabindex="-1" data-node-id="92:5406">
+        <div class="levelup__head">
+          <h2 class="levelup__title" id="aff-info-title">확언 받아쓰기란?</h2>
+          <button class="levelup__close" type="button" aria-label="닫기" data-close data-node-id="92:5424">
+            <img src="assets/home/close.svg" width="21.9937" height="21.9937" alt="" />
+          </button>
+        </div>
+        <div class="levelup__body ground-info__body">
+          <p>확언 받아쓰기는 자신에게 도움이 되는 격려와<br />대처의 말을 선택하고, 읽거나 따라 쓰며 되새기는<br />마음 관리 활동이에요.</p>
+          <p>Pawse에서는 현재 마음 상태에 맞는 문장을<br />선택하거나 직접 작성해 볼 수 있어요.</p>
+
+          <h3 class="ground-info__heading">왜 도움이 될 수 있나요?</h3>
+          <p>① 나의 가치와 강점을 돌아볼 수 있어요.<br />자신에게 중요한 가치와 강점을 확인하는 자기확언(Self-affirmation) 활동은 심리적 안녕감을 높이고, 심리적 어려움을 완화하는 데 도움이 될 수 있어요.</p>
+          <p>② 긍정적인 생각과 경험에 주의를 기울일 수 있어요.<br />자신에게 의미 있는 긍정적인 경험이나 생각을 글로<br />표현하는 활동은 긍정적인 감정과 심리적 안녕감을<br />높이는 데 도움이 될 가능성이 있어요.</p>
+
+          <h3 class="ground-info__heading">기억해 주세요</h3>
+          <p>억지로 긍정적인 생각을 할 필요는 없어요.<br />나에게 와닿지 않는 문장은 다른 문장으로 바꿔도<br />괜찮아요.</p>
+          <p>이 활동은 일상적인 마음 관리를 돕기 위한 것으로,<br />공황장애에 대한 전문적인 치료를 대신하지 않아요.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="breathing-common.js"></script>
+  <script>
+    (function () {
+      // 안내 팝업: X·ESC로 닫기 (그라운딩과 동일)
+      var btn = document.getElementById('info-btn');
+      var popup = Breath.overlay(document.getElementById('info-overlay'), { trigger: btn });
+      btn.addEventListener('click', function () { popup.open(); });
+
+      // 시작 방법 선택 → 시작하기 목적지 변경
+      var KEY = 'panny-affirmation-mode';
+      var start = document.getElementById('start-btn');
+      var options = document.querySelectorAll('.aff-option');
+      var HREF = { recommend: 'affirmation-select.html?mode=recommend', topic: 'affirmation-topic.html' };
+
+      function select(mode) {
+        options.forEach(function (o) {
+          var on = o.dataset.mode === mode;
+          o.setAttribute('aria-checked', String(on));
+          o.tabIndex = on ? 0 : -1;
+        });
+        start.href = HREF[mode];
+        try { sessionStorage.setItem(KEY, mode); } catch (e) { /* 무시 */ }
+      }
+
+      options.forEach(function (o, i) {
+        o.addEventListener('click', function () { select(o.dataset.mode); });
+        o.addEventListener('keydown', function (e) {
+          if (['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight'].indexOf(e.key) === -1) return;
+          e.preventDefault();
+          var next = options[(i + (e.key === 'ArrowDown' || e.key === 'ArrowRight' ? 1 : options.length - 1)) % options.length];
+          select(next.dataset.mode);
+          next.focus();
+        });
+      });
+
+      var saved = null;
+      try { saved = sessionStorage.getItem(KEY); } catch (e) { /* 무시 */ }
+      select(HREF[saved] ? saved : 'recommend');
+    })();
+  </script>
+  <script src="back-origin.js"></script>
+</body>
+</html>

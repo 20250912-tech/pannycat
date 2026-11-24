@@ -84,13 +84,20 @@ window.Level = (function () {
   // ---------- 레벨업 팝업 ----------
   var SEEN_KEY = 'panny-level-seen';
   // 단계별 그림·문구 (Figma 레벨1~5). 6레벨 이상은 5단계 그림을 그대로 씀.
+  // home: 메인 홈 캐릭터 (높이 185 기준 크기) — 레벨이 오르면 홈의 패니도 같은 보금자리로 바뀜
   var STAGES = [
-    { img: 'assets/levelup/panny-lv1.png', w: 125, h: 122, sub: '패니의 새로운 시작이에요!', caption: '패니가 새로운 보금자리를 기다리고 있어요.' },
-    { img: 'assets/levelup/panny-lv2.png', w: 125, h: 122, sub: '새로운 보금자리 획득!', caption: '패니에게 아늑한 상자가 생겼어요.' },
-    { img: 'assets/levelup/panny-lv3.png', w: 125, h: 127, sub: '새로운 보금자리 획득!', caption: '패니에게 푹신한 방석이 생겼어요!' },
-    { img: 'assets/levelup/panny-lv4.png', w: 209, h: 130, sub: '새로운 보금자리 획득!', caption: '패니에게 포근한 잠자리가 생겼어요!' },
-    { img: 'assets/levelup/panny-lv5.png', w: 151, h: 135, sub: '새로운 보금자리 획득!', caption: '패니에게 멋진 캣타워가 생겼어요!' }
+    { img: 'assets/levelup/panny-lv1.png', w: 125, h: 122, sub: '패니의 새로운 시작이에요!', caption: '패니가 새로운 보금자리를 기다리고 있어요.',
+      home: { img: 'assets/home/panny-level1.png', w: 155, h: 185, alt: '돌계단 위에 앉아 눈을 감고 있는 검은 고양이 패니' } },
+    { img: 'assets/levelup/panny-lv2.png', w: 125, h: 122, sub: '새로운 보금자리 획득!', caption: '패니에게 아늑한 상자가 생겼어요.',
+      home: { img: 'assets/levelup/panny-lv2.png', w: 190, h: 185, alt: '아늑한 상자 안에 들어가 있는 검은 고양이 패니' } },
+    { img: 'assets/levelup/panny-lv3.png', w: 125, h: 127, sub: '새로운 보금자리 획득!', caption: '패니에게 푹신한 방석이 생겼어요!',
+      home: { img: 'assets/levelup/panny-lv3.png', w: 182, h: 185, alt: '푹신한 방석 위에 앉아 있는 검은 고양이 패니' } },
+    { img: 'assets/levelup/panny-lv4.png', w: 209, h: 130, sub: '새로운 보금자리 획득!', caption: '패니에게 포근한 잠자리가 생겼어요!',
+      home: { img: 'assets/levelup/panny-lv4.png', w: 297, h: 185, alt: '포근한 베개를 베고 잠든 검은 고양이 패니' } },
+    { img: 'assets/levelup/panny-lv5.png', w: 151, h: 135, sub: '새로운 보금자리 획득!', caption: '패니에게 멋진 캣타워가 생겼어요!',
+      home: { img: 'assets/levelup/panny-lv5.png', w: 207, h: 185, alt: '멋진 캣타워에 올라 있는 검은 고양이 패니' } }
   ];
+  function stage(level) { return STAGES[Math.max(1, Math.min(level, STAGES.length)) - 1]; }
 
   function getSeen() {
     try { return parseInt(localStorage.getItem(SEEN_KEY), 10) || 0; } catch (e) { return 0; }
@@ -116,6 +123,8 @@ window.Level = (function () {
   function show(st) {
     if (document.querySelector('.lvup-overlay')) return;
     var stage = STAGES[Math.min(st.level, STAGES.length) - 1];
+    // 레벨업 창이 뜨는 순간 홈 캐릭터 등 화면 속 패니도 새 레벨로 바뀌도록 알림
+    document.dispatchEvent(new CustomEvent('panny:levelup', { detail: { level: st.level } }));
     var into = st.points % PER_LEVEL;
     var left = PER_LEVEL - into;
 
@@ -253,5 +262,5 @@ window.Level = (function () {
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();
 
-  return { log: log, state: state, check: check, show: show, PER_LEVEL: PER_LEVEL };
+  return { log: log, state: state, check: check, show: show, stage: stage, PER_LEVEL: PER_LEVEL };
 })();

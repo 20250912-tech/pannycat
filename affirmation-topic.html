@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>패니 · 응답 재설정</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Figma 92:5447 "응답 재설정"(확언 주제 선택) — .onboarding.breath 프레임·.appbar·.btn-primary 재사용 -->
+  <main class="onboarding breath aff aff--topic" data-node-id="92:5447">
+    <!-- 데스크톱 미리보기용 상태바 (실제 모바일 기기에서는 숨김) -->
+    <div class="status-bar" aria-hidden="true">
+      <span class="status-bar__time">9:41</span>
+      <span class="status-bar__levels">
+        <img src="assets/cellular.svg" width="19.2" height="12.2264" alt="" />
+        <img src="assets/wifi.svg" width="17.1417" height="12.3283" alt="" />
+        <img src="assets/battery.svg" width="27.328" height="13" alt="" />
+      </span>
+    </div>
+
+    <header class="appbar aff__appbar" data-node-id="92:5463">
+      <a class="appbar__back" href="affirmation.html" aria-label="뒤로 가기">
+        <img src="assets/grounding/back.svg" width="24" height="24" alt="" />
+      </a>
+      <h1 class="appbar__title">응답 재설정</h1>
+      <span class="appbar__side" aria-hidden="true"></span>
+    </header>
+
+    <div class="aff-topic__head" data-node-id="92:5468">
+      <p class="aff-topic__title">오늘 어떤 말이 필요하세요?</p>
+      <p class="aff-topic__sub" id="topic-hint">마음에 드는 주제를 모두 골라보세요.</p>
+    </div>
+
+    <div class="aff-topic__grid" id="topic-grid" role="group" aria-labelledby="topic-hint" data-node-id="92:5448"></div>
+
+    <button class="btn-primary aff__start" id="done-btn" type="button" data-node-id="92:5462">완료</button>
+  </main>
+
+  <script src="affirmation-store.js"></script>
+  <script>
+    (function () {
+      var S = AffirmationStore;
+      var grid = document.getElementById('topic-grid');
+      var done = document.getElementById('done-btn');
+      var chosen = S.getTopics();
+
+      function sync() { done.disabled = chosen.length === 0; }
+
+      S.TOPICS.forEach(function (t) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'aff-topic';
+        b.setAttribute('aria-pressed', String(chosen.indexOf(t) !== -1));
+        b.innerHTML =
+          '<span class="aff-topic__name"></span>' +
+          '<span class="aff-topic__check" aria-hidden="true">' +
+            '<img class="aff-option__on" src="assets/affirmation/check-on.svg" width="18.3333" height="18.3333" alt="" />' +
+            '<img class="aff-option__off" src="assets/affirmation/check-off.svg" width="18.3333" height="18.3333" alt="" />' +
+          '</span>';
+        b.firstChild.textContent = t;
+        b.addEventListener('click', function () {
+          var on = b.getAttribute('aria-pressed') !== 'true';
+          b.setAttribute('aria-pressed', String(on));
+          chosen = S.TOPICS.filter(function (x) {
+            return x === t ? on : chosen.indexOf(x) !== -1;
+          });
+          sync();
+        });
+        grid.appendChild(b);
+      });
+      sync();
+
+      done.addEventListener('click', function () {
+        if (!chosen.length) return;
+        S.setTopics(chosen);
+        location.href = 'affirmation-select.html?mode=topic';
+      });
+    })();
+  </script>
+</body>
+</html>

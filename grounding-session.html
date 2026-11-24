@@ -20,12 +20,13 @@
       </span>
     </div>
 
-    <header class="appbar">
-      <a class="appbar__back" id="back-btn" href="grounding.html" aria-label="이전으로">
-        <img src="assets/grounding/back.svg" width="24" height="24" alt="" />
-      </a>
-      <h1 class="appbar__title ground__appbar-title">5-4-3-2-1 오감에 집중하기</h1>
-      <span class="appbar__side" aria-hidden="true"></span>
+    <!-- 진행 화면 (Figma 1597:10702): 뒤로가기·제목 없이 오른쪽 X만 -->
+    <header class="appbar ground__appbar">
+      <h1 class="visually-hidden">5-4-3-2-1 오감에 집중하기</h1>
+      <!-- 닫기 (Figma 1948:12413) → 그만하기 확인 모달 -->
+      <button type="button" class="ground__close" id="close-btn" aria-label="그라운딩 그만하기" aria-haspopup="dialog" aria-controls="stop-dialog">
+        <img src="assets/grounding/close.svg" width="36" height="36" alt="" />
+      </button>
     </header>
 
     <!-- 진행도 -->
@@ -88,8 +89,22 @@
       <button type="button" class="btn-secondary" id="skip-btn">건너뛰기</button>
       <button type="button" class="btn-primary" id="found-btn">찾았어요</button>
     </div>
+
+    <!-- 그만하기 확인 (호흡 Figma 15:5871 재사용) -->
+    <div class="overlay" id="stop-overlay" hidden>
+      <div class="stop-dialog" id="stop-dialog" role="dialog" aria-modal="true" aria-labelledby="stop-title" aria-describedby="stop-desc" tabindex="-1">
+        <img class="stop-dialog__cat" src="assets/breathing/panny-sad.svg" width="114.329" height="87.8337" alt="" />
+        <p class="stop-dialog__desc" id="stop-desc">아직 활동이 완료되지 않았어요.</p>
+        <h2 class="stop-dialog__title" id="stop-title">활동을 중단하고 홈으로 돌아갈까요?</h2>
+        <div class="stop-dialog__btns">
+          <button type="button" class="stop-dialog__btn stop-dialog__btn--outline" data-close>계속하기</button>
+          <a class="stop-dialog__btn" href="home.html">홈으로 돌아가기</a>
+        </div>
+      </div>
+    </div>
   </main>
 
+  <script src="breathing-common.js"></script>
   <script src="activity-record.js"></script>
   <script src="level.js"></script>
   <script src="grounding.js"></script>

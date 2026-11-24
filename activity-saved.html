@@ -72,11 +72,17 @@
       var rec = ActivityRecord.latest();
       var isGrounding = rec.type === 'grounding';
       var isBodyscan = rec.type === 'bodyscan';
-      var label = isGrounding ? '오늘의 그라운딩' : isBodyscan ? '오늘의 바디스캔' : '오늘의 호흡';
-      var count = ActivityRecord.countToday(isGrounding ? 'grounding' : isBodyscan ? 'bodyscan' : 'breathing');
+      var isAffirmation = rec.type === 'affirmation';
+      var label = isGrounding ? '오늘의 그라운딩' : isBodyscan ? '오늘의 바디스캔' : isAffirmation ? '오늘의 확언' : '오늘의 호흡';
+      var count = ActivityRecord.countToday(isGrounding ? 'grounding' : isBodyscan ? 'bodyscan' : isAffirmation ? 'affirmation' : 'breathing');
       var stats, summary;
 
-      if (isBodyscan) {
+      if (isAffirmation) {
+        // Figma 92:6244: 진행한 문장 수 · 진행 방식 · 소요 시간
+        var affTime = ActivityRecord.formatDuration(rec.seconds || 0);
+        stats = [['진행한 문장 수', (rec.count || 1) + '번'], ['진행 방식', rec.method || '읽기'], ['소요 시간', affTime]];
+        summary = label + ' ' + count + '회 · 문장 ' + (rec.count || 1) + '개 · ' + (rec.method || '읽기') + ' · ' + affTime;
+      } else if (isBodyscan) {
         var scanTime = ActivityRecord.formatDuration(rec.seconds || 120);
         stats = [['총 시간', scanTime]];      // Figma 58:5445: 총 시간 한 칸 (289 폭)
         summary = label + ' ' + count + '회 · ' + scanTime;

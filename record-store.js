@@ -9,7 +9,7 @@ window.RecordStore = (function () {
 
   // 활동 종류 — 이름 · 카드 색 · 아이콘 · 시작 링크 · 빈 카드 안내
   var TYPES = {
-    affirmation: { label: '확언',     color: '#868BF2', icon: 'assets/record/ic-affirmation.svg', href: 'activity.html',  empty: '“오늘의 확언을 읽어보세요.”' },
+    affirmation: { label: '확언',     color: '#868BF2', icon: 'assets/record/ic-affirmation.svg', href: 'affirmation.html',  empty: '“오늘의 확언을 읽어보세요.”' },
     breathing:   { label: '호흡',     color: '#9B87F5', icon: 'assets/record/ic-breathing.svg',   href: 'breathing.html', empty: '호흡 운동을 해보세요.' },
     grounding:   { label: '그라운딩', color: '#36305D', icon: 'assets/record/ic-grounding.svg',   href: 'grounding.html', empty: '복잡해진 머리속을 정리해요.' },
     bodyscan:    { label: '바디스캔', color: '#584E91', icon: 'assets/record/ic-bodyscan.svg',    href: 'bodyscan.html',  empty: '명상을 해보세요.' },

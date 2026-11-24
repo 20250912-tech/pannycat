@@ -184,7 +184,7 @@
   pauseBtn.addEventListener('click', () => setPaused(!paused));
   if (muteBtn) muteBtn.addEventListener('click', () => {
     muted = !muted;
-    muteBtn.setAttribute('aria-pressed', String(muted));
+    muteBtn.setAttribute('aria-pressed', String(!muted));   // pressed = 소리 켜짐
     if (muted && 'speechSynthesis' in window) speechSynthesis.cancel();
   });
 

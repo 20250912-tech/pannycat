@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>패니 · 저장한 문장</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Figma 92:5670 "저장한 문장" — .onboarding.breath 프레임·.appbar·.saved__toast 재사용 -->
+  <main class="onboarding breath aff aff--saved" data-node-id="92:5670">
+    <!-- 데스크톱 미리보기용 상태바 (실제 모바일 기기에서는 숨김) -->
+    <div class="status-bar" aria-hidden="true">
+      <span class="status-bar__time">9:41</span>
+      <span class="status-bar__levels">
+        <img src="assets/cellular.svg" width="19.2" height="12.2264" alt="" />
+        <img src="assets/wifi.svg" width="17.1417" height="12.3283" alt="" />
+        <img src="assets/battery.svg" width="27.328" height="13" alt="" />
+      </span>
+    </div>
+
+    <header class="appbar aff__appbar" data-node-id="92:5674">
+      <a class="appbar__back" href="affirmation.html" id="back-link" aria-label="뒤로 가기">
+        <img src="assets/grounding/back.svg" width="24" height="24" alt="" />
+      </a>
+      <h1 class="appbar__title">저장한 문장</h1>
+      <span class="appbar__side" aria-hidden="true"></span>
+    </header>
+
+    <section class="aff-saved" aria-labelledby="saved-count" data-node-id="92:5679">
+      <p class="aff-saved__count" id="saved-count">저장한 문장 <span id="count-num">0</span>개</p>
+      <ul class="aff-saved__list" id="saved-list" data-node-id="92:5683"></ul>
+      <p class="aff-saved__empty" id="saved-empty" hidden>아직 저장한 문장이 없어요.<br />문장 카드의 책갈피를 눌러 저장해 보세요.</p>
+    </section>
+
+    <p class="saved__toast" id="toast" role="status" aria-live="polite" hidden></p>
+  </main>
+
+  <script src="affirmation-store.js"></script>
+  <script>
+    (function () {
+      var S = AffirmationStore;
+      var $ = function (id) { return document.getElementById(id); };
+      var list = $('saved-list');
+
+      // 문장 선택 화면에서 들어왔으면 그 화면으로 돌아가기
+      if (document.referrer && /affirmation-select\.html/.test(document.referrer)) {
+        $('back-link').addEventListener('click', function (e) { e.preventDefault(); history.back(); });
+      }
+
+      function updateCount() {
+        var n = list.children.length;
+        $('count-num').textContent = n;
+        $('saved-empty').hidden = n > 0;
+      }
+
+      var toastTimer;
+      function toast(msg) {
+        var t = $('toast');
+        t.textContent = msg;
+        t.hidden = false;
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(function () { t.hidden = true; }, 1600);
+      }
+
+      function item(text) {
+        var li = document.createElement('li');
+        li.className = 'aff-saved__item';
+        var p = document.createElement('p');
+        p.className = 'aff-saved__text';
+        p.textContent = text;
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'aff-bookmark';
+        btn.setAttribute('aria-pressed', 'true');
+        btn.setAttribute('aria-label', '저장 취소: ' + text.replace(/\n/g, ' '));
+        btn.innerHTML = '<img src="assets/affirmation/bookmark-on.svg" width="14" height="18" alt="" />';
+        btn.addEventListener('click', function () {
+          S.removeSaved(text);
+          // 다음 항목(없으면 이전 항목)으로 포커스 이동 후 빠지는 애니메이션
+          var next = li.nextElementSibling || li.previousElementSibling;
+          li.classList.add('is-leaving');
+          var done = function () {
+            li.remove();
+            updateCount();
+            if (next) next.querySelector('button').focus();
+          };
+          li.addEventListener('transitionend', function once(e) {
+            if (e.target !== li || e.propertyName !== 'grid-template-rows') return;
+            li.removeEventListener('transitionend', once);
+            done();
+          });
+          // 애니메이션을 끈 환경 대비
+          setTimeout(function () { if (li.isConnected) done(); }, 450);
+          toast('저장한 문장에서 뺐어요');
+        });
+        var row = document.createElement('div');
+        row.className = 'aff-saved__row';
+        row.appendChild(p);
+        row.appendChild(btn);
+        li.appendChild(row);
+        return li;
+      }
+
+      S.getSaved().forEach(function (t) { list.appendChild(item(t)); });
+      updateCount();
+    })();
+  </script>
+</body>
+</html>

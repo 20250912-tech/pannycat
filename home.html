@@ -177,6 +177,24 @@
       document.getElementById('level-pct').textContent = st.percent + '%';
       document.querySelector('.level-bar__track').setAttribute('aria-valuenow', st.percent);
       document.querySelector('.level-bar__fill').style.width = st.percent + '%';
+
+      // 레벨에 맞는 보금자리의 패니 (레벨업 창이 뜨면 그 레벨로 바로 교체)
+      var panny = document.querySelector('.home-hero__panny');
+      function setPanny(level) {
+        if (typeof Level.stage !== 'function') return;   // 예전 level.js가 캐시돼 있으면 기본 그림 유지
+        var art = Level.stage(level).home;
+        if (panny.getAttribute('src') === art.img) return;
+        panny.src = art.img;
+        panny.width = art.w;
+        panny.height = art.h;
+        panny.alt = art.alt;
+        panny.dataset.level = Math.min(level, 5);
+      }
+      setPanny(st.level);
+      document.addEventListener('panny:levelup', function (e) {
+        setPanny(e.detail.level);
+        document.getElementById('level-lv').textContent = 'Lv. ' + e.detail.level;
+      });
     })();
   </script>
   <script src="back-origin.js"></script>

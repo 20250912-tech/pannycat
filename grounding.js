@@ -56,13 +56,10 @@
   $('found-btn').addEventListener('click', function () { next('found'); });
   $('skip-btn').addEventListener('click', function () { next('skipped'); });
 
-  // 뒤로 가기: 이전 단계로, 1단계에서는 그라운딩 시작 전 화면으로
-  $('back-btn').addEventListener('click', function (e) {
-    if (step === 0) return;
-    e.preventDefault();
-    step -= 1;
-    render();
-  });
+  // 닫기(X) → 그만하기 확인 모달 (계속하기: 닫고 현재 단계 유지 / 홈으로 돌아가기)
+  var closeBtn = $('close-btn');
+  var stopModal = Breath.overlay($('stop-overlay'), { trigger: closeBtn });
+  closeBtn.addEventListener('click', function () { stopModal.open(); });
 
   render();
 })();
