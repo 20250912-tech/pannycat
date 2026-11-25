@@ -1,0 +1,5 @@
+# Vercel 배포에서 제외 — 로컬 전용 파이썬 서버·설정 파일
+*.py
+__pycache__/
+.claude/
+CLAUDE.md

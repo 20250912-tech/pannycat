@@ -70,5 +70,22 @@ window.Breath = (function () {
     return { open, close, get isOpen() { return !overlayEl.hidden; } };
   }
 
-  return { load, save, bindSwitches, readSwitches, overlay };
+  // 사용자가 '호흡 설정하기'에서 고른 단계별 초 [마시기, 멈추기, 내쉬기, 멈추기]
+  const CUSTOM_KEY = 'panny-breathing-custom';
+  const CUSTOM_DEFAULT = [4, 2, 4, 2];
+
+  function parseSecs(value) {
+    const secs = String(value || '').split('-').map(Number);
+    return secs.length === 4 && secs.every((n) => Number.isInteger(n) && n >= 1 && n <= 10) ? secs : null;
+  }
+
+  function loadCustom() {
+    try { return parseSecs(localStorage.getItem(CUSTOM_KEY)) || CUSTOM_DEFAULT.slice(); } catch (e) { return CUSTOM_DEFAULT.slice(); }
+  }
+
+  function saveCustom(secs) {
+    try { localStorage.setItem(CUSTOM_KEY, secs.join('-')); } catch (e) { /* 저장 불가 환경은 무시 */ }
+  }
+
+  return { load, save, bindSwitches, readSwitches, overlay, parseSecs, loadCustom, saveCustom };
 })();

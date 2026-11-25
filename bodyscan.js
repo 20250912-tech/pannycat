@@ -29,6 +29,20 @@
   var paused = false, blocked = false, done = false;
   var sound = true;
 
+  // 홈에서 '이어서 하기'로 들어오면 멈췄던 시간부터
+  var resume = ActivityRecord.resuming('bodyscan');
+  if (resume) elapsed = Math.min(Math.max(resume.elapsed || 0, 0), TOTAL - 1);
+
+  // 진행 상태 저장 (3초 안에 나가면 저장 안 함)
+  var savedAt = elapsed;
+  function saveProgress() {
+    if (done || elapsed < 3) return;
+    savedAt = elapsed;
+    ActivityRecord.saveProgress({ type: 'bodyscan', href: ActivityRecord.here(), elapsed: Math.floor(elapsed), total: TOTAL });
+  }
+  window.addEventListener('pagehide', saveProgress);
+  document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'hidden') saveProgress(); });
+
   function fmt(sec) {
     sec = Math.floor(sec);
     return Math.floor(sec / 60) + ':' + String(sec % 60).padStart(2, '0');
@@ -82,7 +96,10 @@
     if (!paused && !blocked && !done) {
       elapsed += dt;
       if (elapsed >= TOTAL) finish();
-      else render();
+      else {
+        render();
+        if (elapsed - savedAt >= 5) saveProgress();   // 앱이 갑자기 꺼져도 5초 단위로 남김
+      }
     }
     requestAnimationFrame(tick);
   }
@@ -138,6 +155,7 @@
     blocked = true;
     root.classList.add('is-paused');
     hush();
+    saveProgress();
     stopModal.open();
   });
 

@@ -67,55 +67,50 @@
         <img class="pattern-card__check pattern-card__check--on" src="assets/breathing/check-on.svg" width="20" height="20" alt="" />
         <img class="pattern-card__check pattern-card__check--off" src="assets/breathing/check-off.svg" width="20" height="20" alt="" />
       </button>
-      <button type="button" class="pattern-card pattern-card--add" id="add-btn" aria-haspopup="dialog" aria-controls="add-sheet" data-node-id="1:1676">
-        <span class="pattern-card__plus"><img src="assets/breathing/plus.svg" width="13.6" height="13.6" alt="" /></span>
-        추가하기
+      <button type="button" class="pattern-card pattern-card--add" id="add-btn" aria-haspopup="dialog" aria-controls="add-sheet" data-node-id="1597:10641">
+        <img class="pattern-card__setting" src="assets/breathing/setting.svg" width="17" height="15" alt="" />
+        호흡 설정하기
       </button>
     </div>
 
     <a class="btn-primary breath-intro__start" id="start-btn" href="breathing-session.html?pattern=basic">시작하기</a>
 
-    <!-- 추가하기 바텀시트 (Figma 15:5946) -->
+    <!-- 호흡 설정하기 바텀시트 (Figma 2058:17190) -->
     <div class="overlay overlay--sheet" id="add-overlay" hidden>
-      <div class="sheet" id="add-sheet" role="dialog" aria-modal="true" aria-labelledby="add-title" tabindex="-1" data-node-id="15:5946">
+      <div class="sheet sheet--custom" id="add-sheet" role="dialog" aria-modal="true" aria-labelledby="add-title" tabindex="-1" data-node-id="2058:17190">
+        <span class="sheet__handle" aria-hidden="true"></span>
         <div class="sheet__head">
-          <h2 class="sheet__title" id="add-title">기본 호흡</h2>
+          <h2 class="sheet__title" id="add-title">호흡 설정하기</h2>
           <button class="sheet__close" type="button" aria-label="닫기" data-close>
             <img src="assets/breathing/close.svg" width="24" height="24" alt="" />
           </button>
         </div>
         <div class="sheet__groups">
+          <!-- 단계별 초: 위아래로 스크롤해서 고르기 -->
+          <div class="breath-picker" data-node-id="2058:17124">
+            <div class="breath-picker__col">
+              <span class="breath-picker__label" id="pk-inhale">마시기</span>
+              <div class="breath-picker__wheel" role="spinbutton" tabindex="0" aria-labelledby="pk-inhale" data-phase="0"></div>
+            </div>
+            <div class="breath-picker__col">
+              <span class="breath-picker__label" id="pk-hold">멈추기</span>
+              <div class="breath-picker__wheel" role="spinbutton" tabindex="0" aria-labelledby="pk-hold" data-phase="1"></div>
+            </div>
+            <div class="breath-picker__col">
+              <span class="breath-picker__label" id="pk-exhale">내쉬기</span>
+              <div class="breath-picker__wheel" role="spinbutton" tabindex="0" aria-labelledby="pk-exhale" data-phase="2"></div>
+            </div>
+            <div class="breath-picker__col">
+              <span class="breath-picker__label" id="pk-rest">멈추기</span>
+              <div class="breath-picker__wheel" role="spinbutton" tabindex="0" aria-labelledby="pk-rest" data-phase="3"></div>
+            </div>
+          </div>
           <div class="set-group">
             <button type="button" class="set-row">
               <span class="set-row__icon"><img src="assets/breathing/music.svg" width="19" height="19" alt="" /></span>
               <span class="set-row__text"><span class="set-row__name">배경음</span></span>
               <span class="set-row__value">고요한 밤<img src="assets/breathing/chevron.svg" width="17" height="17" alt="" /></span>
             </button>
-            <img class="set-group__divider" src="assets/breathing/divider.svg" width="314.4" height="0.4" alt="" />
-            <div class="set-row">
-              <span class="set-row__icon"><img src="assets/breathing/bg-play.svg" width="19" height="19" alt="" /></span>
-              <span class="set-row__text">
-                <span class="set-row__name" id="lbl-bgplay">백그라운드 재생</span>
-                <span class="set-row__desc">화면이 꺼져도 배경음이 계속 재생돼요.</span>
-              </span>
-              <button type="button" class="switch" role="switch" aria-checked="false" aria-labelledby="lbl-bgplay" data-setting="bgPlay">
-                <img class="switch__on" src="assets/breathing/switch-on.svg" width="33" height="16.8" alt="" />
-                <img class="switch__off" src="assets/breathing/switch-off.svg" width="33" height="16.8" alt="" />
-              </button>
-            </div>
-          </div>
-          <div class="set-group">
-            <div class="set-row">
-              <span class="set-row__icon"><img src="assets/breathing/speaker.svg" width="19" height="19" alt="" /></span>
-              <span class="set-row__text">
-                <span class="set-row__name" id="lbl-voice">음성 안내</span>
-                <span class="set-row__desc">호흡 단계를 음성으로 안내해요.</span>
-              </span>
-              <button type="button" class="switch" role="switch" aria-checked="true" aria-labelledby="lbl-voice" data-setting="voice">
-                <img class="switch__on" src="assets/breathing/switch-on.svg" width="33" height="16.8" alt="" />
-                <img class="switch__off" src="assets/breathing/switch-off.svg" width="33" height="16.8" alt="" />
-              </button>
-            </div>
             <img class="set-group__divider" src="assets/breathing/divider.svg" width="314.4" height="0.4" alt="" />
             <div class="set-row">
               <span class="set-row__icon"><img src="assets/breathing/vibrate.svg" width="19" height="19" alt="" /></span>
@@ -130,12 +125,12 @@
             </div>
             <img class="set-group__divider" src="assets/breathing/divider.svg" width="314.4" height="0.4" alt="" />
             <div class="set-row">
-              <span class="set-row__icon"><img class="set-row__sun" src="assets/breathing/sun.svg" width="17.5312" height="17.5312" alt="" /></span>
+              <span class="set-row__icon"><img src="assets/breathing/bg-play.svg" width="19" height="19" alt="" /></span>
               <span class="set-row__text">
-                <span class="set-row__name" id="lbl-awake">화면 항상 켜기</span>
-                <span class="set-row__desc">호흡 중 화면이 꺼지지 않아요.</span>
+                <span class="set-row__name" id="lbl-bgplay">백그라운드 재생</span>
+                <span class="set-row__desc">화면이 꺼져도 배경음이 계속 재생돼요.</span>
               </span>
-              <button type="button" class="switch" role="switch" aria-checked="true" aria-labelledby="lbl-awake" data-setting="keepAwake">
+              <button type="button" class="switch" role="switch" aria-checked="false" aria-labelledby="lbl-bgplay" data-setting="bgPlay">
                 <img class="switch__on" src="assets/breathing/switch-on.svg" width="33" height="16.8" alt="" />
                 <img class="switch__off" src="assets/breathing/switch-off.svg" width="33" height="16.8" alt="" />
               </button>

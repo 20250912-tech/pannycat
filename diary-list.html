@@ -8,8 +8,8 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <!-- Figma 1:1714 "마음일기 파일" — .onboarding.breath 프레임 · .appbar · .postit · .btn-primary 재사용 -->
-  <main class="onboarding breath diary diary-list" id="page" data-node-id="1:1714">
+  <!-- Figma 1597:12262 "일기 모아보기" (감정 파일 → 그 감정의 일기) — .onboarding.breath 프레임 · .appbar · .postit · .btn-primary 재사용 -->
+  <main class="onboarding breath diary diary-list" id="page" data-node-id="1597:12262">
     <!-- 데스크톱 미리보기용 상태바 (실제 모바일 기기에서는 숨김) -->
     <div class="status-bar" aria-hidden="true">
       <span class="status-bar__time">9:41</span>
@@ -25,21 +25,14 @@
         <img src="assets/diary/back.svg" width="24" height="24" alt="" />
       </a>
       <h1 class="appbar__title diary__title" id="title">마음일기</h1>
-      <span class="appbar__side" aria-hidden="true"></span>
+      <span class="appbar__side" aria-hidden="true"><img src="assets/home/info.svg" width="24" height="24" alt="" /></span>
     </header>
-
-    <p class="diary-list__summary">
-      <svg class="paw" viewBox="0 0 23 19" width="23" height="19" aria-hidden="true"><use href="#paw" /></svg>
-      <strong id="summary-label"></strong>
-      <span id="summary-count"></span>
-    </p>
+    <p class="visually-hidden" id="summary"></p>
 
     <div class="diary-list__scroll">
       <ul class="diary-notes" id="notes"></ul>
       <p class="diary-list__empty" id="empty" hidden></p>
     </div>
-
-    <a class="btn-primary diary__btn" id="write-btn" href="diary-write.html">기록하기</a>
   </main>
 
   <template id="note-tpl">
@@ -77,14 +70,11 @@
 
       document.title = '패니 · ' + emo.label + ' 일기';
       $('page').style.setProperty('--emo', emo.color);
-      $('title').textContent = emo.label + ' 일기';
-      $('summary-label').textContent = emo.label;
-      $('summary-count').textContent = items.length + '개의 기록';
-      $('write-btn').href = 'diary-write.html?emo=' + emo.key;
+      $('summary').textContent = emo.label + ' 일기 ' + items.length + '개';
 
       if (!items.length) {
         $('empty').hidden = false;
-        $('empty').textContent = '아직 기록된 ' + emo.label + ' 일기가 없어요.\n기록하기를 눌러 첫 일기를 남겨 보세요!';
+        $('empty').textContent = '아직 기록된 ' + emo.label + ' 일기가 없어요.';
         return;
       }
 
@@ -96,7 +86,7 @@
         time.textContent = DiaryStore.formatDate(d.at);
         time.dateTime = new Date(d.at).toISOString();
         li.querySelector('.postit__time').textContent = DiaryStore.formatTime(d.at);
-        li.querySelector('.postit__text').textContent = d.text;
+        li.querySelector('.postit__text').innerHTML = DiaryStore.highlight(d.text);   // 긍정 표현 볼드
         // 탭하면 작성 페이지에서 이어서 수정
         link.href = 'diary-write.html?id=' + encodeURIComponent(d.id);
         link.setAttribute('aria-label', DiaryStore.formatDate(d.at) + ' 일기 수정하기');

@@ -1,0 +1,9 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "functions": {
+    "api/counsel.js": {
+      "includeFiles": "prompts/**",
+      "maxDuration": 60
+    }
+  }
+}

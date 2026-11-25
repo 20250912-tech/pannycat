@@ -8,9 +8,9 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <!-- Figma 1:5030 "알림 설정하기" · 37:8750 "알람시간 설정"
-       긴급 연락 설정의 .onboarding.breath 프레임·.appbar·.profile-field__label·.switch·.btn-primary 재사용 -->
-  <main class="onboarding breath profile-edit notify" data-node-id="1:5030">
+  <!-- Figma 1597:12814 "알림 설정하기" · 37:8750 "알람시간 설정"
+       보호자 추가의 .onboarding.breath 프레임·.profile-edit--scroll·.appbar·.profile-field__label·.switch·.btn-primary 재사용 -->
+  <main class="onboarding breath profile-edit profile-edit--scroll notify" data-node-id="1597:12814">
     <!-- 데스크톱 미리보기용 상태바 (실제 모바일 기기에서는 숨김) -->
     <div class="status-bar" aria-hidden="true">
       <span class="status-bar__time">9:41</span>
@@ -77,11 +77,29 @@
             <button class="day-chip" type="button" aria-pressed="false" data-day="0">일</button>
           </div>
         </div>
+
+        <!-- 추가하기 (Figma 2008:19363) → 아래 목록에 저장 -->
+        <button class="notify-add" id="nt-add" type="button" data-node-id="2008:19363">추가하기</button>
       </section>
+
+      <!-- 저장된 알림 (Figma 2001:19918) — X 누르면 삭제 -->
+      <ul class="notify-alarms" id="nt-alarms" aria-label="저장된 알림"></ul>
 
       <button class="btn-primary profile-edit__save" id="save-btn" type="submit" data-node-id="1:578">저장하기</button>
     </form>
   </main>
+
+  <template id="nt-alarm-item">
+    <li class="notify-alarm" data-node-id="2001:19150">
+      <span class="notify-alarm__text">
+        <span class="notify-alarm__time"><span class="notify-alarm__ampm"></span><strong class="notify-alarm__clock"></strong></span>
+        <span class="notify-alarm__days"></span>
+      </span>
+      <button class="notify-alarm__remove" type="button">
+        <img src="assets/notify/remove.svg" width="26.6973" height="26.6973" alt="" />
+      </button>
+    </li>
+  </template>
 
   <script src="notify.js"></script>
 </body>

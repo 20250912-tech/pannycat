@@ -1,4 +1,4 @@
-// 마이페이지 — "화면 항상 표시" 스위치 토글 (선택값은 이 기기에만 저장)
+// 마이페이지 — "화면 꺼짐 방지" 스위치 토글 (선택값은 이 기기에만 저장)
 (function () {
   const KEY = 'panny.keepAwake';
   const sw = document.querySelector('.mypage-switch');

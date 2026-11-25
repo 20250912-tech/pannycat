@@ -16,7 +16,9 @@
   var NODE = { read: '92:5605', tap: '92:5647', write: '92:5577' };
 
   // ---------- 세션 ----------
-  var session = S.getSession();
+  // 홈에서 '이어서 하기'로 들어오면 그때의 문장·위치·방식으로
+  var resume = ActivityRecord.resuming('affirmation');
+  var session = resume && resume.sentences && resume.sentences.length ? { sentences: resume.sentences } : S.getSession();
   if (!session || !session.sentences || !session.sentences.length) {
     // 직접 들어온 경우: 저장된 주제(없으면 추천 주제)로 구성
     var topics = S.getTopics().length ? S.getTopics() : S.RECOMMEND.topics;
@@ -29,6 +31,22 @@
   var doneBy = [];                    // 문장별로 완료한 방식
   var startedAt = Date.now();
   var finishing = false;
+  if (resume && resume.sentences) {
+    index = Math.min(Math.max(resume.index || 0, 0), total - 1);
+    doneBy = (resume.doneBy || []).slice(0, total);
+    if (MODE_LABEL[resume.mode]) mode = resume.mode;
+    startedAt -= (resume.spent || 0) * 1000;
+  }
+
+  // 진행 상태 저장 (첫 문장을 마치기 전에 나가면 저장 안 함)
+  function saveProgress() {
+    if (finishing || (index === 0 && !doneBy.filter(Boolean).length)) return;
+    ActivityRecord.saveProgress({
+      type: 'affirmation', href: ActivityRecord.here(), sentences: sentences, index: index, total: total,
+      doneBy: doneBy, mode: mode, spent: Math.round((Date.now() - startedAt) / 1000)
+    });
+  }
+  window.addEventListener('pagehide', saveProgress);
 
   // ---------- 공용 ----------
   var toastTimer;
@@ -99,6 +117,7 @@
     if (next >= total) { finish(); return; }
     index = next;
     render();
+    saveProgress();
   }
 
   function finish() {
@@ -114,7 +133,8 @@
       done: doneBy.filter(Boolean).length,
       method: MODE_LABEL[method],
       seconds: Math.round((Date.now() - startedAt) / 1000),
-      text: sentences[0].replace(/\n/g, ' ')
+      text: sentences[0].replace(/\n/g, ' '),
+      texts: sentences.map(function (s) { return s.replace(/\n/g, ' '); })   // 진행한 확언 전부 (기록 자세히보기)
     });
     location.href = 'activity-complete.html';
   }
@@ -323,5 +343,5 @@
   closeBtn.addEventListener('click', function () { stopAll(); stopModal.open(); });
   window.addEventListener('pagehide', stopAll);
 
-  setMode('read');
+  setMode(mode);
 })();

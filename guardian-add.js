@@ -1,4 +1,5 @@
-// 보호자 추가하기 (Figma 1:4955) + 사진 선택하기 시트 (33:8593)
+// 보호자 추가하기 (Figma 1597:12741) + 사진 선택하기 시트 (33:8593)
+// 보호자별 긴급 연락 방식(전화/메시지)과 긴급 메시지도 함께 저장
 // ?id=... 로 열면 해당 보호자를 수정
 (function () {
   const AVATAR = 'assets/profile/avatar.svg';
@@ -13,6 +14,9 @@
   const saveBtn = document.getElementById('save-btn');
   const overlayEl = document.getElementById('photo-overlay');
   const chips = Array.from(document.querySelectorAll('.guardian-chip'));
+  const methods = Array.from(document.querySelectorAll('.emergency-option'));
+  const messageInput = document.getElementById('g-message');
+  const DEFAULT_MESSAGE = messageInput.placeholder;
 
   const list = Guardians.load();
   const editId = new URLSearchParams(location.search).get('id');
@@ -20,9 +24,11 @@
 
   let photo = editing ? editing.photo : null;
   let relation = editing ? editing.relation : 'parent';
+  let method = (editing && editing.method) || 'message';
   if (editing) {
     nameInput.value = editing.name;
     phoneInput.value = editing.phone;
+    messageInput.value = editing.message || '';
     saveBtn.textContent = '저장하기';
   }
 
@@ -33,6 +39,20 @@
 
   function renderRelation() {
     chips.forEach((c) => c.setAttribute('aria-checked', String(c.dataset.value === relation)));
+  }
+
+  function renderMethod() {
+    methods.forEach((btn) => {
+      const on = btn.dataset.method === method;
+      btn.setAttribute('aria-checked', String(on));
+      btn.tabIndex = on ? 0 : -1;
+    });
+  }
+
+  // 내용 길이에 맞춰 메시지 입력창 높이 자동 조절
+  function autosize() {
+    messageInput.style.height = 'auto';
+    messageInput.style.height = messageInput.scrollHeight + 'px';
   }
 
   function validate() {
@@ -91,6 +111,20 @@
     });
   });
 
+  // 연락 방식: 하나만 선택 (방향키 이동 지원)
+  methods.forEach((btn, i) => {
+    btn.addEventListener('click', () => { method = btn.dataset.method; renderMethod(); });
+    btn.addEventListener('keydown', (e) => {
+      const step = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 }[e.key];
+      if (!step) return;
+      e.preventDefault();
+      const next = methods[(i + step + methods.length) % methods.length];
+      next.click();
+      next.focus();
+    });
+  });
+  messageInput.addEventListener('input', autosize);
+
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     if (!validate()) {
@@ -102,6 +136,8 @@
       name: nameInput.value.trim(),
       phone: phoneInput.value,
       relation,
+      method,
+      message: messageInput.value.trim() || DEFAULT_MESSAGE,
       photo,
     };
     const next = editing ? list.map((g) => (g.id === editing.id ? entry : g)) : list.concat(entry);
@@ -114,5 +150,7 @@
 
   renderPhoto();
   renderRelation();
+  renderMethod();
+  autosize();
   validate();
 })();

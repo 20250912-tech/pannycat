@@ -1050,7 +1050,7 @@ body.page-home { background: var(--home-bg); }
   height: 55px;
 }
 
-/* ---------- 행동 추천 (353×161) ---------- */
+/* ---------- 행동 추천 (Figma 2091:18517 · 353×161, 패딩 18 · 문구 317 폭 2줄 고정) ---------- */
 .resume-card {
   display: flex;
   flex-direction: column;
@@ -1061,23 +1061,32 @@ body.page-home { background: var(--home-bg); }
   max-width: 353px;
   height: 161px;
   margin-top: 15px;
-  padding: 18px 16px;
+  padding: 18px;
+  overflow: hidden;
   border-radius: 15px;
   background: linear-gradient(96.7deg, rgba(17, 17, 44, 0.95) 3.74%, rgba(43, 39, 81, 0.95) 34.39%, rgba(59, 53, 85, 0.95) 96.12%);
   box-shadow: 1px 2px 5px 0 rgba(144, 128, 165, 0.25);
 }
-.resume-card__text { position: relative; width: 100%; max-width: 321px; height: 62px; }
+.resume-card__text { position: relative; flex-shrink: 0; width: 100%; max-width: 317px; height: 62px; }
 .resume-card__title {
   margin: 0;
   font-weight: 700;
   font-size: 18px;
   line-height: normal;
   color: var(--white);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .resume-card__desc {
   position: absolute;
   top: 32px;
   left: 0;
+  right: 0;
+  text-overflow: ellipsis;
+  height: 30px;                     /* 15px × 2줄 — 문구가 바뀌어도 박스 모양 유지 */
+  overflow: hidden;
+  white-space: nowrap;
   margin: 0;
   font-weight: 500;
   font-size: 14px;
@@ -1091,6 +1100,7 @@ body.page-home { background: var(--home-bg); }
   width: 100%;
   max-width: 321px;
   height: 46px;
+  flex-shrink: 0;
   border-radius: 15px;
   background: var(--white);
   color: var(--main2);
@@ -1156,6 +1166,10 @@ body.page-home { background: var(--home-bg); }
   width: 113px;
   height: 113px;
 }
+
+/* 홈 추천 카드: 활동하기 탭 카드(.act-card--*)의 색·아이콘 위치를 쓰되, 카드 높이 122(활동하기 137)에 맞춰 아이콘을 7.5 올림 */
+.rec-card[class*="act-card--"] .rec-card__icon { margin-top: -7.5px; }
+.resume-card[hidden] { display: none; }
 
 .sos-card:focus-visible,
 .rec-card:focus-visible,
@@ -1263,6 +1277,11 @@ body.page-home { background: var(--home-bg); }
 .levelup__list dd b { display: block; font-size: 11.52px; }
 .levelup__body .levelup__note-title { margin-top: 17.92px; font-weight: 700; }
 .levelup__notes { margin: 0; padding-left: 17px; }
+
+/* 레벨업 기준 간략판 (Figma 1597:12008): 본문 폭 267.52 = 카드 안쪽 폭, 문단·항목 사이 한 줄(17.92) 띄움 */
+.levelup--simple .levelup__body { margin-right: 0; }
+.levelup--simple .levelup__body p + p,
+.levelup--simple .levelup__list dd + dt { margin-top: 17.92px; }
 
 /* 세로가 짧은 화면: 오버레이를 세로 가운데로 */
 @media (max-height: 720px) and (max-width: 599px) {
@@ -1450,6 +1469,87 @@ body.page-home { background: var(--home-bg); }
 }
 .pattern-card__plus { position: relative; width: 12px; height: 12px; }
 .pattern-card__plus img { position: absolute; left: -0.8px; top: -0.8px; max-width: none; }
+.pattern-card__setting { flex-shrink: 0; }
+
+/* ---------- 호흡 설정하기 시트: 단계별 초 휠 피커 (Figma 2058:17124) ---------- */
+.sheet--custom { padding-top: 46px; }
+.breath-picker {
+  display: flex;
+  justify-content: space-between;
+  padding: 22px 28px 16px;
+  border-radius: 10px;
+  background: var(--white);
+}
+.breath-picker__col {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 40px;
+}
+/* 열 사이 점선 (첫 열 제외, 열 간격 40px의 가운데) */
+.breath-picker__col + .breath-picker__col::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -20.5px;
+  border-left: 1px dashed rgba(126, 122, 143, 0.6);
+}
+.breath-picker__label {
+  font-weight: 700;
+  font-size: 15.3px;
+  line-height: 1.5;
+  color: #555263;
+  white-space: nowrap;
+}
+.breath-picker__wheel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 44px;
+  height: 126px;               /* 항목 3개 */
+  padding: 42px 0;             /* 첫·마지막 값도 가운데로 올 수 있게 */
+  box-sizing: border-box;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+  border-radius: 10px;
+  outline: none;
+}
+.breath-picker__wheel::-webkit-scrollbar { display: none; }
+.breath-picker__wheel:focus-visible { outline: 2px solid #c4bbee; outline-offset: 2px; }
+.breath-picker__item {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 36.5px;
+  height: 42px;
+  scroll-snap-align: center;
+  font-weight: 600;
+  font-size: 15.3px;
+  color: rgba(126, 122, 143, 0.7);
+  cursor: pointer;
+  user-select: none;
+}
+.breath-picker__item.is-selected {
+  position: relative;
+  font-weight: 700;
+  font-size: 20.4px;
+  color: var(--white);
+}
+.breath-picker__item.is-selected::before {
+  content: '';
+  position: absolute;
+  inset: 2.3px 0;
+  z-index: -1;
+  border-radius: 10px;
+  background: #9b86f4;
+}
+.breath-picker__item.is-selected { z-index: 0; }
 
 .btn-primary.breath-intro__start { margin-top: auto; }
 
@@ -1846,9 +1946,11 @@ button.btn-primary { border: 0; font-family: inherit; cursor: pointer; }
 .btn-primary.saved__btn { margin-top: 21px; }
 
 /* =====================================================================
-   마음기록 저장 완료 (Figma 1:3373)
+   활동 완료_저장 (Figma 호흡 2007:18584 · 그라운딩 1893:13435 · 바디스캔 1893:13465 · 확언 1976:12511)
+   구름 top 152 / 호흡은 카드가 2×2라 35px 위(117)
    ===================================================================== */
 .onboarding.saved { padding-top: calc(72px + env(safe-area-inset-top)); }
+.onboarding.saved.saved--grid { padding-top: calc(37px + env(safe-area-inset-top)); }
 
 /* 오늘의 호흡 구름 179.9×141.57 */
 .saved__cloud {
@@ -1886,7 +1988,7 @@ button.btn-primary { border: 0; font-family: inherit; cursor: pointer; }
   flex-shrink: 0;
   width: 136.063px;
   height: 110px;
-  margin-top: 6.43px;
+  margin-top: 5.43px;
 }
 
 .saved__panny-body { position: absolute; top: 0; left: -10.19px; }
@@ -1905,7 +2007,7 @@ button.btn-primary { border: 0; font-family: inherit; cursor: pointer; }
   max-width: 339px;
   min-height: 195px;
   margin-top: -5px;
-  padding: 20px 14px;
+  padding: 18px;
   border-radius: 15px;
   background: var(--white);
   text-align: center;
@@ -1923,17 +2025,27 @@ button.btn-primary { border: 0; font-family: inherit; cursor: pointer; }
   margin: 14px 0 0;
   font-weight: 500;
   font-size: 14px;
-  line-height: 18px;
+  line-height: 20px;
   color: #37335a;
 }
 
 .saved__stats {
   display: flex;
   justify-content: center;
-  gap: 19px;
+  gap: 20px;
   width: 100%;
   margin: 15px 0 0;
   color: #37335a;
+}
+
+/* 2칸 (그라운딩 · 바디스캔 · 확언): 남은 폭을 반씩 (카드 패딩 18 → 각 141.5), 간격 20 */
+.saved__stats--two .saved__stat { flex: 1 1 0; min-width: 0; }
+
+/* 2×2 (호흡): 칸 폭 균등, 간격 10 */
+.saved__stats--grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
 }
 
 .saved__stat {
@@ -2014,6 +2126,7 @@ button.btn-primary { border: 0; font-family: inherit; cursor: pointer; }
 @media (min-width: 600px) {
   .onboarding.done { padding-top: 121px; }
   .onboarding.saved { padding-top: 151px; }
+  .onboarding.saved.saved--grid { padding-top: 116px; }
   .saved__toast { bottom: 100px; }
 }
 
@@ -2084,6 +2197,8 @@ button.btn-primary { border: 0; font-family: inherit; cursor: pointer; }
 }
 .chat-bubble--bot { background: var(--white); color: var(--main2); }
 .chat-bubble--user { background: var(--main); color: var(--white); }
+/* 안내 말풍선 (Figma 2001:21441) — 보라 텍스트, 2줄, 행간 1.08 */
+.chat-bubble--notice { max-width: none; color: var(--main); line-height: 1.08; }
 
 /* 입력중 애니메이션 (Figma 1:2277, 84×37) */
 .chat-typing {
@@ -2656,9 +2771,33 @@ a.btn-primary.profile-edit__save { margin-top: auto; text-decoration: none; }
   flex-wrap: wrap;
   gap: 7px;
   align-self: flex-start;
-  margin: 15px 0 32px;
+  margin: 15px 0 0;
 }
 .chip.guardian-chip { color: var(--gray2); }
+/* 연락 방식(673) → 카드 709 / 797 · 메세지 설정(904) → 카드 940 (높이 125) → 등록하기(1096) */
+.guardian-add .emergency-message { min-height: 125px; margin-bottom: 0; padding-bottom: 22px; }
+
+/* ---------- 긴 폼 스크롤 (.profile-edit--scroll) ----------
+   프레임 높이는 화면(모바일)·852(데스크톱)로 고정, 앱바는 그대로 두고 폼만 스크롤
+   (.diary-list__scroll 과 같은 방식: 거터만큼 넓혀 포커스 링·그림자가 잘리지 않게) */
+.onboarding.profile-edit--scroll { height: 100vh; height: 100dvh; padding-bottom: 0; }
+.profile-edit--scroll .profile-edit__form {
+  min-height: 0;
+  max-width: none;
+  width: calc(100% + 2 * var(--gutter));
+  margin: 0 calc(-1 * var(--gutter));
+  padding: 0 calc(var(--gutter) + 1px) calc(28px + env(safe-area-inset-bottom));   /* 콘텐츠 351, 좌 21 */
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+}
+.profile-edit--scroll .profile-edit__form::-webkit-scrollbar { display: none; }
+.profile-edit--scroll .profile-edit__form > * { flex-shrink: 0; max-width: 351px; }
+.profile-edit--scroll .btn-primary.profile-edit__save { margin-top: 31px; }
+@media (min-width: 600px) {
+  .onboarding.profile-edit--scroll { height: var(--frame-h); padding-bottom: 0; }
+  .profile-edit--scroll .profile-edit__form { padding-bottom: 28px; }
+}
 .chip.guardian-chip[aria-checked="true"] {
   background: var(--main);
   color: var(--white);
@@ -2894,6 +3033,82 @@ a.btn-primary.profile-edit__save { margin-top: auto; text-decoration: none; }
 .day-chip[aria-pressed="true"] { background: var(--main); color: var(--white); font-weight: 700; }
 .day-chip:active { transform: scale(0.95); }
 .day-chip:focus-visible { outline: 2px solid #c4bbee; outline-offset: 2px; }
+
+/* ---------- 알림 추가 · 저장된 알림 (Figma 1597:12814) ----------
+   카드 안 추가하기(314, #29253E, radius 10, 12px 상하) → 카드 아래 20 → 알림 353×78.8 (간격 20) */
+.notify.profile-edit--scroll .profile-edit__form { max-width: none; padding-inline: var(--gutter); }
+.notify.profile-edit--scroll .profile-edit__form > * { max-width: 353px; }
+/* 알림 추가하기 박스 (Figma 2086:18478): 패딩 20/20, 요소 간격 12 — 라벨은 글자 높이로 맞춰 위아래 여백 균일하게 */
+.notify .notify-card { gap: 12px; margin-bottom: 0; padding: 20px; }
+.notify .notify-row { min-height: 0; }
+.notify .notify-time { gap: 8px; }                                  /* 라벨 → 시간 박스 8 (반복 요일과 동일) */
+.notify .notify-time__label { height: auto; margin-bottom: 0; }
+.notify .btn-primary.profile-edit__save { margin-top: auto; }
+
+.notify-add {
+  width: 100%;
+  padding: 12px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--main2);
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: normal;
+  color: var(--white);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.notify-add:active { transform: scale(0.98); }
+.notify-add:focus-visible { outline: 2px solid #c4bbee; outline-offset: 2px; }
+.notify-add:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+.notify-alarms {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  margin: 20px 0 32px;
+  padding: 0;
+  list-style: none;
+}
+.notify-alarms:empty { display: none; }
+.notify-alarm {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 78.8px;
+  padding: 14px 22px 14px 23px;
+  border-radius: 10px;
+  background: var(--white);
+  animation: picker-in 0.2s ease-out;
+}
+@media (prefers-reduced-motion: reduce) { .notify-alarm { animation: none; } }
+.notify-alarm__text { display: flex; flex-direction: column; min-width: 0; }
+.notify-alarm__time { display: flex; align-items: baseline; gap: 8.66px;   /* 오후 34.57 → 시각 43.23 */ color: var(--main2); line-height: normal; }
+.notify-alarm__ampm { font-weight: 500; font-size: 20px; }
+.notify-alarm__clock { font-weight: 700; font-size: 24px; }
+.notify-alarm__days {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: normal;
+  letter-spacing: 2.52px;
+  color: var(--gray2);
+}
+.notify-alarm__remove {
+  flex-shrink: 0;
+  width: 26.6973px;
+  height: 26.6973px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.notify-alarm__remove:active { transform: scale(0.92); }
+.notify-alarm__remove:focus-visible { outline: 2px solid #c4bbee; outline-offset: 2px; }
 
 /* =====================================================================
    긴급 SOS — 긴급화면 (Figma 1:1776) · 긴급화면_호흡 (Figma 1:1794)
@@ -3359,7 +3574,7 @@ body.page-sos { background: #000; }
   align-items: center;
   width: 100%;
 }
-.diary-write__note { width: 270px; margin-top: 57px; }
+.diary-write__note { width: 270px; margin-top: 57px; --emo: #efeef0; }   /* 감정 미선택 시 접힌 모서리 회색 (Figma 1992:12401) */
 .diary-write__note .postit { padding: 31px 22.3px 0 22.68px; }
 .diary-write__note .postit__date { font-size: 18px; line-height: 21px; }
 .diary-write__note .postit__time { font-size: 14px; }
@@ -3463,8 +3678,151 @@ body.page-sos { background: #000; }
 .round-btn:active { transform: scale(0.95); }
 .round-btn:focus-visible { outline: 3px solid #c4bbee; outline-offset: 3px; }
 
+/* 마음일기 작성 (Figma 1992:12378): 버튼은 15px 라운드 사각형, 체크는 에셋 자체가 배경 포함 */
+.diary-write__actions .round-btn { border-radius: 15px; }
+.diary-write__actions .round-btn--check { background: none; }
+.diary-write__actions .round-btn--check img { display: block; }
+
+/* ---------- 마음일기 저장 완료 (Figma 2011:20057) ---------- */
+.diary-done {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.76);
+  -webkit-backdrop-filter: blur(3.05px);
+  backdrop-filter: blur(3.05px);
+  animation: diary-done-in 0.25s ease-out both;
+}
+.diary-done[hidden] { display: none; }
+.diary-done__title {
+  margin: 212px 0 0;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: normal;
+  text-align: center;
+  color: var(--gray3, #f0eff3);
+}
+/* 파일 묶음 242.46 × 244 (뒷판 · 종이 · 앞판 · 발바닥) */
+.diary-done__folder {
+  position: relative;
+  flex-shrink: 0;
+  width: 242.456px;
+  height: 244px;
+  margin-top: 50px;
+}
+.diary-done__back {
+  position: absolute;
+  left: 0;
+  top: 51.43px;
+  width: 241.869px;
+  height: 192.571px;
+  border-radius: 23.108px;
+  background: #9b87f5;
+  box-shadow: 6.521px 6.521px 19.238px 3.261px rgba(185, 166, 197, 0.15);
+}
+.diary-done__papers { position: absolute; left: -7.12px; top: -8.66px; max-width: none; }
+.diary-done__front  { position: absolute; left: 0; top: 117.37px; max-width: none; }
+
+/* 발바닥 76.70 × 63.30 — 화면이 뜨면 살짝 통통 튀며 작게 터짐 */
+.diary-done__paw {
+  position: absolute;
+  left: 80px;
+  top: 35.03px;
+  width: 76.703px;
+  height: 63.3px;
+  transform-origin: 50% 60%;
+  animation: diary-paw-pop 0.7s cubic-bezier(0.3, 0, 0.3, 1) 0.3s both;
+}
+.done-paw { position: absolute; inset: 0; overflow: hidden; }
+.done-paw img { position: absolute; display: block; max-width: none; }
+.done-paw__pad    { left: 19.75px; top: 29.72px; }
+
+/* 작게 빵 터지는 점 8개 (발바닥 중심 118.35, 66.68 기준) */
+.diary-done__burst {
+  position: absolute;
+  left: 118.35px;
+  top: 66.68px;
+  width: 0;
+  height: 0;
+}
+.diary-done__burst i {
+  position: absolute;
+  left: -3px;
+  top: -3px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #9b87f5;
+  opacity: 0;
+  transform: rotate(var(--a)) translateY(0) scale(0.4);
+  animation: diary-burst 0.6s cubic-bezier(0.2, 0.7, 0.3, 1) 0.4s both;
+}
+.diary-done__burst i:nth-child(1) { --a: 0deg; }
+.diary-done__burst i:nth-child(2) { --a: 45deg;  background: #c4bbee; }
+.diary-done__burst i:nth-child(3) { --a: 90deg; }
+.diary-done__burst i:nth-child(4) { --a: 135deg; background: #c4bbee; }
+.diary-done__burst i:nth-child(5) { --a: 180deg; }
+.diary-done__burst i:nth-child(6) { --a: 225deg; background: #c4bbee; }
+.diary-done__burst i:nth-child(7) { --a: 270deg; }
+.diary-done__burst i:nth-child(8) { --a: 315deg; background: #c4bbee; }
+.done-paw__toe-ml { left: 19.75px; top: 5.35px; }
+.done-paw__toe-mr { left: 42.29px; top: 5.35px; }
+.done-paw__toe {
+  position: absolute;
+  top: 20.96px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 21.404px;
+  height: 22.528px;
+}
+.done-paw .done-paw__toe img { position: static; }
+.done-paw__toe--l { left: 2.27px; }
+.done-paw__toe--l img { transform: rotate(-16.5deg) skewX(1.86deg); }
+.done-paw__toe--r { left: 56.37px; }
+.done-paw__toe--r img { transform: rotate(16.5deg) skewX(-1.86deg); }
+
+.diary-done__ok {
+  display: block;
+  flex-shrink: 0;
+  margin: auto 0 calc(109.64px + env(safe-area-inset-bottom));
+  border-radius: 15px;
+  transition: transform 0.12s ease;
+}
+.diary-done__ok img { display: block; }
+.diary-done__ok:active { transform: scale(0.95); }
+.diary-done__ok:focus-visible { outline: 3px solid #c4bbee; outline-offset: 3px; }
+
+@keyframes diary-done-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes diary-paw-pop {
+  0%   { transform: scale(1); }
+  30%  { transform: scale(1.22); }
+  55%  { transform: scale(0.92); }
+  78%  { transform: scale(1.06); }
+  100% { transform: scale(1); }
+}
+@keyframes diary-burst {
+  0%   { opacity: 0; transform: rotate(var(--a)) translateY(-26px) scale(0.4); }
+  25%  { opacity: 1; }
+  100% { opacity: 0; transform: rotate(var(--a)) translateY(-50px) scale(1); }
+}
+@media (max-height: 700px) {
+  .diary-done__title { margin-top: 120px; }
+  .diary-done__ok { margin-bottom: calc(48px + env(safe-area-inset-bottom)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .diary-done, .diary-done__paw { animation: none; }
+  .diary-done__burst { display: none; }
+}
+
 /* ---------- 감정별 일기 파일 ---------- */
-.onboarding.diary-list { height: 100vh; height: 100dvh; }
+/* 모바일에서만 화면 높이에 맞춤 — 데스크톱은 393×852 프레임 그대로 (Figma 1597:12262) */
+@media (max-width: 599px) {
+  .onboarding.diary-list { height: 100vh; height: 100dvh; }
+}
 .diary-list__summary {
   display: flex;
   align-items: center;
@@ -3479,7 +3837,7 @@ body.page-sos { background: #000; }
   flex: 1 1 auto;
   min-height: 0;
   width: calc(100% + 2 * var(--gutter));
-  margin: 8px calc(-1 * var(--gutter)) 0;
+  margin: 25.6px calc(-1 * var(--gutter)) 0;   /* 앱바 하단 → 첫 카드 41.6 (Figma 1597:12262) */
   padding: 16px var(--gutter) 24px;
   overflow-y: auto;
   scrollbar-width: none;
@@ -3488,8 +3846,8 @@ body.page-sos { background: #000; }
 .diary-notes {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 24px 20px;
-  max-width: 353px;
+  gap: 20px 26px;
+  max-width: 342.34px;
   margin: 0 auto;
   padding: 0;
   list-style: none;
@@ -3508,13 +3866,14 @@ body.page-sos { background: #000; }
   cursor: pointer;
 }
 .diary-note:focus-visible { outline: 3px solid #c4bbee; outline-offset: 4px; border-radius: 12px; }
-.diary-note .postit__date { font-size: 13px; }
-.diary-note .postit__time { font-size: 10.5px; }
+.diary-notes > li:not(.is-open) .diary-note .postit { padding: 18.27px 9.81px 37.95px 13.3px; }   /* 글 영역 135.06 (Figma 1925:12339) */
+.diary-note .postit__date { font-size: 10.13px; }
+.diary-note .postit__time { font-size: 10.13px; }
 .postit__text {
   display: -webkit-box;
   flex: 1 1 auto;
   min-height: 0;
-  margin-top: 10px;
+  margin-top: 14px;
   overflow: hidden;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 6;
@@ -3525,6 +3884,7 @@ body.page-sos { background: #000; }
   white-space: pre-wrap;
   word-break: break-word;
 }
+.postit__text b { font-weight: 700; color: var(--gray1); }   /* 긍정 표현 강조 */
 .is-open .diary-note .postit { padding: 31px 24px 24%; }
 .is-open .diary-note .postit__date { font-size: 18px; }
 .is-open .diary-note .postit__time { font-size: 14px; }
@@ -3729,7 +4089,7 @@ body.page-sos { background: #000; }
   font-size: 16px;
   line-height: 24px;
   letter-spacing: -0.16px;
-  color: var(--gray1);
+  color: #555263;
   white-space: nowrap;
 }
 
@@ -3791,9 +4151,6 @@ body.page-sos { background: #000; }
   .ground-howto__list { font-size: 13px; }
 }
 
-/* 활동 완료_저장_그라운딩 (Figma 55:5319): 통계 2칸, 각 135 폭 */
-.saved__stats--two .saved__stat { width: 135px; }
-@media (max-width: 360px) { .saved__stats--two .saved__stat { width: auto; } }
 
 /* =====================================================================
    바디스캔 (Figma 1:2754 진입 · 1:2736 안내 팝업 · 1:2702 진행 · 21:6003 그만하기)
@@ -3945,8 +4302,6 @@ body.page-sos { background: #000; }
   .scan-bar { margin-top: 24px; }
 }
 
-/* 활동 완료_저장_바디스캔 (Figma 58:5445): 총 시간 1칸, 289 폭 */
-.saved__stats--one .saved__stat { width: 289px; max-width: 100%; }
 
 /* =====================================================================
    기록 — 캘린더 (Figma 1:2041 · 1:3406) · 자세히보기 (1:3587 · 1:5828) · 리포트 (1:3702)
@@ -4255,6 +4610,8 @@ body.page-sos { background: #000; }
 .rd-item__body[hidden] { display: none; }
 .rd-item__text { margin: 0; font-weight: 500; font-size: 14px; line-height: 1.45; color: var(--gray1); white-space: pre-line; overflow-wrap: anywhere; }
 .rd-item__quote { margin: 0; font-weight: 700; font-size: 14px; line-height: 20px; color: #000; overflow-wrap: anywhere; }
+.rd-item__affirms { display: flex; flex-direction: column; gap: 14px; margin: 0; padding-left: 20px; font-weight: 500; font-size: 14px; line-height: 20px; color: #000; }
+.rd-item__affirms li { padding-left: 2px; overflow-wrap: anywhere; }
 .rd-item__result { display: flex; align-items: center; gap: 8px; margin: 0; padding: 10px 12px; border-radius: 12px; background: var(--rec-tint); }
 .rd-item__result span { font-size: 13px; line-height: normal; color: var(--main); }
 .rd-item__result strong { font-weight: 700; font-size: 15px; line-height: normal; color: var(--main); }
@@ -4564,12 +4921,12 @@ body.page-sos { background: #000; }
 /* ---------- 진입 (92:5425) ---------- */
 .aff-intro__title {                     /* top 166, 18px SemiBold */
   margin: 48px 0 0;
-  font-weight: 600;
-  font-size: 18px;
-  line-height: 24px;
-  letter-spacing: -0.18px;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 1.3;
+  letter-spacing: -0.24px;
   text-align: center;
-  color: var(--gray1);
+  color: #29253e;
 }
 .aff-intro__hero {                      /* 패니 + 생각 구름 262.35 × 203, top 240 */
   position: relative;

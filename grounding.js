@@ -21,6 +21,24 @@
   var step = 0;
   var startedAt = Date.now();
 
+  // 홈에서 '이어서 하기'로 들어오면 멈췄던 단계부터
+  var resume = ActivityRecord.resuming('grounding');
+  if (resume) {
+    step = Math.min(Math.max(resume.step || 0, 0), TOTAL - 1);
+    results = (resume.results || []).slice(0, step);
+    startedAt -= (resume.spent || 0) * 1000;
+  }
+
+  // 진행 상태 저장 (첫 단계에서 바로 나가면 저장 안 함)
+  function saveProgress() {
+    if (step === 0) return;
+    ActivityRecord.saveProgress({
+      type: 'grounding', href: ActivityRecord.here(), step: step, total: TOTAL, sense: STEPS[step].sense,
+      results: results.slice(0, step), spent: Math.round((Date.now() - startedAt) / 1000)
+    });
+  }
+  window.addEventListener('pagehide', saveProgress);
+
   function render() {
     var s = STEPS[step], n = step + 1;
     root.dataset.step = n;
@@ -41,6 +59,7 @@
     if (step < TOTAL - 1) {
       step += 1;
       render();
+      saveProgress();
       return;
     }
     var found = results.filter(function (r) { return r === 'found'; }).length;

@@ -1,7 +1,8 @@
-// 알림 설정 (Figma 1:5030) + 알람시간 스크롤 선택 (37:8750) — 이 기기에만 저장
+// 알림 설정 (Figma 1597:12814) + 알람시간 스크롤 선택 (37:8750) — 이 기기에만 저장
+// 추가하기 → 아래 목록에 알림 저장, X → 삭제 (목록이 있는 마이페이지 화면에서만)
 window.NotifySettings = (function () {
   const KEY = 'panny.notify';
-  const DEFAULTS = { enabled: true, hour: 21, minute: 0, days: [1, 2, 3, 4, 5] };
+  const DEFAULTS = { enabled: true, hour: 21, minute: 0, days: [1, 2, 3, 4, 5], alarms: [] };
 
   function load() {
     try {
@@ -39,10 +40,14 @@ window.NotifySettings = (function () {
   const dispAmpm = document.getElementById('nt-disp-ampm');
   const dispClock = document.getElementById('nt-disp-clock');
   const chips = Array.from(form.querySelectorAll('.day-chip'));
+  const addBtn = document.getElementById('nt-add');
+  const alarmList = document.getElementById('nt-alarms');
+  const alarmTpl = document.getElementById('nt-alarm-item');
 
   const data = NotifySettings.load();
   let enabled = data.enabled;
   let days = new Set(data.days);
+  let alarms = Array.isArray(data.alarms) ? data.alarms : [];
   // 상태: 오전/오후 · 1~12시 · 0~59분
   const time = {
     ampm: data.hour >= 12 ? 'pm' : 'am',
@@ -180,6 +185,7 @@ window.NotifySettings = (function () {
     card.classList.toggle('is-off', !enabled);
     timeBtn.disabled = !enabled;
     chips.forEach((c) => { c.disabled = !enabled; });
+    renderAddBtn();
   }
   enabledSw.addEventListener('click', () => {
     enabled = !enabled;
@@ -190,6 +196,7 @@ window.NotifySettings = (function () {
   // ---------- 반복 요일 ----------
   function renderDays() {
     chips.forEach((c) => c.setAttribute('aria-pressed', String(days.has(Number(c.dataset.day)))));
+    renderAddBtn();
   }
   chips.forEach((c) => {
     c.addEventListener('click', () => {
@@ -199,12 +206,75 @@ window.NotifySettings = (function () {
     });
   });
 
+  // ---------- 알림 추가 · 삭제 ----------
+  const DAY_ORDER = [1, 2, 3, 4, 5, 6, 0];
+  const DAY_NAMES = ['일', '월', '화', '수', '목', '금', '토'];
+  const hour24 = () => (time.hour % 12) + (time.ampm === 'pm' ? 12 : 0);
+  const sortDays = (list) => DAY_ORDER.filter((d) => list.indexOf(d) !== -1);
+
+  function daysText(list) {
+    if (list.length === 7) return '매일';
+    return sortDays(list).map((d) => DAY_NAMES[d]).join('∙');
+  }
+
+  function renderAddBtn() {
+    if (addBtn) addBtn.disabled = !enabled || days.size === 0;
+  }
+
+  function persistAlarms() {
+    NotifySettings.save(Object.assign(NotifySettings.load(), { alarms }));
+  }
+
+  function renderAlarms() {
+    if (!alarmList) return;
+    alarmList.textContent = '';
+    alarms.forEach((a) => {
+      const li = alarmTpl.content.firstElementChild.cloneNode(true);
+      const ampm = a.hour >= 12 ? '오후' : '오전';
+      const clock = `${a.hour % 12 === 0 ? 12 : a.hour % 12} : ${pad(a.minute)}`;
+      const dayLabel = daysText(a.days);
+      li.querySelector('.notify-alarm__ampm').textContent = ampm;
+      li.querySelector('.notify-alarm__clock').textContent = clock;
+      li.querySelector('.notify-alarm__days').textContent = dayLabel;
+      const rm = li.querySelector('.notify-alarm__remove');
+      rm.dataset.id = a.id;
+      rm.setAttribute('aria-label', `${ampm} ${clock.replace(/ /g, '')} ${dayLabel} 알림 삭제`);
+      alarmList.appendChild(li);
+    });
+  }
+
+  if (addBtn && alarmList) {
+    addBtn.addEventListener('click', () => {
+      closePicker(false);
+      if (!enabled || days.size === 0) return;
+      const entry = { id: Date.now().toString(36), hour: hour24(), minute: time.min, days: sortDays(Array.from(days)) };
+      const dup = alarms.some((a) => a.hour === entry.hour && a.minute === entry.minute && a.days.join() === entry.days.join());
+      if (!dup) {
+        alarms = alarms.concat(entry).sort((x, y) => (x.hour * 60 + x.minute) - (y.hour * 60 + y.minute));
+        persistAlarms();
+        renderAlarms();
+      }
+    });
+
+    // X → 삭제 후 다음 X(없으면 추가하기)로 포커스
+    alarmList.addEventListener('click', (e) => {
+      const rm = e.target.closest('.notify-alarm__remove');
+      if (!rm) return;
+      const i = alarms.findIndex((a) => a.id === rm.dataset.id);
+      if (i === -1) return;
+      alarms = alarms.filter((a) => a.id !== rm.dataset.id);
+      persistAlarms();
+      renderAlarms();
+      const btns = alarmList.querySelectorAll('.notify-alarm__remove');
+      (btns[Math.min(i, btns.length - 1)] || addBtn).focus({ preventScroll: true });
+    });
+  }
+
   // ---------- 저장 → 마이페이지 ----------
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     closePicker(false);
-    const hour24 = (time.hour % 12) + (time.ampm === 'pm' ? 12 : 0);
-    const saved = { enabled, hour: hour24, minute: time.min, days: Array.from(days).sort() };
+    const saved = { enabled, hour: hour24(), minute: time.min, days: Array.from(days).sort(), alarms };
     NotifySettings.save(saved);
     // 리포트의 바텀시트(data-mode="sheet")에서는 페이지 이동 없이 시트만 닫음
     if (form.dataset.mode === 'sheet') {
@@ -217,4 +287,5 @@ window.NotifySettings = (function () {
   renderDisplay();
   renderEnabled();
   renderDays();
+  renderAlarms();
 })();

@@ -4,3 +4,7 @@ CLAUDE.md
 node_modules/
 .DS_Store
 Thumbs.db
+
+# AI 상담 API 키 (실제 키는 커밋 금지)
+config.py
+__pycache__/

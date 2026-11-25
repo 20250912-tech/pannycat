@@ -48,7 +48,11 @@
       return html;
     }
     if (e.type === 'affirmation') {
-      html += '<p class="rd-item__quote">“' + S.escape(e.text || '오늘의 확언') + '”</p>';
+      // 진행한 확언 전부를 번호 목록으로 (Figma 2007:19691) — 예전 기록은 text 한 문장만 있음
+      var texts = Array.isArray(e.texts) && e.texts.length ? e.texts : [e.text || '오늘의 확언'];
+      html += '<ol class="rd-item__affirms">' + texts.map(function (t) {
+        return '<li>' + S.escape(String(t).replace(/\n/g, ' ')) + '</li>';
+      }).join('') + '</ol>';
     } else {
       html += '<p class="rd-item__text">' + S.escape(S.detailText(e)) + '</p>';
     }

@@ -8,7 +8,8 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <main class="onboarding saved" data-node-id="1:3373">
+  <!-- 호흡 2007:18584 · 그라운딩 1893:13435 · 바디스캔 1893:13465 · 확언 1976:12511 -->
+  <main class="onboarding saved" id="saved" data-node-id="2007:18584">
     <!-- 데스크톱 미리보기용 상태바 (실제 모바일 기기에서는 숨김) -->
     <div class="status-bar" aria-hidden="true">
       <span class="status-bar__time">9:41</span>
@@ -37,13 +38,15 @@
     </div>
 
     <section class="saved__card" id="saved-card" data-node-id="1:3391" aria-labelledby="saved-title">
-      <h2 class="saved__title" id="saved-title">수고했어요, 수정님!</h2>
+      <h2 class="saved__title" id="saved-title">수고했어요, <span id="saved-nickname">수정</span>님!</h2>
       <p class="saved__msg">오늘도 나를 위한 시간을 가졌어요,<br />정말 멋져요!</p>
-      <!-- 호흡: 패턴·시간·횟수 / 그라운딩(Figma 55:5319): 건너뛴 횟수·완료한 횟수 / 바디스캔(Figma 58:5445): 총 시간 -->
-      <dl class="saved__stats" id="stats">
-        <div class="saved__stat"><dt>사용한 패턴</dt><dd class="saved__stat-pattern" id="stat-pattern">4-2-4-2</dd></div>
-        <div class="saved__stat"><dt>총 시간</dt><dd id="stat-time">1분</dd></div>
-        <div class="saved__stat"><dt>완료한 횟수</dt><dd id="stat-rounds">5회</dd></div>
+      <!-- 호흡: 패턴·마음 상태·총 시간·완료한 횟수(2×2) / 그라운딩: 건너뛴 개수·마음 상태 /
+           바디스캔: 소요 시간·마음 상태 / 확언: 진행한 문장 수·마음 상태 -->
+      <dl class="saved__stats saved__stats--grid" id="stats">
+        <div class="saved__stat"><dt>사용한 패턴</dt><dd class="saved__stat-pattern">4-2-4-2</dd></div>
+        <div class="saved__stat"><dt>마음 상태</dt><dd>편안해요</dd></div>
+        <div class="saved__stat"><dt>총 시간</dt><dd>5분</dd></div>
+        <div class="saved__stat"><dt>완료한 횟수</dt><dd>4개</dd></div>
       </dl>
     </section>
 
@@ -66,42 +69,49 @@
   </main>
 
   <script src="activity-record.js"></script>
+  <script src="profile.js"></script>
   <script>
     (function () {
       var $ = function (id) { return document.getElementById(id); };
+      $('saved-nickname').textContent = Profile.load().nickname || Profile.DEFAULTS.nickname;
       var rec = ActivityRecord.latest();
       var isGrounding = rec.type === 'grounding';
       var isBodyscan = rec.type === 'bodyscan';
       var isAffirmation = rec.type === 'affirmation';
       var label = isGrounding ? '오늘의 그라운딩' : isBodyscan ? '오늘의 바디스캔' : isAffirmation ? '오늘의 확언' : '오늘의 호흡';
       var count = ActivityRecord.countToday(isGrounding ? 'grounding' : isBodyscan ? 'bodyscan' : isAffirmation ? 'affirmation' : 'breathing');
-      var stats, summary;
+      var mood = rec.mood || '편안해요';
+      var stats, summary, isGrid = false;
 
       if (isAffirmation) {
-        // Figma 92:6244: 진행한 문장 수 · 진행 방식 · 소요 시간
-        var affTime = ActivityRecord.formatDuration(rec.seconds || 0);
-        stats = [['진행한 문장 수', (rec.count || 1) + '번'], ['진행 방식', rec.method || '읽기'], ['소요 시간', affTime]];
-        summary = label + ' ' + count + '회 · 문장 ' + (rec.count || 1) + '개 · ' + (rec.method || '읽기') + ' · ' + affTime;
+        // Figma 1976:12511: 진행한 문장 수 · 마음 상태
+        stats = [['진행한 문장 수', (rec.count || 1) + '번', true], ['마음 상태', mood]];
+        summary = label + ' ' + count + '회 · 문장 ' + (rec.count || 1) + '개 · ' + mood;
       } else if (isBodyscan) {
+        // Figma 1893:13465: 소요 시간 · 마음 상태
         var scanTime = ActivityRecord.formatDuration(rec.seconds || 120);
-        stats = [['총 시간', scanTime]];      // Figma 58:5445: 총 시간 한 칸 (289 폭)
-        summary = label + ' ' + count + '회 · ' + scanTime;
+        stats = [['소요 시간', scanTime], ['마음 상태', mood]];
+        summary = label + ' ' + count + '회 · ' + scanTime + ' · ' + mood;
       } else if (isGrounding) {
-        stats = [['건너뛴 횟수', (rec.skipped || 0) + '회'], ['완료한 횟수', (rec.found || 0) + '회']];
-        summary = label + ' ' + count + '회 · ' + rec.found + '단계 완료 · ' + rec.skipped + '단계 건너뜀';
+        // Figma 1893:13435: 건너뛴 개수 · 마음 상태
+        stats = [['건너뛴 개수', (rec.skipped || 0) + '개'], ['마음 상태', mood]];
+        summary = label + ' ' + count + '회 · ' + (rec.skipped || 0) + '개 건너뜀 · ' + mood;
       } else {
+        // Figma 2007:18584: 사용한 패턴 · 마음 상태 / 총 시간 · 완료한 횟수 (2×2)
         var pattern = rec.pattern || '4-2-4-2';
         var time = ActivityRecord.formatDuration(rec.seconds || 0);
-        stats = [['사용한 패턴', pattern], ['총 시간', time], ['완료한 횟수', rec.rounds + '회']];
-        summary = label + ' ' + count + '회 · 패턴 ' + pattern + ' · ' + time + ' · ' + rec.rounds + '회 완료';
+        stats = [['사용한 패턴', pattern, true], ['마음 상태', mood], ['총 시간', time], ['완료한 횟수', (rec.rounds || 0) + '개']];
+        summary = label + ' ' + count + '회 · 패턴 ' + pattern + ' · ' + time + ' · ' + (rec.rounds || 0) + '개 완료 · ' + mood;
+        isGrid = true;
       }
 
       $('today-label').textContent = label;
       $('today-count').textContent = count;
-      $('stats').classList.toggle('saved__stats--two', stats.length === 2);
-      $('stats').classList.toggle('saved__stats--one', stats.length === 1);
-      $('stats').innerHTML = stats.map(function (s, i) {
-        var cls = !isGrounding && !isBodyscan && i === 0 ? ' class="saved__stat-pattern"' : '';
+      $('saved').classList.toggle('saved--grid', isGrid);
+      $('stats').classList.toggle('saved__stats--grid', isGrid);
+      $('stats').classList.toggle('saved__stats--two', !isGrid);
+      $('stats').innerHTML = stats.map(function (s) {
+        var cls = s[2] ? ' class="saved__stat-pattern"' : '';
         return '<div class="saved__stat"><dt>' + s[0] + '</dt><dd' + cls + '>' + s[1] + '</dd></div>';
       }).join('');
 
@@ -125,7 +135,8 @@
 
       // 기록 카드를 PNG로 그려서 내려받기
       function drawCard() {
-        var W = 393, H = 520, S = 2;
+        var extra = isGrid ? 82 : 0;          // 2×2면 카드가 한 줄(72 + 간격 10) 더 길어짐
+        var W = 393, H = 520 + extra, S = 2;
         var c = document.createElement('canvas');
         c.width = W * S; c.height = H * S;
         var g = c.getContext('2d');
@@ -145,24 +156,24 @@
             g.drawImage(imgs[2], 148.5, 223, 96.374, 20.3009);
             g.fillStyle = '#fff';
             g.beginPath();
-            if (g.roundRect) g.roundRect(27, 277, 339, 195, 15); else g.rect(27, 277, 339, 195);
+            if (g.roundRect) g.roundRect(27, 277, 339, 195 + extra, 15); else g.rect(27, 277, 339, 195 + extra);
             g.fill();
             g.fillStyle = '#29253e'; g.font = '700 20px Pretendard, sans-serif';
             g.fillText($('saved-title').textContent, W / 2, 318);
             g.fillStyle = '#37335a'; g.font = '500 14px Pretendard, sans-serif';
             g.fillText('오늘도 나를 위한 시간을 가졌어요,', W / 2, 348);
-            g.fillText('정말 멋져요!', W / 2, 366);
-            var bw = stats.length === 1 ? 289 : stats.length === 2 ? 135 : 89, gap = 19;
-            var x0 = (W - (bw * stats.length + gap * (stats.length - 1))) / 2;
+            g.fillText('정말 멋져요!', W / 2, 368);
+            var gap = isGrid ? 10 : 20, bw = (339 - 36 - gap) / 2;   // 카드 339, 패딩 18
+            var x0 = (W - (bw * 2 + gap)) / 2;
             stats.forEach(function (s, i) {
-              var x = x0 + i * (bw + gap);
+              var x = x0 + (i % 2) * (bw + gap), y = 384 + Math.floor(i / 2) * 82;
               g.fillStyle = 'rgba(155,135,245,0.23)';
               g.beginPath();
-              if (g.roundRect) g.roundRect(x, 384, bw, 72, 10); else g.rect(x, 384, bw, 72);
+              if (g.roundRect) g.roundRect(x, y, bw, 72, 10); else g.rect(x, y, bw, 72);
               g.fill();
               g.fillStyle = '#37335a';
-              g.font = '400 12px Pretendard, sans-serif'; g.fillText(s[0], x + bw / 2, 412);
-              g.font = '600 16px Pretendard, sans-serif'; g.fillText(s[1], x + bw / 2, 438);
+              g.font = '400 12px Pretendard, sans-serif'; g.fillText(s[0], x + bw / 2, y + 28);
+              g.font = '600 16px Pretendard, sans-serif'; g.fillText(s[1], x + bw / 2, y + 54);
             });
             return c;
           });

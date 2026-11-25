@@ -1,4 +1,4 @@
-// 홈 — 레벨업 기준 오버레이 (Figma 프로토타입: 1:2391 클릭 → 1:4270 오버레이 열기, 1:4277 클릭 → 닫기)
+// 홈 — 레벨업 기준 오버레이 (Figma 프로토타입: 1:2391 클릭 → 1597:12008 오버레이 열기, 1597:12015 클릭 → 닫기)
 // 전환 애니메이션 없음(즉시), 배경 클릭으로는 닫히지 않음(overlayBackgroundInteraction: NONE)
 (function () {
   const trigger = document.querySelector('.home__info');

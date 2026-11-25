@@ -79,6 +79,63 @@ window.RecordStore = (function () {
     return { acts: acts, diary: diary };
   }
 
+  // ---------- 10월 예시 기록 (임의로 채워 둔 데이터 · 저장소에는 쓰지 않음) ----------
+  // 가장 최근의 10월(오늘이 10월 이후면 올해, 아니면 작년) 한 달을 날마다 0~5개 활동으로 채움
+  var SAMPLE_AFFIRMATIONS = [
+    '다시 불안이 찾아와도 나는 대처할 수 있어요.',
+    '지난번의 경험이 오늘을 결정하지는 않아요.',
+    '조금 떨리더라도 나의 속도로 해나가면 돼요.',
+    '모든 것을 지금 당장 해결하지 않아도 괜찮아요.',
+    '나는 지금 안전한 곳에 있어요.',
+    '이 불안은 지나가는 감정일 뿐이에요.',
+    '오늘도 충분히 애썼어요.',
+    '나는 생각보다 더 단단한 사람이에요.',
+    '천천히 숨 쉬면 마음도 고요해져요.',
+    '한 걸음씩이면 충분해요.'
+  ];
+  var SAMPLE_NOTES = [
+    '발표 준비로 긴장됐는데, 호흡하고 나니 한결 나아졌다.\n오늘은 일찍 자야겠다.',
+    '산책하면서 바람을 느끼니 마음이 차분해졌다.',
+    '별일 없이 지나간 하루. 그래도 기록해 두고 싶었다.',
+    '시험 결과가 신경 쓰여서 하루 종일 마음이 무거웠다.',
+    '친구랑 오래 이야기했더니 마음이 가벼워졌다.',
+    '갑자기 심장이 빨리 뛰어서 놀랐지만, 그라운딩으로 진정했다.'
+  ];
+  function octoberSample() {
+    var now = new Date();
+    var year = now.getMonth() >= 10 ? now.getFullYear() : now.getFullYear() - 1;
+    var acts = [], diary = [];
+    var emoKeys = ['calm', 'content', 'anger', 'sad', 'tense'];
+    var kinds = ['breathing', 'affirmation', 'grounding', 'bodyscan', 'diary'];
+    for (var day = 1; day <= 31; day++) {
+      var n = (day * 7 + 3) % 6;           // 0~5개 (0인 날은 기록 없음)
+      var base = new Date(year, 9, day);
+      var anx = 3 + (day % 3);             // 그날 처음 불안도 3~5
+      for (var i = 0; i < n; i++) {
+        var type = kinds[(day + i * 2) % 5];
+        var at = base.getTime() + (9 + i * 3) * 3600e3 + ((day * 11 + i * 17) % 60) * 60e3;
+        if (type === 'diary') {
+          diary.push({ id: 'oct' + day + '-' + i, emo: emoKeys[(day + i) % 5], text: SAMPLE_NOTES[(day + i) % SAMPLE_NOTES.length], at: at, sample: true });
+          continue;
+        }
+        var before = Math.max(2, anx);
+        var after = Math.max(1, before - 1 - ((day + i) % 2));
+        var rec = { type: type, at: at, anxietyBefore: before, anxiety: after, sample: true };
+        if (type === 'breathing') Object.assign(rec, { pattern: ['4-7-8', '4-2-4-2'][day % 2], seconds: 120 + (day % 4) * 60, rounds: 3 + (day % 3) });
+        if (type === 'grounding') rec.seconds = 240 + (day % 3) * 60;
+        if (type === 'bodyscan') rec.seconds = 300 + (day % 2) * 120;
+        if (type === 'affirmation') {
+          var cnt = 3 + (day % 3), texts = [];
+          for (var k = 0; k < cnt; k++) texts.push(SAMPLE_AFFIRMATIONS[(day + k) % SAMPLE_AFFIRMATIONS.length]);
+          Object.assign(rec, { texts: texts, text: texts[0], count: cnt, done: cnt });
+        }
+        acts.push(rec);
+        anx = after;
+      }
+    }
+    return { acts: acts, diary: diary };
+  }
+
   // ---------- 날짜 도우미 ----------
   function startOfDay(d) { return new Date(d.getFullYear(), d.getMonth(), d.getDate()); }
   function addDays(d, n) { return new Date(d.getFullYear(), d.getMonth(), d.getDate() + n); }
@@ -108,6 +165,8 @@ window.RecordStore = (function () {
   function entries() {
     if (cache) return cache;
     var src = isDemo() ? demoData() : { acts: read(RECORDS_KEY), diary: read(DIARY_KEY) };
+    var oct = octoberSample();
+    src = { acts: src.acts.concat(oct.acts), diary: src.diary.concat(oct.diary) };
     var list = [];
     src.acts.forEach(function (r) {
       if (!r || !r.at || !TYPES[r.type]) return;

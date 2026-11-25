@@ -21,8 +21,13 @@
   const COMPLETE_URL = (main && main.dataset.complete) || 'activity-complete.html';
   const EMERGENCY = !!(main && main.classList.contains('breath--sos'));
 
-  const patternKey = new URLSearchParams(location.search).get('pattern');
-  const pattern = PATTERNS[patternKey] || PATTERNS.basic;
+  const CUSTOM_ROUNDS = 5;   // 호흡 설정하기로 만든 호흡의 반복 횟수
+  const params = new URLSearchParams(location.search);
+  const patternKey = params.get('pattern');
+  const customSecs = patternKey === 'custom' ? Breath.parseSecs(params.get('secs')) : null;
+  const pattern = customSecs
+    ? { secs: customSecs, rounds: CUSTOM_ROUNDS }
+    : PATTERNS[patternKey] || PATTERNS.basic;
   let settings = Breath.load();
 
   const $ = (id) => document.getElementById(id);
@@ -40,6 +45,12 @@
   $('round-total').textContent = pattern.rounds;
   // 긴급 호흡 화면(sos-breathing.html)에는 소리/설정 버튼이 없음
   if ($('settings-pattern')) $('settings-pattern').textContent = pattern.secs.join(' - ') + ' • ' + pattern.rounds + '회';
+  // 호흡 패턴 → 진입 화면의 '호흡 설정하기' 팝업을 진행 중인 패턴 값으로 열기
+  if ($('settings-pattern-link')) {
+    const q = new URLSearchParams({ pattern: customSecs ? 'custom' : (PATTERNS[patternKey] ? patternKey : 'basic'), edit: '1' });
+    if (customSecs) q.set('secs', customSecs.join('-'));
+    $('settings-pattern-link').href = 'breathing.html?' + q.toString();
+  }
   if (pattern.secs.length < 4) steps.classList.add('breath-steps__inner--three');
 
   let round = 1;        // 현재 회차 (1부터)
@@ -51,6 +62,25 @@
   let last = null;
   let muted = false;
   let wakeLock = null;
+
+  // 홈에서 '이어서 하기'로 들어오면 멈췄던 회차·단계부터 (긴급 호흡은 저장 안 함)
+  const resume = EMERGENCY ? null : ActivityRecord.resuming('breathing');
+  if (resume && resume.pattern === pattern.secs.join('-')) {
+    round = Math.min(Math.max(resume.round || 1, 1), pattern.rounds);
+    phase = Math.min(Math.max(resume.phase || 0, 0), pattern.secs.length - 1);
+    elapsed = 0;   // 멈춘 단계의 처음부터
+  }
+
+  // 진행 상태 저장 (그만두거나 앱을 닫아도 홈에서 이어서 할 수 있게)
+  function saveProgress() {
+    if (EMERGENCY || done || (round === 1 && phase === 0 && elapsed < 2)) return;
+    ActivityRecord.saveProgress({
+      type: 'breathing', href: ActivityRecord.here(),
+      pattern: pattern.secs.join('-'), rounds: pattern.rounds, round: round, phase: phase,
+    });
+  }
+  window.addEventListener('pagehide', saveProgress);
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') saveProgress(); });
 
   const easeInOut = (t) => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2);
 
@@ -129,6 +159,7 @@
     }
     showPhase();
     cue();
+    saveProgress();
   }
 
   function tick(now) {
@@ -198,6 +229,7 @@
     if (done) { location.href = COMPLETE_URL; return; }
     blocked = true;
     if ('speechSynthesis' in window) speechSynthesis.cancel();
+    saveProgress();
     stopModal.open();
   });
 
