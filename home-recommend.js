@@ -80,7 +80,14 @@
     }
     // 그만둔 활동이 없으면 → 가장 최근에 마친 활동 한 번 더
     var last = list[list.length - 1];
-    if (!last) { card.hidden = true; return; }
+    // 기록이 하나도 없는 첫 사용자 → Figma 2091:18517 기본 카드 그대로
+    if (!last) {
+      $('resume-title').textContent = '호흡하기 2분';
+      $('resume-desc').innerHTML = '불안이 4→2로 감소했어요.<br />박스 호흡을 한 번 더 해볼까요?';
+      $('resume-btn').href = ACT.breathing.href;
+      card.hidden = false;
+      return;
+    }
     var a = ACT[last.type];
     var title = a.verb;
     if (last.seconds) title += ' ' + ActivityRecord.formatDuration(last.seconds);
