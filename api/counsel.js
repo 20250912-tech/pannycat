@@ -7,12 +7,13 @@ const fs = require('fs');
 const path = require('path');
 
 const API_BASE = 'https://generativelanguage.googleapis.com/v1beta/models';
-const DEFAULT_MODEL = 'gemini-3.5-flash';
-const DEFAULT_FALLBACKS = ['gemini-3.8-flash', 'gemini-flash-latest'];
+const DEFAULT_MODEL = 'gemini-3.5-flash-lite';
+const DEFAULT_FALLBACKS = ['gemini-flash-lite-latest', 'gemini-3.5-flash'];
 const PLACEHOLDER_KEY = 'ABC';
 const MAX_TURNS = 30;
 const MAX_CHARS = 1000;
-const TIMEOUT_MS = 25000;
+const TIMEOUT_MS = 25000;          // 모델 하나당 대기 시간
+const TOTAL_BUDGET_MS = 50000;     // 예비 모델까지 합친 전체 대기 시간 (vercel.json maxDuration 60초 안쪽)
 const RETRY_CODES = new Set([404, 429, 500, 503, 504]);
 const REFUSAL_REPLY = '그 이야기는 패니가 답하기 어려워요. 지금 마음이 어떤지 조금 더 들려줄래요?';
 
@@ -58,14 +59,17 @@ async function askPanny(messages, { key, models }) {
 
   let data = null;
   let lastError = [502, { error: 'upstream' }];
+  const deadline = Date.now() + TOTAL_BUDGET_MS;
   for (const model of models) {
+    const left = deadline - Date.now();
+    if (left < 3000) break;            // 남은 시간이 너무 짧으면 함수가 강제 종료되기 전에 안내로 응답
     let res;
     try {
       res = await fetch(`${API_BASE}/${model}:generateContent`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'x-goog-api-key': key },
         body: payload,
-        signal: AbortSignal.timeout(TIMEOUT_MS),
+        signal: AbortSignal.timeout(Math.min(TIMEOUT_MS, left)),
       });
     } catch (e) {
       console.warn(`[Gemini] ${model}: 연결 실패/시간 초과`);

@@ -19,9 +19,9 @@ from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from counsel_prompt import SYSTEM_PROMPT
 
 PLACEHOLDER_KEY = "ABC"
-DEFAULT_MODEL = "gemini-3.5-flash"
+DEFAULT_MODEL = "gemini-3.5-flash-lite"
 # 기본 모델이 혼잡(503)·한도 초과(429)·종료(404)일 때 차례로 시도할 모델
-DEFAULT_FALLBACKS = ["gemini-3.8-flash", "gemini-flash-latest"]
+DEFAULT_FALLBACKS = ["gemini-flash-lite-latest", "gemini-3.5-flash"]
 API_BASE = "https://generativelanguage.googleapis.com/v1beta/models"
 MAX_TURNS = 30           # 서버로 받는 최근 메시지 수 상한
 MAX_CHARS = 1000         # 메시지 하나의 글자 수 상한

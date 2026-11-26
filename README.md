@@ -13,8 +13,8 @@
 2. Framework Preset은 **Other**, Build 설정은 비워 둔 채로
 3. **Environment Variables**에 추가
    - `GEMINI_API_KEY` = Google AI Studio에서 발급받은 키
-   - (선택) `GEMINI_MODEL` = `gemini-3.5-flash`
-   - (선택) `GEMINI_FALLBACK_MODELS` = `gemini-3.8-flash,gemini-flash-latest`
+   - (선택) `GEMINI_MODEL` = `gemini-3.5-flash-lite`
+   - (선택) `GEMINI_FALLBACK_MODELS` = `gemini-flash-lite-latest,gemini-3.5-flash`
 4. **Deploy** → 나오는 `https://….vercel.app` 링크를 공유하면 돼요.
 
 키가 없으면 앱은 그대로 쓸 수 있고, AI 상담만 "준비 중" 안내가 나와요.
