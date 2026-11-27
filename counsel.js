@@ -113,10 +113,20 @@
     return { ok: false, text: FALLBACK.error };
   }
 
+  // 사용자가 첫 메시지를 보내면(빠른 답변을 누르든 직접 입력하든) 하단 빠른 답변을 숨김
+  const chipList = document.querySelector('.chat-chips');
+  function hideChips() {
+    if (!chipList || chipList.hidden) return;
+    const hadFocus = chipList.contains(document.activeElement);
+    chipList.hidden = true;
+    if (hadFocus) field.focus({ preventScroll: true });   // 누른 칩이 사라져도 키보드 포커스가 길을 잃지 않게
+  }
+
   async function send(text) {
     const msg = text.trim();
     if (!msg || pending) return;
 
+    hideChips();
     addUserBubble(msg);
     history.push({ role: 'user', content: msg });
     const typing = showTyping();

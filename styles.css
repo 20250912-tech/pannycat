@@ -2297,6 +2297,7 @@ button.btn-primary { border: 0; font-family: inherit; cursor: var(--cursor-point
   list-style: none;
 }
 .chat-chips li:nth-child(even) { justify-self: end; }
+.chat-chips[hidden] { display: none; }   /* 첫 메시지를 보내면 숨김 (counsel.js) */
 
 .chat-chip {
   height: 37px;
