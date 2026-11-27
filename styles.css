@@ -186,6 +186,7 @@ img { display: block; }
     box-shadow: 0 24px 60px rgba(41, 37, 62, 0.18);
   }
 
+  /* 상태바 (Figma 2203:17353 · 1597:9823): 시간(글자 폭) · 220 · 아이콘 묶음(78.67) 을 가운데 정렬, 위아래 20 */
   .status-bar {
     position: absolute;
     top: 0;
@@ -194,19 +195,20 @@ img { display: block; }
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 154px;
+    gap: 220px;
     width: var(--frame-w);
-    padding: 21px 24px 19px;
+    padding: 20px 24px;
   }
 
   .status-bar__time,
   .status-bar__levels {
-    flex: 1 0 0;
+    flex: none;
     display: flex;
     align-items: center;
     justify-content: center;
     height: 22px;
   }
+  .status-bar__levels { width: 78.67px; }   /* 셀룰러 19.2 · 7 · 와이파이 17.14 · 7 · 배터리 27.33 · 오른쪽 1 */
 
   .status-bar__time {
     padding-top: 1.5px;
