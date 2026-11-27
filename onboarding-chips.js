@@ -69,6 +69,14 @@
     openBtn.before(box);
   }
 
+  // 저장된 답변 되살리기용 (onboarding-answers.js)
+  window.OnboardingChips = {
+    addCustom: function (text) {
+      addCustom(text);
+      openBtn.hidden = customCount() >= MAX_CUSTOM;
+    }
+  };
+
   openBtn.addEventListener('click', showForm);
 
   form.addEventListener('submit', function (e) {

@@ -86,7 +86,25 @@
       </div>
 
       <button class="btn-primary profile-edit__save" id="save-btn" type="submit" data-node-id="1:4979">등록하기</button>
+      <!-- 수정할 때만 보임: 보호자 삭제 -->
+      <button class="guardian-add__delete" id="delete-btn" type="button" aria-haspopup="dialog" aria-controls="delete-dialog" hidden>보호자 삭제하기</button>
     </form>
+
+    <!-- 입력이 덜 됐을 때 안내 -->
+    <p class="saved__toast" id="toast" role="status" aria-live="polite" hidden></p>
+
+    <!-- 보호자 삭제 확인 (호흡 그만하기 확인창과 같은 모양) -->
+    <div class="overlay" id="delete-overlay" hidden>
+      <div class="stop-dialog" id="delete-dialog" role="dialog" aria-modal="true" aria-labelledby="delete-title" aria-describedby="delete-desc" tabindex="-1">
+        <img class="stop-dialog__cat" src="assets/breathing/panny-sad.svg" width="114.329" height="87.8337" alt="" />
+        <p class="stop-dialog__desc" id="delete-desc">삭제하면 긴급 연락을 받을 수 없어요.</p>
+        <h2 class="stop-dialog__title" id="delete-title">이 보호자를 삭제할까요?</h2>
+        <div class="stop-dialog__btns">
+          <button type="button" class="stop-dialog__btn stop-dialog__btn--outline" data-close>취소</button>
+          <button type="button" class="stop-dialog__btn" id="delete-confirm">삭제하기</button>
+        </div>
+      </div>
+    </div>
 
     <!-- 사진 선택하기 (Figma 33:8593) — 프로필 수정 시트와 동일 -->
     <div class="overlay overlay--sheet" id="photo-overlay" hidden>

@@ -21,14 +21,15 @@
   const COMPLETE_URL = (main && main.dataset.complete) || 'activity-complete.html';
   const EMERGENCY = !!(main && main.classList.contains('breath--sos'));
 
-  const CUSTOM_ROUNDS = 5;   // 호흡 설정하기로 만든 호흡의 반복 횟수
   const params = new URLSearchParams(location.search);
   const patternKey = params.get('pattern');
   const customSecs = patternKey === 'custom' ? Breath.parseSecs(params.get('secs')) : null;
+  // 호흡 설정하기로 만든 호흡의 반복 횟수 (1~10회, 없으면 기본 5회)
+  const customRounds = Breath.parseRounds(params.get('rounds')) || Breath.ROUNDS_DEFAULT;
   const pattern = customSecs
-    ? { secs: customSecs, rounds: CUSTOM_ROUNDS }
+    ? { secs: customSecs, rounds: customRounds }
     : PATTERNS[patternKey] || PATTERNS.basic;
-  let settings = Breath.load();
+  const settings = Breath.load();
 
   const $ = (id) => document.getElementById(id);
   const titleEl = $('guide-title');
@@ -43,14 +44,6 @@
   const muteBtn = $('mute-btn');
 
   $('round-total').textContent = pattern.rounds;
-  // 긴급 호흡 화면(sos-breathing.html)에는 소리/설정 버튼이 없음
-  if ($('settings-pattern')) $('settings-pattern').textContent = pattern.secs.join(' - ') + ' • ' + pattern.rounds + '회';
-  // 호흡 패턴 → 진입 화면의 '호흡 설정하기' 팝업을 진행 중인 패턴 값으로 열기
-  if ($('settings-pattern-link')) {
-    const q = new URLSearchParams({ pattern: customSecs ? 'custom' : (PATTERNS[patternKey] ? patternKey : 'basic'), edit: '1' });
-    if (customSecs) q.set('secs', customSecs.join('-'));
-    $('settings-pattern-link').href = 'breathing.html?' + q.toString();
-  }
   if (pattern.secs.length < 4) steps.classList.add('breath-steps__inner--three');
 
   let round = 1;        // 현재 회차 (1부터)
@@ -232,26 +225,6 @@
     saveProgress();
     stopModal.open();
   });
-
-  // 설정 → 바텀시트 (닫기/적용하고 계속하기: 닫고 이어서 진행)
-  const settingsBtn = $('settings-btn');
-  const settingsOverlay = $('settings-overlay');
-  if (settingsBtn && settingsOverlay) {
-    const settingsSheet = Breath.overlay(settingsOverlay, {
-      trigger: settingsBtn,
-      onClose: () => { blocked = false; },
-    });
-    settingsBtn.addEventListener('click', () => {
-      Breath.bindSwitches(settingsOverlay, settings);
-      blocked = true;
-      settingsSheet.open();
-    });
-    settingsOverlay.querySelector('[data-apply]').addEventListener('click', () => {
-      settings = Breath.readSwitches(settingsOverlay, Breath.load());
-      Breath.save(settings);
-      settingsSheet.close('apply');
-    });
-  }
 
   showPhase();
   render();

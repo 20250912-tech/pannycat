@@ -1,6 +1,6 @@
 // 보호자 추가하기 (Figma 1597:12741) + 사진 선택하기 시트 (33:8593)
 // 보호자별 긴급 연락 방식(전화/메시지)과 긴급 메시지도 함께 저장
-// ?id=... 로 열면 해당 보호자를 수정
+// ?id=... 로 열면 해당 보호자를 수정 · 삭제
 (function () {
   const AVATAR = 'assets/profile/avatar.svg';
   const PHOTO_PX = 320;
@@ -17,6 +17,9 @@
   const methods = Array.from(document.querySelectorAll('.emergency-option'));
   const messageInput = document.getElementById('g-message');
   const DEFAULT_MESSAGE = messageInput.placeholder;
+  const deleteBtn = document.getElementById('delete-btn');
+  const deleteOverlay = document.getElementById('delete-overlay');
+  const toastEl = document.getElementById('toast');
 
   const list = Guardians.load();
   const editId = new URLSearchParams(location.search).get('id');
@@ -30,6 +33,15 @@
     phoneInput.value = editing.phone;
     messageInput.value = editing.message || '';
     saveBtn.textContent = '저장하기';
+    deleteBtn.hidden = false;
+  }
+
+  let toastTimer;
+  function toast(msg) {
+    toastEl.textContent = msg;
+    toastEl.hidden = false;
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => { toastEl.hidden = true; }, 2200);
   }
 
   function renderPhoto() {
@@ -55,12 +67,14 @@
     messageInput.style.height = messageInput.scrollHeight + 'px';
   }
 
+  // 버튼은 막지 않고(눌러도 아무 일 없는 것처럼 보이지 않게) 덜 채워졌을 때만 흐리게 표시,
+  // 누르면 무엇이 빠졌는지 안내
   function validate() {
     const nameOk = nameInput.value.trim().length >= 1;
     const phoneOk = Guardians.isValidPhone(phoneInput.value);
     nameInput.setAttribute('aria-invalid', String(!nameOk));
     phoneInput.setAttribute('aria-invalid', String(!phoneOk));
-    saveBtn.disabled = !(nameOk && phoneOk);
+    saveBtn.classList.toggle('is-incomplete', !(nameOk && phoneOk));
     return nameOk && phoneOk;
   }
 
@@ -128,7 +142,13 @@
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     if (!validate()) {
-      (nameInput.value.trim() ? phoneInput : nameInput).focus();
+      if (!nameInput.value.trim()) {
+        toast('보호자 이름을 입력해 주세요.');
+        nameInput.focus();
+      } else {
+        toast('연락처를 010-0000-0000 형식으로 입력해 주세요.');
+        phoneInput.focus();
+      }
       return;
     }
     const entry = {
@@ -147,6 +167,21 @@
     }
     location.href = 'guardian.html';
   });
+
+  // 보호자 삭제 (수정할 때만): 확인창 → 목록에서 빼고 보호자 연락처 화면으로
+  if (editing) {
+    const deleteDialog = Breath.overlay(deleteOverlay, { trigger: deleteBtn });
+    deleteBtn.addEventListener('click', () => deleteDialog.open());
+    deleteOverlay.addEventListener('click', (e) => { if (e.target === deleteOverlay) deleteDialog.close('close'); });
+    document.getElementById('delete-confirm').addEventListener('click', () => {
+      if (!Guardians.save(Guardians.load().filter((g) => g.id !== editing.id))) {
+        deleteDialog.close('error');
+        toast('삭제하지 못했어요. 다시 시도해 주세요.');
+        return;
+      }
+      location.replace('guardian.html');
+    });
+  }
 
   renderPhoto();
   renderRelation();

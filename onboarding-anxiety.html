@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <main class="onboarding onboarding--step onboarding--anxiety" data-node-id="1:2417">
+  <main class="onboarding onboarding--step onboarding--anxiety" data-node-id="1:2417" data-question="anxiety">
     <!-- 데스크톱 미리보기용 상태바 (실제 모바일 기기에서는 숨김) -->
     <div class="status-bar" aria-hidden="true">
       <span class="status-bar__time">9:41</span>
@@ -67,13 +67,8 @@
   </main>
 
   <script src="anxiety-slider.js"></script>
-  <script>
-    AnxietySlider.init({
-      slider: document.getElementById('level-slider'),
-      panny: document.getElementById('anxiety-panny'),
-      valueEl: document.getElementById('level-value'),
-      labelEl: document.getElementById('anxiety-label')
-    });
-  </script>
+  <!-- 슬라이더 초기화는 onboarding-answers.js에서 (저장된 답 되살리기 · 답했는지 확인) -->
+  <script src="answers.js"></script>
+  <script src="onboarding-answers.js"></script>
 </body>
 </html>

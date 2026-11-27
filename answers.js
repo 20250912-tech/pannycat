@@ -68,14 +68,18 @@ window.Answers = (function () {
     }
   };
 
-  // 저장된 답변이 없을 때 (Figma 1:4709 예시값)
+  // 저장된 답변이 없을 때 = 아무것도 고르지 않음
+  // (온보딩에서 답한 내용이 저장되고, 건너뛴 질문은 빈 답변으로 남음)
   const DEFAULTS = {
-    help: { values: ['calm'], custom: '' },
-    trigger: { values: ['anticipatory', 'hard-to-escape'], custom: '' },
-    coping: { values: ['breathing'], custom: '' },
-    anxiety: { values: ['1'], custom: '' },
-    feeling: { values: ['worry'], custom: '' }
+    help: { values: [], custom: '' },
+    trigger: { values: [], custom: '' },
+    coping: { values: [], custom: '' },
+    anxiety: { values: [], custom: '' },
+    feeling: { values: [], custom: '' }
   };
+
+  // 온보딩 질문 순서 (건너뛰기 → 이 질문부터 끝까지 빈 답변)
+  const ORDER = ['help', 'trigger', 'coping', 'anxiety', 'feeling'];
 
   function clone(o) { return JSON.parse(JSON.stringify(o)); }
 
@@ -110,5 +114,5 @@ window.Answers = (function () {
     return list;
   }
 
-  return { QUESTIONS, load, save, labels };
+  return { QUESTIONS, ORDER, load, save, labels };
 })();

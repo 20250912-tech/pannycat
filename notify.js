@@ -274,9 +274,17 @@ window.NotifySettings = (function () {
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     closePicker(false);
+    // 리포트의 바텀시트(data-mode="sheet")에서 저장하면 그 시간·요일을
+    // 마이페이지 → 알림 설정의 알림 목록에도 추가 (같은 알림이 이미 있으면 그대로)
+    if (form.dataset.mode === 'sheet' && enabled && days.size > 0) {
+      const fresh = Array.isArray(NotifySettings.load().alarms) ? NotifySettings.load().alarms : alarms;
+      const entry = { id: Date.now().toString(36), hour: hour24(), minute: time.min, days: sortDays(Array.from(days)) };
+      const dup = fresh.some((a) => a.hour === entry.hour && a.minute === entry.minute && a.days.join() === entry.days.join());
+      alarms = dup ? fresh : fresh.concat(entry).sort((x, y) => (x.hour * 60 + x.minute) - (y.hour * 60 + y.minute));
+    }
     const saved = { enabled, hour: hour24(), minute: time.min, days: Array.from(days).sort(), alarms };
     NotifySettings.save(saved);
-    // 리포트의 바텀시트(data-mode="sheet")에서는 페이지 이동 없이 시트만 닫음
+    // 리포트의 바텀시트에서는 페이지 이동 없이 시트만 닫음
     if (form.dataset.mode === 'sheet') {
       form.dispatchEvent(new CustomEvent('notify:saved', { detail: saved }));
       return;

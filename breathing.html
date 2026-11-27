@@ -75,9 +75,9 @@
 
     <a class="btn-primary breath-intro__start" id="start-btn" href="breathing-session.html?pattern=basic">시작하기</a>
 
-    <!-- 호흡 설정하기 바텀시트 (Figma 2058:17190) -->
+    <!-- 호흡 설정하기 바텀시트 (Figma 2166:17360) -->
     <div class="overlay overlay--sheet" id="add-overlay" hidden>
-      <div class="sheet sheet--custom" id="add-sheet" role="dialog" aria-modal="true" aria-labelledby="add-title" tabindex="-1" data-node-id="2058:17190">
+      <div class="sheet sheet--custom" id="add-sheet" role="dialog" aria-modal="true" aria-labelledby="add-title" tabindex="-1" data-node-id="2166:17360">
         <span class="sheet__handle" aria-hidden="true"></span>
         <div class="sheet__head">
           <h2 class="sheet__title" id="add-title">호흡 설정하기</h2>
@@ -86,8 +86,9 @@
           </button>
         </div>
         <div class="sheet__groups">
-          <!-- 단계별 초: 위아래로 스크롤해서 고르기 -->
-          <div class="breath-picker" data-node-id="2058:17124">
+          <!-- 단계별 초(위아래로 스크롤해서 고르기) + 호흡 횟수 (Figma 2166:17300) -->
+          <div class="breath-card" data-node-id="2166:17300">
+          <div class="breath-picker" data-node-id="2166:17310">
             <div class="breath-picker__col">
               <span class="breath-picker__label" id="pk-inhale">마시기</span>
               <div class="breath-picker__wheel" role="spinbutton" tabindex="0" aria-labelledby="pk-inhale" data-phase="0"></div>
@@ -105,6 +106,16 @@
               <div class="breath-picker__wheel" role="spinbutton" tabindex="0" aria-labelledby="pk-rest" data-phase="3"></div>
             </div>
           </div>
+            <img class="breath-card__divider" src="assets/breathing/divider.svg" width="314.4" height="0.4" alt="" />
+            <!-- 호흡 횟수: 눌러서 1~10회 중 고르기 (Figma 2166:17303) -->
+            <div class="breath-rounds" data-node-id="2166:17303">
+              <label class="breath-rounds__label" for="rounds-select">호흡 횟수</label>
+              <span class="breath-rounds__pill" data-node-id="2166:17306">
+                <select class="breath-rounds__select" id="rounds-select"></select>
+                <img class="breath-rounds__chevron" src="assets/breathing/chevron-down-sm.svg" width="12" height="12" alt="" />
+              </span>
+            </div>
+          </div>
           <div class="set-group">
             <button type="button" class="set-row">
               <span class="set-row__icon"><img src="assets/breathing/music.svg" width="19" height="19" alt="" /></span>
@@ -119,18 +130,6 @@
                 <span class="set-row__desc">호흡 리듬에 맞춰 진동해요.</span>
               </span>
               <button type="button" class="switch" role="switch" aria-checked="true" aria-labelledby="lbl-vibrate" data-setting="vibrate">
-                <img class="switch__on" src="assets/breathing/switch-on.svg" width="33" height="16.8" alt="" />
-                <img class="switch__off" src="assets/breathing/switch-off.svg" width="33" height="16.8" alt="" />
-              </button>
-            </div>
-            <img class="set-group__divider" src="assets/breathing/divider.svg" width="314.4" height="0.4" alt="" />
-            <div class="set-row">
-              <span class="set-row__icon"><img src="assets/breathing/bg-play.svg" width="19" height="19" alt="" /></span>
-              <span class="set-row__text">
-                <span class="set-row__name" id="lbl-bgplay">백그라운드 재생</span>
-                <span class="set-row__desc">화면이 꺼져도 배경음이 계속 재생돼요.</span>
-              </span>
-              <button type="button" class="switch" role="switch" aria-checked="false" aria-labelledby="lbl-bgplay" data-setting="bgPlay">
                 <img class="switch__on" src="assets/breathing/switch-on.svg" width="33" height="16.8" alt="" />
                 <img class="switch__off" src="assets/breathing/switch-off.svg" width="33" height="16.8" alt="" />
               </button>

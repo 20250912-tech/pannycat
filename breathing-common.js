@@ -87,5 +87,27 @@ window.Breath = (function () {
     try { localStorage.setItem(CUSTOM_KEY, secs.join('-')); } catch (e) { /* 저장 불가 환경은 무시 */ }
   }
 
-  return { load, save, bindSwitches, readSwitches, overlay, parseSecs, loadCustom, saveCustom };
+  // '호흡 설정하기'에서 고른 호흡 횟수 (1~10회)
+  const ROUNDS_KEY = 'panny-breathing-custom-rounds';
+  const ROUNDS_MIN = 1;
+  const ROUNDS_MAX = 10;
+  const ROUNDS_DEFAULT = 5;
+
+  function parseRounds(value) {
+    const n = Number(value);
+    return Number.isInteger(n) && n >= ROUNDS_MIN && n <= ROUNDS_MAX ? n : null;
+  }
+
+  function loadRounds() {
+    try { return parseRounds(localStorage.getItem(ROUNDS_KEY)) || ROUNDS_DEFAULT; } catch (e) { return ROUNDS_DEFAULT; }
+  }
+
+  function saveRounds(n) {
+    try { localStorage.setItem(ROUNDS_KEY, String(n)); } catch (e) { /* 저장 불가 환경은 무시 */ }
+  }
+
+  return {
+    load, save, bindSwitches, readSwitches, overlay, parseSecs, loadCustom, saveCustom,
+    parseRounds, loadRounds, saveRounds, ROUNDS_MIN, ROUNDS_MAX, ROUNDS_DEFAULT,
+  };
 })();

@@ -347,6 +347,8 @@ img { display: block; }
   min-width: 0;
   margin-top: 0;
 }
+/* 온보딩: 답을 고르기 전 다음으로 (흐리게, 누르면 이동 대신 안내 — onboarding-answers.js) */
+.btn-row .btn-primary.is-incomplete { opacity: 0.4; filter: none; transform: none; }
 
 .btn-secondary {
   display: flex;
@@ -1482,15 +1484,61 @@ body.page-home { background: var(--home-bg); }
 .pattern-card__plus img { position: absolute; left: -0.8px; top: -0.8px; max-width: none; }
 .pattern-card__setting { flex-shrink: 0; }
 
-/* ---------- 호흡 설정하기 시트: 단계별 초 휠 피커 (Figma 2058:17124) ---------- */
+/* ---------- 호흡 설정하기 시트 (Figma 2166:17360): 단계별 초 휠 피커 + 호흡 횟수 ---------- */
 .sheet--custom { padding-top: 46px; }
-.breath-picker {
+.sheet--custom .sheet__title { font-weight: 700; }
+.sheet--custom .sheet__groups { width: 353px; }
+/* 흰 카드 353 × 252: 피커(위 22) · 구분선(192) · 호흡 횟수 줄(205) */
+.breath-card {
   display: flex;
-  justify-content: space-between;
-  padding: 22px 28px 16px;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 14px;
   border-radius: 10px;
   background: var(--white);
 }
+.breath-picker {
+  display: flex;
+  justify-content: space-between;
+  align-self: stretch;
+  padding: 22px 28px 9px;
+}
+.breath-card__divider { max-width: calc(100% - 38px); }
+.breath-rounds {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 313px;
+  max-width: calc(100% - 40px);
+  margin-top: 13px;
+}
+.breath-rounds__label { font-weight: 600; font-size: 14px; line-height: normal; color: var(--main2); }
+.breath-rounds__pill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 10px;
+  background: linear-gradient(rgba(155, 135, 245, 0.25), rgba(155, 135, 245, 0.25)), var(--white);
+}
+.breath-rounds__select {
+  appearance: none;
+  -webkit-appearance: none;
+  margin: 0;
+  padding: 8px 24px 8px 8px;          /* 글자 · 4 · 아이콘 12 · 8 */
+  border: 0;
+  border-radius: 10px;
+  background: none;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: normal;
+  color: #9b86f4;
+  cursor: var(--cursor-pointer);
+}
+.breath-rounds__select:focus-visible { outline: 2px solid #c4bbee; outline-offset: 2px; }
+.breath-rounds__select option { color: var(--main2); }
+/* 아래 화살표: Figma 아이콘(오른쪽 화살표)을 90° 돌림 */
+.breath-rounds__chevron { position: absolute; right: 8px; top: 50%; transform: translateY(-50%) rotate(90deg); pointer-events: none; }
 .breath-picker__col {
   position: relative;
   display: flex;
@@ -1498,15 +1546,6 @@ body.page-home { background: var(--home-bg); }
   align-items: center;
   gap: 12px;
   width: 40px;
-}
-/* 열 사이 점선 (첫 열 제외, 열 간격 40px의 가운데) */
-.breath-picker__col + .breath-picker__col::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: -20.5px;
-  border-left: 1px dashed rgba(126, 122, 143, 0.6);
 }
 .breath-picker__label {
   font-weight: 700;
@@ -2776,6 +2815,26 @@ a.btn-primary.profile-edit__save { margin-top: auto; text-decoration: none; }
 
 /* 보호자 추가하기: 이름(327) → 입력(361) → 연락처(450) → 입력(484) → 관계(573) → 칩(607) */
 .guardian-add .profile-field__input { margin-bottom: 0; }
+/* 이름·연락처가 덜 채워지면 흐리게만 (눌러도 무엇이 빠졌는지 안내) */
+.btn-primary.profile-edit__save.is-incomplete { opacity: 0.4; filter: none; }
+/* 보호자 삭제하기 (수정할 때만) */
+.guardian-add__delete {
+  align-self: center;
+  margin: 14px 0 0;
+  padding: 6px 10px;
+  border: 0;
+  background: none;
+  font-family: inherit;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: normal;
+  color: var(--gray2, #7e7a8f);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: var(--cursor-pointer);
+}
+.guardian-add__delete[hidden] { display: none; }
+.guardian-add__delete:focus-visible { outline: 2px solid #c4bbee; outline-offset: 2px; border-radius: 6px; }
 .profile-field__label.guardian-add__label { margin: 29px 0 0; }
 .guardian-relations {
   display: flex;
@@ -3706,8 +3765,23 @@ body.page-sos { background: #000; }
   -webkit-backdrop-filter: blur(3.05px);
   backdrop-filter: blur(3.05px);
   animation: diary-done-in 0.25s ease-out both;
+  --emo: #9b87f5;                     /* 고른 감정 색 (diary-write.html에서 주입, 기본 차분) */
 }
 .diary-done[hidden] { display: none; }
+/* 파일 그림(SVG) 모양은 그대로 두고 색만 감정 색으로: 그림을 마스크로 쓰고 배경을 --emo 로 칠함
+   (앞판 SVG의 50% 투명도도 마스크에 그대로 반영됨) */
+.diary-done .emo-tint {
+  object-position: -9999px 0;         /* 원래 보라색 그림은 숨기고 */
+  background: var(--emo);             /* 같은 모양을 감정 색으로 */
+  -webkit-mask: var(--tint) 0 0 / 100% 100% no-repeat;
+          mask: var(--tint) 0 0 / 100% 100% no-repeat;
+}
+.diary-done__front.emo-tint { --tint: url("assets/diary/done-folder-front.svg"); }
+.done-paw__pad.emo-tint     { --tint: url("assets/diary/done-paw-pad.svg"); }
+.done-paw__toe--l .emo-tint { --tint: url("assets/diary/done-paw-toe-l.svg"); }
+.done-paw__toe-ml.emo-tint  { --tint: url("assets/diary/done-paw-toe-ml.svg"); }
+.done-paw__toe-mr.emo-tint  { --tint: url("assets/diary/done-paw-toe-mr.svg"); }
+.done-paw__toe--r .emo-tint { --tint: url("assets/diary/done-paw-toe-r.svg"); }
 .diary-done__title {
   margin: 212px 0 0;
   font-weight: 700;
@@ -3731,7 +3805,7 @@ body.page-sos { background: #000; }
   width: 241.869px;
   height: 192.571px;
   border-radius: 23.108px;
-  background: #9b87f5;
+  background: var(--emo);
   box-shadow: 6.521px 6.521px 19.238px 3.261px rgba(185, 166, 197, 0.15);
 }
 .diary-done__papers { position: absolute; left: -7.12px; top: -8.66px; max-width: none; }
@@ -3766,19 +3840,19 @@ body.page-sos { background: #000; }
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #9b87f5;
+  background: var(--emo);
   opacity: 0;
   transform: rotate(var(--a)) translateY(0) scale(0.4);
   animation: diary-burst 0.6s cubic-bezier(0.2, 0.7, 0.3, 1) 0.4s both;
 }
 .diary-done__burst i:nth-child(1) { --a: 0deg; }
-.diary-done__burst i:nth-child(2) { --a: 45deg;  background: #c4bbee; }
+.diary-done__burst i:nth-child(2) { --a: 45deg;  background: color-mix(in srgb, var(--emo) 55%, #fff); }
 .diary-done__burst i:nth-child(3) { --a: 90deg; }
-.diary-done__burst i:nth-child(4) { --a: 135deg; background: #c4bbee; }
+.diary-done__burst i:nth-child(4) { --a: 135deg; background: color-mix(in srgb, var(--emo) 55%, #fff); }
 .diary-done__burst i:nth-child(5) { --a: 180deg; }
-.diary-done__burst i:nth-child(6) { --a: 225deg; background: #c4bbee; }
+.diary-done__burst i:nth-child(6) { --a: 225deg; background: color-mix(in srgb, var(--emo) 55%, #fff); }
 .diary-done__burst i:nth-child(7) { --a: 270deg; }
-.diary-done__burst i:nth-child(8) { --a: 315deg; background: #c4bbee; }
+.diary-done__burst i:nth-child(8) { --a: 315deg; background: color-mix(in srgb, var(--emo) 55%, #fff); }
 .done-paw__toe-ml { left: 19.75px; top: 5.35px; }
 .done-paw__toe-mr { left: 42.29px; top: 5.35px; }
 .done-paw__toe {

@@ -62,20 +62,21 @@
 
     <p class="saved__toast" id="toast" role="status" aria-live="polite" hidden></p>
 
-    <!-- 저장 완료 (Figma 2011:20057) — 파일 가운데 발바닥이 통통 튀며 작게 터짐, 체크 → 마음일기 모아보기 -->
+    <!-- 저장 완료 (Figma 2011:20057) — 파일 가운데 발바닥이 통통 튀며 작게 터짐, 체크 → 마음일기 모아보기
+         파일(뒷판·앞판·발바닥·터지는 점) 색은 고른 감정 색(--emo)으로 바뀜 -->
     <div class="diary-done" id="done" role="dialog" aria-modal="true" aria-labelledby="done-title" hidden data-node-id="2011:20057">
       <h2 class="diary-done__title" id="done-title" data-node-id="2012:12859">오늘의 마음일기가<br />저장되었어요</h2>
       <div class="diary-done__folder" data-node-id="2011:20280" aria-hidden="true">
         <span class="diary-done__back" data-node-id="2011:20278"></span>
         <img class="diary-done__papers" src="assets/diary/done-papers.svg" width="270.327" height="270.288" alt="" data-node-id="2011:20244" />
-        <img class="diary-done__front" src="assets/diary/done-folder-front.svg" width="242.456" height="126.633" alt="" data-node-id="2011:20264" />
+        <img class="diary-done__front emo-tint" src="assets/diary/done-folder-front.svg" width="242.456" height="126.633" alt="" data-node-id="2011:20264" />
         <span class="diary-done__paw" data-node-id="2011:20285">
           <span class="done-paw">
-            <img class="done-paw__pad" src="assets/diary/done-paw-pad.svg" width="40.584" height="31.5782" alt="" />
-            <span class="done-paw__toe done-paw__toe--l"><img src="assets/diary/done-paw-toe-l.svg" width="16.107" height="18.9162" alt="" /></span>
-            <img class="done-paw__toe-ml" src="assets/diary/done-paw-toe-ml.svg" width="18.0023" height="22.4438" alt="" />
-            <img class="done-paw__toe-mr" src="assets/diary/done-paw-toe-mr.svg" width="18.0023" height="22.4438" alt="" />
-            <span class="done-paw__toe done-paw__toe--r"><img src="assets/diary/done-paw-toe-r.svg" width="16.107" height="18.9162" alt="" /></span>
+            <img class="done-paw__pad emo-tint" src="assets/diary/done-paw-pad.svg" width="40.584" height="31.5782" alt="" />
+            <span class="done-paw__toe done-paw__toe--l"><img class="emo-tint" src="assets/diary/done-paw-toe-l.svg" width="16.107" height="18.9162" alt="" /></span>
+            <img class="done-paw__toe-ml emo-tint" src="assets/diary/done-paw-toe-ml.svg" width="18.0023" height="22.4438" alt="" />
+            <img class="done-paw__toe-mr emo-tint" src="assets/diary/done-paw-toe-mr.svg" width="18.0023" height="22.4438" alt="" />
+            <span class="done-paw__toe done-paw__toe--r"><img class="emo-tint" src="assets/diary/done-paw-toe-r.svg" width="16.107" height="18.9162" alt="" /></span>
           </span>
         </span>
         <!-- 발바닥 주변으로 작게 터지는 점 -->
@@ -178,6 +179,8 @@
       });
 
       function showDone() {
+        // 저장 완료 파일을 고른 감정 색으로
+        $('done').style.setProperty('--emo', DiaryStore.emotion(selected).color);
         $('diary-form').inert = true;
         document.querySelector('.appbar').inert = true;
         $('done').hidden = false;
